@@ -11,7 +11,17 @@
   "dependencies": {
     "next": "16.2.1",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "@sanity/client": "^7.11.2",
+    "@sanity/vision": "^4.0.3",
+    "groq": "^4.5.1",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.35.2",
+    "lucide-react": "^0.462.0",
+    "next-sanity": "^12.2.1",
+    "sanity": "^5.18.0",
+    "styled-components": "^6.1.19",
+    "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -20,7 +30,11 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.1",
+    "tailwindcss-animate": "^1.0.7",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "overrides": {
+    "js-yaml": "4.1.1"
   }
 }

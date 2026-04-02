@@ -1,26 +1,120 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 20 30% 96%;
+    --foreground: 20 15% 15%;
+
+    --card: 20 40% 97%;
+    --card-foreground: 20 15% 15%;
+
+    --popover: 20 40% 97%;
+    --popover-foreground: 20 15% 15%;
+
+    --primary: 15 55% 55%;
+    --primary-foreground: 20 30% 96%;
+
+    --secondary: 20 30% 90%;
+    --secondary-foreground: 20 15% 20%;
+
+    --muted: 20 20% 92%;
+    --muted-foreground: 20 10% 45%;
+
+    --accent: 15 45% 45%;
+    --accent-foreground: 20 30% 96%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 20 15% 88%;
+    --input: 20 15% 88%;
+    --ring: 15 55% 55%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 20 25% 94%;
+    --sidebar-foreground: 20 15% 15%;
+    --sidebar-primary: 15 55% 55%;
+    --sidebar-primary-foreground: 20 30% 96%;
+    --sidebar-accent: 20 30% 90%;
+    --sidebar-accent-foreground: 20 15% 20%;
+    --sidebar-border: 20 15% 88%;
+    --sidebar-ring: 15 55% 55%;
+
+    --font-serif: var(--font-cormorant), Georgia, serif;
+    --font-sans: var(--font-montserrat), system-ui, sans-serif;
+    --font-ar: var(--font-tajawal), var(--font-sans);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-serif);
+  }
+
+  [dir="rtl"] body,
+  [dir="rtl"] {
+    font-family: var(--font-ar);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+
+  p {
+    line-height: 1.7;
+    text-wrap: pretty;
+  }
+}
+
+@layer components {
+  .font-ui {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.8125rem;
+  }
+
+  .section-spacing {
+    @apply py-24 sm:py-32;
+  }
+
+  .container-narrow {
+    @apply max-w-6xl mx-auto px-5 sm:px-8;
+  }
+
+  .image-crisp {
+    outline: 1px solid hsla(20, 15%, 0%, 0.08);
+    outline-offset: -1px;
+  }
 }

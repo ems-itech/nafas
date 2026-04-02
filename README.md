@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Nafas Beauty Lounge — Web
 
-## Getting Started
+Next.js (App Router) marketing site with bilingual routing (`/en`, `/ar`) and a Docker-first development workflow.
 
-First, run the development server:
+## Development (Docker-only)
+
+### Prerequisites
+- Docker Desktop (or Docker Engine) with `docker compose`
+- (Optional) `make` installed (macOS: Xcode Command Line Tools)
+
+### Quickstart
+Run the dev server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+make up
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open `http://localhost:3000` (it redirects to `/en`).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Common commands
+- **Start**: `make up`
+- **Stop**: `make down`
+- **Logs**: `make logs`
+- **Shell**: `make sh`
+- **Lint**: `make lint`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### “Fresh install” (when deps or caching get weird)
+This wipes Docker volumes used for `node_modules` and `.next` caching, then rebuilds.
 
-## Learn More
+```bash
+make nuke
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Development without Make
+Everything in the `Makefile` is just Docker Compose.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+docker compose up --build
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Notes for new engineers
+- **No local Node required**: dependencies are installed inside the container.
+- **Hot reload**: source code is bind-mounted into the container; edits on the host refresh the app.
+- **Locale routing**:
+  - `/en` = English (LTR)
+  - `/ar` = Arabic (RTL)
+- **Static assets**: put images in `public/` (e.g. `public/images/...`).
 
-## Deploy on Vercel
+## CMS (Sanity)
+- Embedded Studio: `http://localhost:3000/studio`
+- Setup guide: see `docs/sanity.md`
+- Production deploy + domain: see `docs/vercel-production.md`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Troubleshooting
+### `npm ci` fails during Docker build
+The lock file is out of sync with `package.json`. Update it (still Docker-only):
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+docker run --rm -v "$PWD":/app -w /app node:20-alpine sh -lc "npm install"
+```
+
+Then rebuild:
+
+```bash
+make rebuild
+```
+
+## Sanity (CMS) setup
+This repo is wired to read content from Sanity when env vars are present.
+
+Create `.env.local`:
+
+```bash
+NEXT_PUBLIC_SANITY_PROJECT_ID="..."
+NEXT_PUBLIC_SANITY_DATASET="production"
+NEXT_PUBLIC_SANITY_API_VERSION="2026-03-01"
+```
