@@ -1,4 +1,4 @@
-.PHONY: help up down restart rebuild logs sh ps clean nuke lint
+.PHONY: help up down restart rebuild logs sh ps clean nuke lint build
 
 help:
 	@echo ""
@@ -12,6 +12,7 @@ help:
 	@echo "  make sh        Shell into the web container"
 	@echo "  make ps        Show running containers"
 	@echo "  make lint      Run eslint (in container)"
+	@echo "  make build     Run production build (in container)"
 	@echo "  make clean     Remove .next + local node_modules (host)"
 	@echo "  make nuke      Stop + remove volumes (fresh install)"
 	@echo ""
@@ -41,6 +42,9 @@ ps:
 
 lint:
 	docker compose run --rm web npm run lint
+
+build:
+	docker compose run --rm -e NODE_ENV=production web npm run build
 
 clean:
 	rm -rf .next node_modules

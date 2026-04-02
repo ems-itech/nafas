@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import type { SanityDocument } from "sanity";
 
 export const service = defineType({
   name: "service",
@@ -20,7 +21,8 @@ export const service = defineType({
       title: "Slug",
       type: "slug",
       options: {
-        source: (doc: { title?: { en?: string } }) => doc?.title?.en,
+        source: (doc: SanityDocument) =>
+          (doc as { title?: { en?: string } })?.title?.en ?? "",
         maxLength: 96,
       },
       validation: (Rule) => Rule.required(),

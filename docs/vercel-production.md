@@ -156,6 +156,16 @@ Vercel issues certificates after DNS verification. It can take a short time afte
 You likely added env vars only for Production.
 - Add required env vars to **Preview** too (Project → Settings → Environment Variables).
 
+### Local Docker build fails with `NODE_ENV` warning or weird build errors
+
+This repo’s `docker-compose.yml` sets `NODE_ENV=development` for the dev container. When you run a production build inside Docker, override it:
+
+```bash
+make build
+# or:
+docker compose run --rm -e NODE_ENV=production web npm run build
+```
+
 ## References (latest docs used)
 
 - Vercel: “Working with DNS” — `https://vercel.com/docs/projects/domains/working-with-dns`
