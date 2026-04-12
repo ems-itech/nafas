@@ -1,7 +1,6 @@
 "use client";
 
 import { defineConfig } from "sanity";
-
 import { apiVersion, dataset, projectId } from "./sanity/env";
 import { schema, studioTools } from "./sanity/schema";
 

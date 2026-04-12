@@ -11,16 +11,29 @@ type Props = {
   services?: Service[];
 };
 
-function pickLocalized(locale: Locale, value?: { en?: string; ar?: string }) {
-  return locale === "ar" ? value?.ar || value?.en || "" : value?.en || value?.ar || "";
+function pickLocalized(
+  locale: Locale,
+  value?: { en?: string; ar?: string }
+) {
+  return locale === "ar"
+    ? value?.ar || value?.en || ""
+    : value?.en || value?.ar || "";
 }
 
-export default function ServicesSection({ t, locale, services }: Props) {
-  const items = (services || []).filter((s) => pickLocalized(locale, s.title).trim().length > 0);
+export default function ServicesSection({
+  t,
+  locale,
+  services,
+}: Props) {
+  const items = (services || []).filter(
+    (s) => pickLocalized(locale, s.title).trim().length > 0
+  );
 
   return (
     <section id="services" className="section-spacing">
       <div className="container-narrow">
+
+        {/* HEADER */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -36,6 +49,7 @@ export default function ServicesSection({ t, locale, services }: Props) {
           </p>
         </motion.div>
 
+        {/* GRID */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {items.map((service, i) => (
             <motion.div
@@ -50,16 +64,21 @@ export default function ServicesSection({ t, locale, services }: Props) {
               }}
               className="group bg-card p-7 rounded-2xl border border-border hover:border-primary/30 hover:-translate-y-1 transition-all duration-300"
             >
+              {/* TITLE */}
               <h3 className="text-2xl text-foreground mb-2">
                 {pickLocalized(locale, service.title)}
               </h3>
+
+              {/* DURATION + PRICE (FIXED) */}
               {(service.duration || service.price) && (
                 <p className="font-ui text-primary mb-4">
-                  {service.duration}
+                  {pickLocalized(locale, service.duration)}
                   {service.duration && service.price ? " — " : ""}
-                  {service.price}
+                  {pickLocalized(locale, service.price)}
                 </p>
               )}
+
+              {/* DESCRIPTION */}
               {pickLocalized(locale, service.description) && (
                 <p className="font-sans text-muted-foreground text-sm leading-relaxed font-light">
                   {pickLocalized(locale, service.description)}
@@ -68,8 +87,8 @@ export default function ServicesSection({ t, locale, services }: Props) {
             </motion.div>
           ))}
         </div>
+
       </div>
     </section>
   );
 }
-

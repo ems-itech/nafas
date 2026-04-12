@@ -30,12 +30,20 @@ export const service = defineType({
     defineField({
       name: "duration",
       title: "Duration",
-      type: "string",
+      type: "object",
+      fields: [
+        defineField({ name: "en", title: "English", type: "text", rows: 3 }),
+        defineField({ name: "ar", title: "Arabic", type: "text", rows: 3 }),
+      ],
     }),
     defineField({
       name: "price",
       title: "Price",
-      type: "string",
+      type: "object",
+      fields: [
+        defineField({ name: "en", title: "English", type: "text", rows: 3 }),
+        defineField({ name: "ar", title: "Arabic", type: "text", rows: 3 }),
+      ],
     }),
     defineField({
       name: "description",

@@ -51,7 +51,7 @@ export default function Navbar({
   const fg = isScrolled ? "text-foreground" : "text-primary-foreground";
   const fgMuted = isScrolled ? "text-foreground/70 hover:text-foreground" : "text-primary-foreground/80 hover:text-primary-foreground";
   const ctaClass = isScrolled
-    ? "bg-primary text-primary-foreground border border-primary/20 hover:bg-accent"
+    ? "inline-block font-ui bg-rose-900 text-white px-10 py-4 rounded-full hover:bg-white hover:text-rose-900 transition-colors duration-200"
     : "bg-primary-foreground/15 backdrop-blur-sm text-primary-foreground border border-primary-foreground/20 hover:bg-primary-foreground/25";
 
   return (

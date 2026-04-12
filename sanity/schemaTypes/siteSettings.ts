@@ -12,6 +12,14 @@ export const siteSettings = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "favicon",
+      title: "Favicon",
+      type: "image",
+      options: {
+        hotspot: true,
+      },
+    }),
+    defineField({
       name: "phone",
       title: "Phone",
       type: "string",
@@ -25,6 +33,7 @@ export const siteSettings = defineType({
       name: "hours",
       title: "Hours",
       type: "text",
+      
     }),
     defineField({
       name: "seo",

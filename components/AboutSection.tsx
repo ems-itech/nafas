@@ -3,68 +3,85 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import type { Messages } from "@/lib/i18n/messages";
+import type { About } from "@/sanity/types";
+import type { Locale } from "@/lib/i18n/locales";
+import { urlFor } from "@/sanity/image";
 
 type Props = {
   t: Messages;
+  about?: About | null;
+  locale: Locale;
 };
 
-export default function AboutSection({ t }: Props) {
+function pickLocalized(
+  locale: Locale,
+  field?: { en?: string; ar?: string },
+  fallback = "",
+) {
+  if (!field) return fallback;
+
+  return locale === "ar"
+    ? field.ar || field.en || fallback
+    : field.en || field.ar || fallback;
+}
+
+export default function AboutSection({ t, about, locale }: Props) {
   return (
     <section id="about" className="section-spacing bg-secondary">
       <div className="container-narrow">
         <div className="grid md:grid-cols-2 gap-14 md:gap-20 items-center">
+          {/* TEXT */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
           >
-            <h2 className="text-4xl sm:text-5xl md:text-6xl text-foreground mb-8">
-              {t.about.title1}
+            <h2 className="text-4xl sm:text-5xl md:text-4xl text-foreground mb-8">
+              {pickLocalized(locale, about?.title, t.about.title1)}
               <br />
-              {t.about.title2}
             </h2>
-            <p
-              className="font-sans text-muted-foreground max-w-lg mb-5 font-light"
-              style={{
-                fontSize: "clamp(1rem, 0.95rem + 0.25vw, 1.0625rem)",
-              }}
-            >
-              {t.about.p1}
+
+            <p className="text-muted-foreground text-lg sm:text-xl max-w-lg mb-5 font-light">
+              {pickLocalized(locale, about?.p1, t.about.p1)}
             </p>
-            <p
-              className="font-sans text-muted-foreground max-w-lg font-light"
-              style={{
-                fontSize: "clamp(1rem, 0.95rem + 0.25vw, 1.0625rem)",
-              }}
-            >
-              {t.about.p2}
+
+            <p className="text-muted-foreground text-lg sm:text-xl max-w-lg mb-5 font-light">
+              {pickLocalized(locale, about?.p2, t.about.p2)}
             </p>
           </motion.div>
 
+          {/* IMAGES */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }}
             className="grid grid-cols-2 gap-4"
           >
-            <div className="relative rounded-2xl image-crisp w-full h-72 overflow-hidden">
+            {/* IMAGE 1 (SANITY) */}
+            <div className="relative w-full h-72 overflow-hidden rounded-2xl">
               <Image
-                src="/images/oils-texture.jpg"
-                alt="Natural beauty oils and botanical ingredients"
+                src={
+                  about?.image1
+                    ? urlFor(about.image1).url()
+                    : "/images/oils-texture.jpg"
+                }
+                alt="About image 1"
                 fill
                 className="object-cover"
-                sizes="(min-width: 768px) 250px, 45vw"
               />
             </div>
-            <div className="relative rounded-2xl image-crisp w-full h-72 mt-10 overflow-hidden">
+
+            {/* IMAGE 2 (SANITY) */}
+            <div className="relative w-full h-72 mt-10 overflow-hidden rounded-2xl">
               <Image
-                src="/images/treatment-hands.jpg"
-                alt="Warm terracotta spa interior with arched alcoves"
+                src={
+                  about?.image2
+                    ? urlFor(about.image2).url()
+                    : "/images/treatment-hands.jpg"
+                }
+                alt="About image 2"
                 fill
                 className="object-cover"
-                sizes="(min-width: 768px) 250px, 45vw"
               />
             </div>
           </motion.div>
@@ -73,4 +90,3 @@ export default function AboutSection({ t }: Props) {
     </section>
   );
 }
-
