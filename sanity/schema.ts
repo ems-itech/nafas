@@ -5,6 +5,7 @@ import { siteSettings } from "./schemaTypes/siteSettings";
 import { service } from "./schemaTypes/service";
 import { about } from "./schemaTypes/about";
 import { hero } from "./schemaTypes/hero"; 
+import { contact } from "./schemaTypes/contact";
 
 export const schema = {
   types: [
@@ -12,6 +13,7 @@ export const schema = {
     service,
     about,
     hero, 
+    contact,
   ],
 };
 

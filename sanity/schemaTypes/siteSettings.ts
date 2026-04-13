@@ -27,14 +27,34 @@ export const siteSettings = defineType({
     defineField({
       name: "address",
       title: "Address",
-      type: "string",
+      type: "object",
+       fields: [
+        { name: "en", title: "English", type: "text" },
+        { name: "ar", title: "Arabic", type: "text" },
+      ],
     }),
     defineField({
       name: "hours",
       title: "Hours",
-      type: "text",
+      type: "object",
+       fields: [
+        { name: "en", title: "English", type: "text" },
+        { name: "ar", title: "Arabic", type: "text" },
+      ],
       
     }),
+
+    defineField({
+      name: "nafas",
+      title: "Nafas Name",
+      type: "object",
+       fields: [
+        { name: "en", title: "English", type: "text" },
+        { name: "ar", title: "Arabic", type: "text" },
+      ],
+      
+    }),
+    
     defineField({
       name: "seo",
       title: "Default SEO",

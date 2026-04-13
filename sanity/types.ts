@@ -5,12 +5,24 @@ export type LocalizedString = { en?: string; ar?: string };
 export type SiteSettings = {
   title?: string;
   phone?: string;
-  address?: string;
-  hours?: string;
+  address?: LocalizedString;
+  hours?: LocalizedString;
+  nafas?: LocalizedString;
   seo?: {
     en?: { title?: string; description?: string };
     ar?: { title?: string; description?: string };
   };
+};
+
+
+export type Contact = {
+  title?: LocalizedString;
+  namePlaceholder?: LocalizedString;
+  emailPlaceholder?: LocalizedString;
+  messagePlaceholder?: LocalizedString;
+  buttonText?: LocalizedString;
+  successMessage?: LocalizedString;
+  errorMessage?: LocalizedString;
 };
 
 export type Service = {

@@ -6,22 +6,18 @@ import ServicesSection from "./ServicesSection";
 import AboutSection from "./AboutSection";
 import Footer from "./Footer";
 import ContactSection from "./ContactSection";
-import type { Locale } from "@/lib/i18n/locales";
-import { getMessages } from "@/lib/i18n/getMessages";
 
-import type {
-  Service,
-  SiteSettings,
-  About,
-  Hero,
-} from "@/sanity/types";
+import type { Locale } from "@/lib/i18n/locales";
+import type { Contact, Service, SiteSettings, About, Hero } from "@/sanity/types";
+import { getMessages } from "@/lib/i18n/getMessages";
 
 type Props = {
   locale: Locale;
   settings?: SiteSettings | null;
   services?: Service[] | null;
   about?: About | null;
-  hero?: Hero | null; 
+  hero?: Hero | null;
+  contact?: Contact | null;
   phoneHref?: string;
 };
 
@@ -31,6 +27,7 @@ export default function LandingPage({
   services,
   about,
   hero,
+  contact, 
   phoneHref,
 }: Props) {
   const t = getMessages(locale);
@@ -40,12 +37,7 @@ export default function LandingPage({
       <Navbar locale={locale} t={t} phoneHref={phoneHref} />
 
       <main>
-        
-        <HeroSection
-          hero={hero}
-          locale={locale}
-          phoneHref={phoneHref}
-        />
+        <HeroSection hero={hero} locale={locale} phoneHref={phoneHref} />
 
         <ServicesSection
           locale={locale}
@@ -59,9 +51,18 @@ export default function LandingPage({
           locale={locale}
         />
       </main>
-      
-      <ContactSection />
-      <Footer t={t} settings={settings} phoneHref={phoneHref} />
+
+      <ContactSection
+        contact={contact}
+        locale={locale}
+      />
+
+      <Footer
+        t={t}
+        settings={settings}
+        phoneHref={phoneHref}
+        locale={locale}
+      />
     </>
   );
 }
