@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 import { urlFor } from "@/sanity/image";
-import type { Hero } from "@/types/sanity";
+import type { Hero } from "@/sanity/types";
 
 type Props = {
   hero: Hero;
