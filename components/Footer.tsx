@@ -28,11 +28,9 @@ function pickLocalized(
 }
 
 export default function Footer({ t, locale, settings, phoneHref }: Props) {
- 
   const phone = settings?.phone || "+962791234567";
   const href = phoneHref || `tel:${phone}`;
 
-  
   console.log("locale:", locale);
   console.log("settings:", settings);
 
@@ -68,21 +66,22 @@ export default function Footer({ t, locale, settings, phoneHref }: Props) {
 
           {/* HOURS */}
           <div>
-  <h4 className="font-serif text-4xl font-light mb-4">
-    {t.footer.hours}
-  </h4>
+            <h4 className="font-serif text-4xl font-light mb-4">
+              {t.footer.hours}
+            </h4>
 
-  <p className="font-sans text-primary-foreground/60 text-sm leading-relaxed font-light">
-    {pickLocalized(locale, settings?.hours, t.footer.workingHours)}
-  </p>
+            <p className="font-sans text-primary-foreground/60 text-sm leading-relaxed font-light">
+              {pickLocalized(locale, settings?.hours, t.footer.workingHours)}
+            </p>
 
-  <a
-    href={href}
-    className="mt-4 block font-sans text-sm text-primary hover:text-accent transition-colors"
-  >
-    {settings?.phone || "+962791234567"}
-  </a>
-</div>
+            <a
+              href={href}
+              className="mt-4 flex items-center gap-2 font-sans text-sm text-primary hover:text-accent transition-colors"
+            >
+              <Phone className="w-4 h-4" />
+              {settings?.phone || "+962791234567"}
+            </a>
+          </div>
         </div>
 
         {/* FOOTER BOTTOM */}

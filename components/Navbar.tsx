@@ -23,7 +23,7 @@ function switchLocale(pathname: string, nextLocale: "en" | "ar") {
 export default function Navbar({
   locale,
   t,
-  phoneHref = "tel:+962791234567",
+  phoneHref = "tel:+962796073654333",
 }: Props) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
