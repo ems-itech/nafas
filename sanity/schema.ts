@@ -7,6 +7,7 @@ import { about } from "./schemaTypes/about";
 import { hero } from "./schemaTypes/hero"; 
 import { contact } from "./schemaTypes/contact";
 import {packageType} from "./schemaTypes/package";
+import {galleryType} from "./schemaTypes/gallery";
 
 export const schema = {
   types: [
@@ -16,6 +17,8 @@ export const schema = {
     hero, 
     contact,
     packageType,
+    galleryType,
+
 
   ],
 };

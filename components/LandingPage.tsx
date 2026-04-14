@@ -8,6 +8,7 @@ import CardsSection from "./CardsSection";
 import Footer from "./Footer";
 import ContactSection from "./ContactSection";
 import GallerySection from "@/components/GallerySection";
+
 import type { Locale } from "@/lib/i18n/locales";
 import type {
   Contact,
@@ -16,6 +17,7 @@ import type {
   About,
   Hero,
   Package,
+  Gallery,
 } from "@/sanity/types";
 
 import { getMessages } from "@/lib/i18n/getMessages";
@@ -28,6 +30,7 @@ type Props = {
   hero: Hero | null;
   contact?: Contact | null;
   packages?: Package[] | null;
+  gallery?: Gallery | null;
   phoneHref?: string;
 };
 
@@ -39,6 +42,7 @@ export default function LandingPage({
   hero,
   contact,
   packages,
+  gallery,
   phoneHref,
 }: Props) {
   const t = getMessages(locale);
@@ -48,7 +52,11 @@ export default function LandingPage({
       <Navbar locale={locale} t={t} phoneHref={phoneHref} />
 
       <main>
-        <HeroSection hero={hero || null} locale={locale} phoneHref={phoneHref} />
+        <HeroSection
+          hero={hero || null}
+          locale={locale}
+          phoneHref={phoneHref}
+        />
 
         <ServicesSection
           locale={locale}
@@ -58,19 +66,23 @@ export default function LandingPage({
 
         <AboutSection t={t} about={about} locale={locale} />
 
+        <GallerySection
+          locale={locale}
+          subtitle={gallery?.subtitle}
+          items={
+            gallery?.images?.map((img) => ({
+              src: img.asset?.url || "",
+              alt: img.alt || "Gallery image",
+            })) || []
+          }
+        />
+
         <CardsSection packages={packages || []} locale={locale} />
       </main>
 
       <ContactSection contact={contact} locale={locale} />
 
-      
-
-      <Footer
-        t={t}
-        settings={settings}
-        phoneHref={phoneHref}
-        locale={locale}
-      />
+      <Footer t={t} settings={settings} phoneHref={phoneHref} locale={locale} />
     </>
   );
 }

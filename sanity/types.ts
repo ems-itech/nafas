@@ -52,8 +52,6 @@ export type Hero = {
   image?: Image;
 };
 
-
-
 export type Package = {
   _id: string;
   title?: LocalizedString;
@@ -61,4 +59,18 @@ export type Package = {
   price?: LocalizedString;
   image?: Image;
   order?: number;
+};
+
+
+export type Gallery = {
+  subtitle?: {
+    en?: string;
+    ar?: string;
+  };
+  images?: {
+    asset?: {
+      url?: string;
+    };
+    alt?: string;
+  }[];
 };

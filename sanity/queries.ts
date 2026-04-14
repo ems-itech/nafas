@@ -52,7 +52,6 @@ export const contactQuery = groq`*[_type == "contact"][0]{
   errorMessage{en, ar}
 }`;
 
-
 export const packagesQuery = groq`*[_type == "package"]
 | order(order asc, _createdAt desc){
   _id,
@@ -60,4 +59,15 @@ export const packagesQuery = groq`*[_type == "package"]
   description{en, ar},
   price{en, ar},
   image
+}`;
+
+
+export const galleryQuery = groq`*[_type == "gallery"][0]{
+  subtitle{en, ar},
+  images[]{
+    asset->{
+      url
+    },
+    alt
+  }
 }`;
