@@ -20,7 +20,7 @@ export default function HeroSection({
   const lang = locale;
 
   return (
-    <section className="relative min-h-svh flex items-center overflow-hidden">
+    <section id="hero" className="relative min-h-svh flex items-center overflow-hidden">
       {/* BACKGROUND */}
       <div className="absolute inset-0">
         <Image

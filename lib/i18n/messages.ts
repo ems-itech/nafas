@@ -1,7 +1,15 @@
 import type { Locale } from "./locales";
 
 export type Messages = {
-  nav: { services: string; about: string; contact: string; callNow: string };
+  nav: {
+    services: string;
+    about: string;
+    contact: string;
+    callNow: string;
+    gallery: string;
+    packages: string;
+  };
+
   hero: {
     headline1: string;
     headline2: string;
@@ -9,17 +17,28 @@ export type Messages = {
     cta: string;
     discover: string;
   };
-  services: { title: string; subtitle: string };
-  about: { title1: string; title2: string; p1: string; p2: string };
+
+  services: {
+    title: string;
+    subtitle: string;
+  };
+
+  about: {
+    title1: string;
+    title2: string;
+    p1: string;
+    p2: string;
+  };
+
   footer: {
-  visit: string;
-  hours: string;
-  tagline1: string;
-  tagline2: string;
-  call: string;
-  location: string; 
-  workingHours: string;
-};
+    visit: string;
+    hours: string;
+    tagline1: string;
+    tagline2: string;
+    call: string;
+    location: string;
+    workingHours: string;
+  };
 };
 
 export const messages: Record<Locale, Messages> = {
@@ -29,6 +48,8 @@ export const messages: Record<Locale, Messages> = {
       about: "About",
       contact: "Contact",
       callNow: "Call Now",
+      gallery: "Gallery",    
+      packages: "Packages",
     },
     hero: {
       headline1: "A space",
@@ -64,6 +85,8 @@ export const messages: Record<Locale, Messages> = {
       about: "من نحن",
       contact: "تواصل",
       callNow: "اتصل الآن",
+      gallery: "المعرض",   
+      packages: "الباقات", 
     },
     hero: {
       headline1: "مساحة",

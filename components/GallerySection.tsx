@@ -35,7 +35,7 @@ export default function GallerySection({
   const [selected, setSelected] = useState<GalleryItem | null>(null);
 
   return (
-    <section className="py-16 px-4 md:px-10 bg-gray-50">
+    <section id="gallery" className="py-16 px-4 md:px-10 bg-gray-50">
 
       {/* Header */}
       <div className="text-center mb-10">

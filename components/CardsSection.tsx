@@ -24,7 +24,7 @@ function pickLocalized(
 
 export default function CardsSection({ packages, locale }: Props) {
   return (
-    <section className="py-20 secondary">
+    <section id="packages" className="py-20 secondary">
       <div className="container-narrow">
         {/* TITLE */}
         <h2 className="text-4xl mb-10">

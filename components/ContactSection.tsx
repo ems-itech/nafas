@@ -64,7 +64,7 @@ function ContactSection({ contact, locale }: Props) {
   }
 
   return (
-    <section className="py-20 container-narrow ">
+    <section id="contact" className="py-20 container-narrow ">
 
       {/* TITLE */}
       <h2 className="text-4xl text-foreground mb-8">
