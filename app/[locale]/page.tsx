@@ -7,6 +7,7 @@ import {
   aboutQuery,
   heroQuery,
   contactQuery,
+  packagesQuery,
 } from "@/sanity/queries";
 
 import type {
@@ -15,6 +16,7 @@ import type {
   About,
   Hero,
   Contact,
+  Package,
 } from "@/sanity/types";
 
 export const revalidate = 60;
@@ -25,12 +27,13 @@ export default async function LocaleHome({
   const resolved = await Promise.resolve(params);
   const locale = normalizeLocale(resolved.locale);
 
-  const [settings, services, about, hero, contact] = await Promise.all([
+  const [settings, services, about, hero, contact, packages] = await Promise.all([
     sanityFetch<SiteSettings>(siteSettingsQuery),
     sanityFetch<Service[]>(servicesQuery),
     sanityFetch<About>(aboutQuery),
     sanityFetch<Hero>(heroQuery),
     sanityFetch<Contact>(contactQuery),
+    sanityFetch<Package[]>(packagesQuery),
   ]);
 
   return (
@@ -41,6 +44,7 @@ export default async function LocaleHome({
       about={about}
       hero={hero}
       contact={contact}
+      packages={packages}
     />
   );
 }

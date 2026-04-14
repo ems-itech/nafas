@@ -7,7 +7,7 @@ import { urlFor } from "@/sanity/image";
 import type { Hero } from "@/sanity/types";
 
 type Props = {
-  hero: Hero;
+  hero: Hero | null;
   locale: "en" | "ar";
   phoneHref?: string;
 };

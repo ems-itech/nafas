@@ -6,6 +6,7 @@ import { service } from "./schemaTypes/service";
 import { about } from "./schemaTypes/about";
 import { hero } from "./schemaTypes/hero"; 
 import { contact } from "./schemaTypes/contact";
+import {packageType} from "./schemaTypes/package";
 
 export const schema = {
   types: [
@@ -14,6 +15,8 @@ export const schema = {
     about,
     hero, 
     contact,
+    packageType,
+
   ],
 };
 

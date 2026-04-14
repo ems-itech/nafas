@@ -13,7 +13,8 @@ export const siteSettingsQuery = groq`*[_type == "siteSettings"][0]{
   }
 }`;
 
-export const servicesQuery = groq`*[_type == "service" && defined(slug.current)]|order(orderRank asc, _createdAt desc){
+export const servicesQuery = groq`*[_type == "service" && defined(slug.current)]
+| order(orderRank asc, _createdAt desc){
   _id,
   slug,
   duration{en, ar},
@@ -49,4 +50,14 @@ export const contactQuery = groq`*[_type == "contact"][0]{
   buttonText{en, ar},
   successMessage{en, ar},
   errorMessage{en, ar}
+}`;
+
+
+export const packagesQuery = groq`*[_type == "package"]
+| order(order asc, _createdAt desc){
+  _id,
+  title{en, ar},
+  description{en, ar},
+  price{en, ar},
+  image
 }`;

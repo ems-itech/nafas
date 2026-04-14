@@ -14,7 +14,6 @@ export type SiteSettings = {
   };
 };
 
-
 export type Contact = {
   title?: LocalizedString;
   namePlaceholder?: LocalizedString;
@@ -51,4 +50,15 @@ export type Hero = {
   ctaText?: LocalizedString;
   ctaPhone?: string;
   image?: Image;
+};
+
+
+
+export type Package = {
+  _id: string;
+  title?: LocalizedString;
+  description?: LocalizedString;
+  price?: LocalizedString;
+  image?: Image;
+  order?: number;
 };
