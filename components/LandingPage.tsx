@@ -1,32 +1,30 @@
 "use client";
 
 import Navbar from "./Navbar";
-import HeroSection from "./HeroSection";
-import ServicesSection from "./ServicesSection";
-import AboutSection from "./AboutSection";
 import Footer from "./Footer";
 import type { Locale } from "@/lib/i18n/locales";
 import { getMessages } from "@/lib/i18n/getMessages";
-import type { Service, SiteSettings } from "@/sanity/types";
+import type { Homepage, SiteSettings } from "@/sanity/types";
+import SectionRenderer from "./sections/SectionRenderer";
 
 type Props = {
   locale: Locale;
   settings?: SiteSettings | null;
-  services?: Service[] | null;
+  homepage?: Homepage | null;
   phoneHref?: string;
 };
 
-export default function LandingPage({ locale, settings, services, phoneHref }: Props) {
+export default function LandingPage({ locale, settings, homepage, phoneHref }: Props) {
   const t = getMessages(locale);
   return (
     <>
-      <Navbar locale={locale} t={t} phoneHref={phoneHref} />
+      <Navbar locale={locale} t={t} settings={settings} phoneHref={phoneHref} />
       <main>
-        <HeroSection t={t} phoneHref={phoneHref} />
-        <ServicesSection locale={locale} t={t} services={services || undefined} />
-        <AboutSection t={t} />
+        {homepage?.sections?.length ? (
+          <SectionRenderer locale={locale} sections={homepage.sections} />
+        ) : null}
       </main>
-      <Footer t={t} settings={settings} phoneHref={phoneHref} />
+      <Footer locale={locale} t={t} settings={settings} phoneHref={phoneHref} />
     </>
   );
 }

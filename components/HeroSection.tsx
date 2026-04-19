@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
-import type { Locale } from "@/lib/i18n/locales";
 import type { Messages } from "@/lib/i18n/messages";
 
 type Props = {

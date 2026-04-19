@@ -14,16 +14,22 @@
     "react-dom": "19.2.4",
     "@sanity/client": "^7.11.2",
     "@sanity/vision": "^4.0.3",
+    "@portabletext/react": "^6.0.3",
     "groq": "^4.5.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.35.2",
     "lucide-react": "^0.462.0",
     "next-sanity": "^12.2.1",
+    "react-hook-form": "^7.55.0",
+    "@hookform/resolvers": "^3.10.0",
+    "resend": "^4.3.0",
     "sanity": "^5.18.0",
     "styled-components": "^6.1.19",
-    "tailwind-merge": "^2.6.0"
+    "tailwind-merge": "^2.6.0",
+    "zod": "^3.25.0"
   },
   "devDependencies": {
+    "@sanity/cli": "^6.3.2",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

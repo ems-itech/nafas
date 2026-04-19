@@ -1,0 +1,30 @@
+---
+description: Run dev commands inside the Docker web service
+alwaysApply: true
+---
+
+# Docker-first workflow (required)
+
+This repo is Docker-first. Assume **the host may not have Node installed**.
+
+- Run all npm/next commands **inside the `web` service container**.
+- Prefer `make` targets when available.
+
+## Common commands
+
+- Start dev server: `make up`
+- Rebuild + restart: `make rebuild`
+- Open a shell: `make sh`
+- Lint: `make lint`
+- Production build: `make build`
+
+## Installing dependencies
+
+- Install/update deps: `docker compose run --rm web npm install`
+- For a clean install: `make nuke`
+
+## Notes
+
+- `node_modules` is installed into the repo (bind mount) so the editor can resolve imports.
+- Avoid suggesting `npm install` on the host unless explicitly asked.
+

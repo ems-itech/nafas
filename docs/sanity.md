@@ -32,21 +32,14 @@ Schemas live in `sanity/schemaTypes/`.
 ### `siteSettings`
 Global fields used across the site:
 - Site title
-- Phone
-- Address
-- Hours
+- Header (brand, nav, CTA label)
+- Footer (tagline, social)
+- Contact (phone, address, hours, map)
 - Default SEO per locale (`en` / `ar`)
 
-### `service`
-Service entries for the Services section and future Service details pages:
-- Localized title/description (`en` / `ar`)
-- Slug
-- Duration, price
-- `orderRank` (lower appears first)
-
 ## Authoring workflow
-1) Create **one** `Site Settings` document and fill basics + SEO.
-2) Create `Service` documents for each service.
+1) Fill **Site Settings** (singleton `_id = siteSettings`) with header/footer/contact + SEO.
+2) Fill **Homepage** (singleton `_id = homepage`) with the sections.
 3) Publish changes.
 
 The Next.js app reads **published** content by default.

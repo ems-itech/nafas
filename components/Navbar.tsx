@@ -7,10 +7,13 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/lib/i18n/locales";
 import type { Messages } from "@/lib/i18n/messages";
+import { getLocalizedValue } from "@/lib/i18n/getLocalizedValue";
+import type { SiteSettings } from "@/sanity/types";
 
 type Props = {
   locale: Locale;
   t: Messages;
+  settings?: SiteSettings | null;
   phoneHref?: string;
 };
 
@@ -23,6 +26,7 @@ function switchLocale(pathname: string, nextLocale: "en" | "ar") {
 export default function Navbar({
   locale,
   t,
+  settings,
   phoneHref = "tel:+962791234567",
 }: Props) {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -30,11 +34,22 @@ export default function Navbar({
   const safeLocale = locale === "ar" ? "ar" : "en";
   const otherLocale = safeLocale === "en" ? "ar" : "en";
 
-  const navLinks = [
-    { label: t.nav.services, href: "#services" },
-    { label: t.nav.about, href: "#about" },
-    { label: t.nav.contact, href: "#contact" },
-  ];
+  const navLinks =
+    settings?.header?.nav
+      ?.map((item) => {
+        const label = getLocalizedValue(item.label, locale);
+        const href = item.href?.trim();
+        if (!label || !href) return null;
+        return { label, href };
+      })
+      .filter((v): v is { label: string; href: string } => Boolean(v)) ?? [
+      { label: t.nav.services, href: "#services" },
+      { label: t.nav.about, href: "#about" },
+      { label: t.nav.contact, href: "#contact" },
+    ];
+
+  const brand = getLocalizedValue(settings?.header?.brand, locale) || "Nafas";
+  const ctaLabel = getLocalizedValue(settings?.header?.ctaLabel, locale) || t.nav.callNow;
 
   const [isScrolled, setIsScrolled] = useState(false);
   useEffect(() => {
@@ -61,7 +76,7 @@ export default function Navbar({
           href={`/${safeLocale}`}
           className={cn("font-serif text-2xl sm:text-3xl font-light tracking-tight drop-shadow-sm transition-colors", fg)}
         >
-          Nafas
+          {brand}
         </Link>
 
         <div className="hidden sm:flex items-center gap-10">
@@ -84,7 +99,7 @@ export default function Navbar({
             href={phoneHref}
             className={cn("font-ui px-7 py-2.5 rounded-full transition-all duration-200", ctaClass)}
           >
-            {t.nav.callNow}
+            {ctaLabel}
           </a>
         </div>
 
@@ -121,7 +136,7 @@ export default function Navbar({
             onClick={() => setMobileOpen(false)}
             className="block text-center font-ui bg-primary text-primary-foreground px-6 py-3 rounded-full"
           >
-            {t.nav.callNow}
+            {ctaLabel}
           </a>
         </div>
       )}
