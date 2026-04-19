@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Montserrat, Tajawal } from "next/font/google";
+import { sanityFetch } from "@/sanity/fetch";
+import { siteSettingsQuery } from "@/sanity/queries";
+import type { SiteSettings } from "@/sanity/types";
+import { resolveThemeId } from "@/lib/theme/theme";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -29,14 +33,24 @@ export const metadata: Metadata = {
   description: "Nafas Beauty Lounge — A space to breathe.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  let themeId: "default" | "warm" = "default";
+
+  try {
+    const settings = await sanityFetch<SiteSettings>(siteSettingsQuery);
+    themeId = resolveThemeId(settings?.activeTheme);
+  } catch {
+    // If Sanity is unavailable, we keep the default theme.
+  }
+
   return (
     <html
       lang="en"
+      data-theme={themeId === "default" ? undefined : themeId}
       className={`${cormorant.variable} ${montserrat.variable} ${tajawal.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>

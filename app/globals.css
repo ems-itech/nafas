@@ -45,6 +45,56 @@
     --font-sans: var(--font-montserrat), system-ui, sans-serif;
     --font-ar: var(--font-tajawal), var(--font-sans);
   }
+
+  /**
+   * Theme overrides
+   *
+   * The default theme is defined above in `:root` and must remain unchanged.
+   * Additional themes override the same design tokens via a single HTML
+   * attribute (`data-theme`) to keep SSR/CSR consistent and avoid flicker.
+   */
+  :root[data-theme="warm"] {
+    /* Palette base (provided): #F8F2DA / #8B6B5E / #7D554E / #E8D9C9 / #A1917F */
+    --background: 48 68% 91%; /* Soft Cream */
+    --foreground: 9 23% 18%; /* Deep Cocoa */
+
+    /* Surfaces (match default “comfort”): subtle, not stark */
+    --card: 48 68% 93%;
+    --card-foreground: 9 23% 18%;
+
+    --popover: 48 68% 93%;
+    --popover-foreground: 9 23% 18%;
+
+    /* Primary: Warm Brown */
+    --primary: 17 19% 46%;
+    --primary-foreground: 48 68% 91%;
+
+    /* Secondary: Warm Sand */
+    --secondary: 31 40% 85%;
+    --secondary-foreground: 9 23% 20%;
+
+    /* Muted: Dusty Taupe as UI “quiet” tone */
+    --muted: 32 15% 88%;
+    --muted-foreground: 9 10% 40%;
+
+    /* Accent: Deep Cocoa */
+    --accent: 9 23% 40%;
+    --accent-foreground: 48 68% 91%;
+
+    /* Borders/inputs: closer to default density for forms/cards */
+    --border: 32 15% 80%;
+    --input: 48 68% 93%;
+    --ring: 17 19% 46%;
+
+    --sidebar-background: 48 68% 91%;
+    --sidebar-foreground: 9 23% 18%;
+    --sidebar-primary: 17 19% 46%;
+    --sidebar-primary-foreground: 48 68% 91%;
+    --sidebar-accent: 31 40% 85%;
+    --sidebar-accent-foreground: 9 23% 20%;
+    --sidebar-border: 32 15% 80%;
+    --sidebar-ring: 17 19% 46%;
+  }
 }
 
 @theme inline {
@@ -114,7 +164,7 @@
   }
 
   .image-crisp {
-    outline: 1px solid hsla(20, 15%, 0%, 0.08);
+    outline: 1px solid hsl(var(--border) / 0.45);
     outline-offset: -1px;
   }
 }
