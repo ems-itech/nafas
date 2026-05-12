@@ -56,7 +56,9 @@ export const siteSettings = defineType({
         defineField({
           name: "brand",
           title: "Brand",
-          type: "localizedString",
+          type: "image",
+          options: { hotspot: true },
+          fields: [defineField({ name: "alt", title: "Alt text", type: "localizedString" })],
         }),
         defineField({
           name: "nav",
