@@ -35,7 +35,7 @@ export type SanityImage = {
 export type SiteSettings = {
   title?: string;
   siteUrl?: string;
-  activeTheme?: "default" | "warm" | string;
+  activeTheme?: "default" | "warm" | "rustic" | string;
   favicon?: SanityImage;
   siteIcon?: SanityImage;
 
