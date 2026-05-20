@@ -1,3 +1,4 @@
+import "dotenv/config";
 import type { Config } from "drizzle-kit";
 
 export default {
@@ -5,10 +6,6 @@ export default {
   out: "./src/db/migrations",
   dialect: "postgresql",
   dbCredentials: {
-    host: "localhost",
-    port: 5432,
-    user: "postgres",
-    password: "postgres",
-    database: "app_db",
+    url: process.env.DATABASE_URL!,
   },
 } satisfies Config;
