@@ -4,6 +4,7 @@ import { sanityFetch } from "@/sanity/fetch";
 import { siteSettingsQuery } from "@/sanity/queries";
 import type { SiteSettings } from "@/sanity/types";
 import { resolveThemeId } from "@/lib/theme/theme";
+import { AuthProvider } from "./providers";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -53,7 +54,9 @@ export default async function RootLayout({
       data-theme={themeId === "default" ? undefined : themeId}
       className={`${cormorant.variable} ${montserrat.variable} ${tajawal.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   );
 }
