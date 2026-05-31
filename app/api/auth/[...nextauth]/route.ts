@@ -56,7 +56,7 @@ export const authConfig = {
   ],
 
   session: {
-    strategy: "database" as const,
+    strategy: "changed strategy from database to jwt" as const,
     
   },
 
