@@ -1,10 +1,11 @@
+import { getToken } from "next-auth/jwt";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 const supportedLocales = ["en", "ar"] as const;
 type SupportedLocale = (typeof supportedLocales)[number];
 
-export function proxy(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // Do not locale-prefix static files
@@ -25,10 +26,22 @@ export function proxy(req: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // Auth protection - dashboard only
+  if (pathname.includes("/dashboard")) {
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+
+    if (!token) {
+      return NextResponse.redirect(new URL(`/${firstSegment}/login`, req.url));
+    }
+
+    if (pathname.includes("/admin") && token.role !== "admin") {
+      return NextResponse.redirect(new URL(`/${firstSegment}/dashboard`, req.url));
+    }
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
   matcher: ["/((?!_next/static|_next/image|favicon.ico|api|robots\\.txt|sitemap\\.xml).*)"],
 };
-

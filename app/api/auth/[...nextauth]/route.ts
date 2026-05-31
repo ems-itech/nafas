@@ -46,6 +46,7 @@ export const authConfig = {
             email: user.email,
             name: user.name,
             image: user.image,
+            role: user.role,
           };
         } catch (error) {
           console.error("Authorization error:", error);
