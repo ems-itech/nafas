@@ -1,13 +1,13 @@
 // schema/sessions.ts
 import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
-import { users } from "./users";
+import { user } from "./users";
 
 export const sessions = pgTable("sessions", {
-  sessionToken: text("session_token").primaryKey(),
+  sessionToken: text("sessionToken").primaryKey(),
 
-  userId: uuid("user_id")
+  userId: uuid("userId")
     .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
+    .references(() => user.id, { onDelete: "cascade" }),
 
   expires: timestamp("expires").notNull(),
 });

@@ -5,14 +5,18 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 
-export const users = pgTable("users", {
+export const user = pgTable("users", {
   id: uuid("id").defaultRandom().primaryKey(),
 
-  name: text("name").notNull(),
+  name: text("name"),
 
   email: text("email").notNull().unique(),
 
-  passwordHash: text("password_hash").notNull(),
+  emailVerified: timestamp("emailVerified"),
+
+  image: text("image"),
+
+  passwordHash: text("password_hash"),
 
   role: text("role").notNull().default("user"),
 

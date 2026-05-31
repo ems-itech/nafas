@@ -1,8 +1,8 @@
 import { db } from "@/src/db";
-import { users } from "@/src/db/schema/users";
+import { user } from "@/src/db/schema/users";
 
 export async function GET() {
-  const result = await db.select().from(users);
+  const result = await db.select().from(user);
 
   return Response.json(result);
 }
@@ -11,7 +11,7 @@ export async function POST(request: Request) {
   const body = await request.json();
 
   const result = await db
-    .insert(users)
+    .insert(user)
     .values({
       name: body.name,
       email: body.email,

@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { db } from "./index";
-import { users } from "./schema/users";
+import { user } from "./schema/users";
 
 async function seed() {
   try {
@@ -9,7 +9,7 @@ async function seed() {
     const demoPassword = await bcrypt.hash("password123", 10);
 
     await db
-      .insert(users)
+      .insert(user)
       .values([
         {
           name: "Admin User",
@@ -29,6 +29,7 @@ async function seed() {
 
     console.log("✅ Seed completed successfully");
     console.log("Admin: admin@spa.local / admin123");
+    console.log("Demo: test@example.com / password123");
   } catch (error) {
     console.error("❌ Seed failed:", error);
   }
