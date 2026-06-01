@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Montserrat, Tajawal } from "next/font/google";
+import { Cormorant_Garamond, Montserrat, Tajawal, Geist } from "next/font/google";
 import { sanityFetch } from "@/sanity/fetch";
 import { siteSettingsQuery } from "@/sanity/queries";
 import type { SiteSettings } from "@/sanity/types";
 import { resolveThemeId } from "@/lib/theme/theme";
 import { AuthProvider } from "./providers";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -52,7 +55,7 @@ export default async function RootLayout({
     <html
       lang="en"
       data-theme={themeId === "default" ? undefined : themeId}
-      className={`${cormorant.variable} ${montserrat.variable} ${tajawal.variable} h-full antialiased`}
+      className={cn("h-full", "antialiased", cormorant.variable, montserrat.variable, tajawal.variable, "font-sans", geist.variable)}
     >
       <body className="min-h-full flex flex-col">
         <AuthProvider>{children}</AuthProvider>
