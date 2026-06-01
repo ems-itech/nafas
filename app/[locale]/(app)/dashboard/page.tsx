@@ -51,9 +51,9 @@ export default function DashboardPage() {
                 <p className="text-gray-700">
                   <span className="font-medium">Name:</span> {session.user?.name}
                 </p>
-                {session.user?.id && (
+                {(session.user as any)?.id && (
                   <p className="text-gray-700">
-                    <span className="font-medium">ID:</span> {session.user.id}
+                    <span className="font-medium">ID:</span> {(session.user as any).id}
                   </p>
                 )}
                 {(session.user as any)?.role && (

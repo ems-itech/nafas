@@ -26,8 +26,8 @@ export async function proxy(req: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // Auth protection - dashboard only
-  if (pathname.includes("/dashboard")) {
+  // Auth protection
+  if (pathname.includes("/dashboard") || pathname.includes("/staff") || pathname.includes("/clients")) {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
     if (!token) {
