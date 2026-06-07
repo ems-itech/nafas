@@ -1,14 +1,16 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import {
+  canServeAdmin,
+  canServeMarketing,
   isAdminPath,
   isAppHost,
-  isMarketingOnlyPath,
+  isMarketingPath,
   usesSingleOriginRouting,
 } from "@/lib/config/hosts";
 
-function notFound(req: NextRequest) {
-  return NextResponse.rewrite(new URL("/not-found", req.url));
+function blockWith404() {
+  return new NextResponse(null, { status: 404 });
 }
 
 export function proxy(req: NextRequest) {
@@ -26,19 +28,20 @@ export function proxy(req: NextRequest) {
   }
 
   if (onAppHost) {
-    if (isMarketingOnlyPath(pathname)) return notFound(req);
+    if (isMarketingPath(pathname)) return blockWith404();
     if (pathname === "/") {
       return NextResponse.redirect(new URL("/dashboard", req.url));
     }
+    if (isAdminPath(pathname)) return NextResponse.next();
     return NextResponse.next();
   }
 
-  if (!singleOrigin && isAdminPath(pathname)) return notFound(req);
-  if (isAdminPath(pathname)) return NextResponse.next();
+  if (!canServeAdmin(hostHeader) && isAdminPath(pathname)) return blockWith404();
+  if (singleOrigin && isAdminPath(pathname)) return NextResponse.next();
 
+  if (!canServeMarketing(hostHeader) && isMarketingPath(pathname)) return blockWith404();
   if (pathname.startsWith("/api/appointment")) return NextResponse.next();
-  if (isMarketingOnlyPath(pathname)) return NextResponse.next();
-  if (pathname === "/not-found") return NextResponse.next();
+  if (isMarketingPath(pathname)) return NextResponse.next();
 
   if (pathname === "/") {
     return NextResponse.redirect(new URL("/en", req.url));

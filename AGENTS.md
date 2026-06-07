@@ -17,13 +17,15 @@ Docker-only. No host Node/npm.
 
 ## Host routing
 
-`proxy.ts` + `lib/config/hosts.ts`. **No cross-host redirects.**
+Two separate apps, same repo. **No cross-host redirects.** Wrong host → 404.
 
-| Host | Allowed | Blocked (404) |
-|------|---------|---------------|
-| `nafas.beauty`, `localhost:3000` | `/en`, `/ar`, `/studio`, marketing API | `/login`, `/dashboard`, … |
-| `app.nafas.beauty`, `app.localhost:3000` | admin routes | `/en`, `/ar`, `/studio` |
-| Preview `*.vercel.app` | both (single URL for testing) | — |
+| Host | App | Blocked |
+|------|-----|---------|
+| `nafas.beauty`, `localhost:3000` | marketing (`/en`, `/ar`, `/studio`) | admin paths |
+| `app.nafas.beauty`, `app.localhost:3000`, `www.app.*` | admin (`/login`, `/dashboard`, …) | `/en`, `/ar`, `/studio` |
+| Preview `*.vercel.app` | both (testing only) | — |
+
+Enforced in `proxy.ts` + layout guards (`canServeMarketing` / `canServeAdmin` in `lib/config/hosts.ts`).
 
 ## Token discipline
 - Read only files you will change or that define patterns you must match.

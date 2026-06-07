@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
+import { notFound } from "next/navigation";
+import { canServeMarketing } from "@/lib/config/hosts";
 import { isLocale, normalizeLocale, type Locale } from "@/lib/i18n/locales";
 import { sanityFetch } from "@/sanity/fetch";
 import { siteSettingsQuery } from "@/sanity/queries";
@@ -84,6 +87,9 @@ export default async function LocaleLayout({
   children: React.ReactNode;
   params: { locale: string } | Promise<{ locale: string }>;
 }>) {
+  const host = (await headers()).get("host") ?? "";
+  if (!canServeMarketing(host)) notFound();
+
   const resolved = await Promise.resolve(params);
   const { locale } = resolved;
   const safeLocale: Locale = isLocale(locale) ? locale : normalizeLocale(locale);
