@@ -15,10 +15,15 @@ Docker-only. No host Node/npm.
 - **Admin** — `app/(admin)/*`, Postgres, shadcn under `components/ui/shadcn/`, scoped CSS `app/(admin)/admin.css`.
 - **Layers** — routes/actions → `lib/services/*` → `lib/repositories/*` → Drizzle. Keep handlers thin.
 
-## Hosts
-- Marketing: `localhost:3000` / `nafas.beauty`
-- Admin: `app.localhost:3000` / `app.nafas.beauty`
-- Host routing: `proxy.ts` (Next 16 — not `middleware.ts`)
+## Host routing
+
+`proxy.ts` + `lib/config/hosts.ts`. **No cross-host redirects.**
+
+| Host | Allowed | Blocked (404) |
+|------|---------|---------------|
+| `nafas.beauty`, `localhost:3000` | `/en`, `/ar`, `/studio`, marketing API | `/login`, `/dashboard`, … |
+| `app.nafas.beauty`, `app.localhost:3000` | admin routes | `/en`, `/ar`, `/studio` |
+| Preview `*.vercel.app` | both (single URL for testing) | — |
 
 ## Token discipline
 - Read only files you will change or that define patterns you must match.
@@ -28,4 +33,4 @@ Docker-only. No host Node/npm.
 - Docs: update `docs/progress.md` when phases complete.
 
 ## Env
-Copy `.env.example` → `.env.local`. Required for admin: `DATABASE_URL`, `SESSION_SECRET`, `APP_URL`, `MARKETING_URL`.
+Copy `.env.example` → `.env.local`. Required for admin: `DATABASE_URL`, `SESSION_SECRET`.

@@ -60,9 +60,9 @@ Required for admin:
 
 - `DATABASE_URL` — PostgreSQL connection string
 - `SESSION_SECRET` — 32+ byte secret for session signing
-- `APP_URL` — Admin base URL (e.g. `https://app.nafas.beauty`)
-- `MARKETING_URL` — Marketing base URL (e.g. `https://nafas.beauty`)
 - `RESEND_API_KEY`, `ADMIN_NOTIFICATION_EMAIL` — Reservation notifications
+
+Host routing is enforced in `proxy.ts` (no cross-host redirects). Wrong routes for the current host return 404. Preview (`*.vercel.app`) allows both apps on one URL.
 
 ## UI isolation
 

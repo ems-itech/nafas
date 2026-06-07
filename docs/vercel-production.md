@@ -190,12 +190,13 @@ Add to **Production** (and Preview if testing admin on preview URLs):
 | `DATABASE_URL` | (from Vercel Postgres) | Pooled connection |
 | `DATABASE_URL_UNPOOLED` | (from Vercel Postgres) | For migrations only |
 | `SESSION_SECRET` | random 32+ bytes | Required for auth |
-| `APP_URL` | `https://app.nafas.beauty` | Admin canonical URL |
-| `MARKETING_URL` | `https://nafas.beauty` | Marketing redirects |
 | `ADMIN_NOTIFICATION_EMAIL` | staff inbox | Reservation alerts |
 | `RESEND_API_KEY` | (existing) | Email delivery |
+| `NEXT_PUBLIC_SITE_URL` | `https://nafas.beauty` | Marketing SEO canonical base |
 
 Keep existing Sanity and appointment variables for the marketing site.
+
+**Host routing:** No cross-host redirects. Use `app.nafas.beauty` for admin, `nafas.beauty` for marketing. Wrong routes on a host return 404. Preview (`*.vercel.app`) serves both on one URL for testing.
 
 ## Part 5 — Vercel Postgres
 

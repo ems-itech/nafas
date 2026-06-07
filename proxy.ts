@@ -1,17 +1,21 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import {
-  getAppUrl,
-  getMarketingUrl,
   isAdminPath,
   isAppHost,
   isMarketingOnlyPath,
+  usesSingleOriginRouting,
 } from "@/lib/config/hosts";
 
+function notFound(req: NextRequest) {
+  return NextResponse.rewrite(new URL("/not-found", req.url));
+}
+
 export function proxy(req: NextRequest) {
-  const hostname = req.headers.get("host") ?? "";
+  const hostHeader = req.headers.get("host") ?? "";
   const { pathname } = req.nextUrl;
-  const onAppHost = isAppHost(hostname);
+  const onAppHost = isAppHost(hostHeader);
+  const singleOrigin = usesSingleOriginRouting(hostHeader);
 
   if (
     pathname.startsWith("/_next") ||
@@ -22,20 +26,18 @@ export function proxy(req: NextRequest) {
   }
 
   if (onAppHost) {
-    if (isMarketingOnlyPath(pathname)) {
-      return NextResponse.redirect(new URL(getMarketingUrl()));
-    }
+    if (isMarketingOnlyPath(pathname)) return notFound(req);
     if (pathname === "/") {
       return NextResponse.redirect(new URL("/dashboard", req.url));
     }
     return NextResponse.next();
   }
 
-  if (isAdminPath(pathname)) {
-    const target = new URL(pathname, getAppUrl());
-    target.search = req.nextUrl.search;
-    return NextResponse.redirect(target);
-  }
+  if (!singleOrigin && isAdminPath(pathname)) return notFound(req);
+  if (isAdminPath(pathname)) return NextResponse.next();
+
+  if (pathname.startsWith("/api/appointment")) return NextResponse.next();
+  if (isMarketingOnlyPath(pathname)) return NextResponse.next();
 
   if (pathname === "/") {
     return NextResponse.redirect(new URL("/en", req.url));

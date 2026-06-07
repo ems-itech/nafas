@@ -56,7 +56,8 @@
 - [ ] Deploy triggered (migrations run automatically via vercel.json)
 - [ ] Admin user seeded manually (`make seed-admin`); default password changed
 - [ ] `app.nafas.beauty` DNS CNAME → `cname.vercel-dns.com`
-- [ ] `APP_URL` + `MARKETING_URL` env vars set
+- [ ] `SESSION_SECRET` set in Vercel Production
+- [ ] Deploy triggered (migrations run automatically via vercel.json)
 - [ ] `ADMIN_NOTIFICATION_EMAIL` + `RESEND_API_KEY` set
 - [ ] Smoke test: login, create reservation, calendar, notification
 

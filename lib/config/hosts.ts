@@ -1,19 +1,6 @@
 export const SESSION_COOKIE = "nafas_session";
 export const SESSION_TTL_DAYS = 14;
 
-export function getAppUrl() {
-  return process.env.APP_URL || "http://app.localhost:3000";
-}
-
-export function getMarketingUrl() {
-  return process.env.MARKETING_URL || "http://localhost:3000";
-}
-
-export function isAppHost(hostname: string) {
-  const host = hostname.split(":")[0]?.toLowerCase() ?? "";
-  return host === "app.localhost" || host.startsWith("app.");
-}
-
 export const ADMIN_PATH_PREFIXES = [
   "/login",
   "/dashboard",
@@ -25,14 +12,36 @@ export const ADMIN_PATH_PREFIXES = [
   "/settings",
 ] as const;
 
+export const MARKETING_ONLY_PREFIXES = ["/en", "/ar", "/studio"] as const;
+
+function parseHostname(hostHeader: string) {
+  const value = hostHeader.trim().toLowerCase();
+  if (!value) return "";
+  if (value.startsWith("[")) {
+    const match = value.match(/^\[([^\]]+)\]/);
+    return match?.[1] ?? value;
+  }
+  return value.split(":")[0] ?? value;
+}
+
+/** Preview / *.vercel.app — no subdomain split; both apps on one URL. */
+export function usesSingleOriginRouting(hostHeader: string) {
+  if (process.env.VERCEL_ENV === "preview") return true;
+  return parseHostname(hostHeader).endsWith(".vercel.app");
+}
+
+export function isAppHost(hostHeader: string) {
+  if (usesSingleOriginRouting(hostHeader)) return false;
+  const hostname = parseHostname(hostHeader);
+  return hostname === "app.localhost" || hostname.startsWith("app.");
+}
+
 export function isAdminPath(pathname: string) {
   if (pathname.startsWith("/api/admin")) return true;
   return ADMIN_PATH_PREFIXES.some(
     (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
   );
 }
-
-export const MARKETING_ONLY_PREFIXES = ["/en", "/ar", "/studio"] as const;
 
 export function isMarketingOnlyPath(pathname: string) {
   return MARKETING_ONLY_PREFIXES.some(
