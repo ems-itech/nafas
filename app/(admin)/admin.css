@@ -1,0 +1,47 @@
+.admin-app {
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 222.2 47.4% 11.2%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 222.2 84% 4.9%;
+  --radius: 0.5rem;
+
+  min-height: 100vh;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+
+.admin-app .bg-background { background-color: hsl(var(--background)); }
+.admin-app .text-foreground { color: hsl(var(--foreground)); }
+.admin-app .bg-card { background-color: hsl(var(--card)); }
+.admin-app .text-card-foreground { color: hsl(var(--card-foreground)); }
+.admin-app .bg-popover { background-color: hsl(var(--popover)); }
+.admin-app .text-popover-foreground { color: hsl(var(--popover-foreground)); }
+.admin-app .bg-primary { background-color: hsl(var(--primary)); }
+.admin-app .text-primary-foreground { color: hsl(var(--primary-foreground)); }
+.admin-app .bg-secondary { background-color: hsl(var(--secondary)); }
+.admin-app .text-secondary-foreground { color: hsl(var(--secondary-foreground)); }
+.admin-app .bg-muted { background-color: hsl(var(--muted)); }
+.admin-app .text-muted-foreground { color: hsl(var(--muted-foreground)); }
+.admin-app .bg-accent { background-color: hsl(var(--accent)); }
+.admin-app .text-accent-foreground { color: hsl(var(--accent-foreground)); }
+.admin-app .bg-destructive { background-color: hsl(var(--destructive)); }
+.admin-app .text-destructive-foreground { color: hsl(var(--destructive-foreground)); }
+.admin-app .border-input { border-color: hsl(var(--input)); }
+.admin-app .border-border { border-color: hsl(var(--border)); }
+.admin-app .ring-ring { --tw-ring-color: hsl(var(--ring)); }

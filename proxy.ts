@@ -1,25 +1,49 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-
-const supportedLocales = ["en", "ar"] as const;
-type SupportedLocale = (typeof supportedLocales)[number];
+import {
+  getAppUrl,
+  getMarketingUrl,
+  isAdminPath,
+  isAppHost,
+  isMarketingOnlyPath,
+} from "@/lib/config/hosts";
 
 export function proxy(req: NextRequest) {
+  const hostname = req.headers.get("host") ?? "";
   const { pathname } = req.nextUrl;
+  const onAppHost = isAppHost(hostname);
 
-  // Do not locale-prefix static files
   if (
+    pathname.startsWith("/_next") ||
     pathname.startsWith("/images/") ||
-    pathname.startsWith("/favicon.ico") ||
-    pathname.startsWith("/studio")
+    pathname === "/favicon.ico"
   ) {
     return NextResponse.next();
   }
 
-  const firstSegment = pathname.split("/")[1] || "";
-  const hasLocale = supportedLocales.includes(firstSegment as SupportedLocale);
+  if (onAppHost) {
+    if (isMarketingOnlyPath(pathname)) {
+      return NextResponse.redirect(new URL(getMarketingUrl()));
+    }
+    if (pathname === "/") {
+      return NextResponse.redirect(new URL("/dashboard", req.url));
+    }
+    return NextResponse.next();
+  }
 
-  if (!hasLocale) {
+  if (isAdminPath(pathname)) {
+    const target = new URL(pathname, getAppUrl());
+    target.search = req.nextUrl.search;
+    return NextResponse.redirect(target);
+  }
+
+  if (pathname === "/") {
+    return NextResponse.redirect(new URL("/en", req.url));
+  }
+
+  const supportedLocales = ["en", "ar"];
+  const firstSegment = pathname.split("/")[1] || "";
+  if (!supportedLocales.includes(firstSegment) && !pathname.startsWith("/api")) {
     const url = req.nextUrl.clone();
     url.pathname = `/en${pathname === "/" ? "" : pathname}`;
     return NextResponse.redirect(url);
@@ -29,6 +53,5 @@ export function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|api|robots\\.txt|sitemap\\.xml).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|robots\\.txt|sitemap\\.xml).*)"],
 };
-

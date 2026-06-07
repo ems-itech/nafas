@@ -51,6 +51,27 @@ docker compose up --build
 - Setup guide: see `docs/sanity.md`
 - Production deploy + domain: see `docs/vercel-production.md`
 
+## Reservation admin app
+Staff reservation management runs on a separate subdomain:
+
+- **Local admin:** `http://app.localhost:3000` (add `127.0.0.1 app.localhost` to `/etc/hosts`)
+- **Production:** `https://app.nafas.beauty`
+
+### Admin setup (first time)
+```bash
+make up
+make migrate
+make seed-admin
+```
+
+Default seed login: `admin@nafas.beauty` / `changeme123` — change after first login.
+
+### Docs
+- Architecture: `docs/architecture.md`
+- Reservation app: `docs/reservation-app.md`
+- Database: `docs/database.md`
+- Progress tracker: `docs/progress.md`
+
 ## Troubleshooting
 ### `npm ci` fails during Docker build
 The lock file is out of sync with `package.json`. Update it (still Docker-only):

@@ -1,4 +1,4 @@
-.PHONY: help up down restart rebuild logs sh ps clean nuke lint build deps sanity-seed-homepage sanity-seed-homepage-replace sanity-seed-site-settings sanity-seed-site-settings-replace
+.PHONY: help up down restart rebuild logs sh ps clean nuke lint build deps sanity-seed-homepage sanity-seed-homepage-replace sanity-seed-site-settings sanity-seed-site-settings-replace db-up migrate seed-admin
 
 help:
 	@echo ""
@@ -14,6 +14,9 @@ help:
 	@echo "  make deps      npm install (in container)"
 	@echo "  make lint      Run eslint (in container)"
 	@echo "  make build     Run production build (in container)"
+	@echo "  make db-up     Start postgres only"
+	@echo "  make migrate   Run database migrations"
+	@echo "  make seed-admin Seed admin user + sample services"
 	@echo "  make sanity-seed-homepage         Import Sanity seed (no replace)"
 	@echo "  make sanity-seed-homepage-replace Import Sanity seed (danger: --replace)"
 	@echo "  make sanity-seed-site-settings         Import Site Settings seed (no replace)"
@@ -53,6 +56,15 @@ lint:
 
 build:
 	docker compose run --rm -e NODE_ENV=production web npm run build
+
+db-up:
+	docker compose up -d postgres
+
+migrate:
+	docker compose run --rm web npm run db:migrate
+
+seed-admin:
+	docker compose run --rm web npm run db:seed
 
 sanity-seed-homepage:
 	docker compose run --rm web sh -lc 'npx sanity dataset import sanity/seed/homepage.ndjson --dataset "$$NEXT_PUBLIC_SANITY_DATASET" --project-id "$$NEXT_PUBLIC_SANITY_PROJECT_ID" --token "$$SANITY_AUTH_TOKEN"'

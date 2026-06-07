@@ -166,6 +166,70 @@ make build
 docker compose run --rm -e NODE_ENV=production web npm run build
 ```
 
+## Part 4 — Admin subdomain (`app.nafas.beauty`)
+
+The reservation admin app is served from a **separate subdomain** on the same Vercel project.
+
+### 1) Add the subdomain in Vercel
+
+- **Project → Settings → Domains → Add**
+- Enter `app.nafas.beauty`
+
+### 2) DNS in GoDaddy
+
+- **Type:** `CNAME`
+- **Name/Host:** `app`
+- **Value:** `cname.vercel-dns.com`
+
+### 3) Admin environment variables
+
+Add to **Production** (and Preview if testing admin on preview URLs):
+
+| Variable | Example | Notes |
+|----------|---------|-------|
+| `DATABASE_URL` | (from Vercel Postgres) | Pooled connection |
+| `DATABASE_URL_UNPOOLED` | (from Vercel Postgres) | For migrations only |
+| `SESSION_SECRET` | random 32+ bytes | Required for auth |
+| `APP_URL` | `https://app.nafas.beauty` | Admin canonical URL |
+| `MARKETING_URL` | `https://nafas.beauty` | Marketing redirects |
+| `ADMIN_NOTIFICATION_EMAIL` | staff inbox | Reservation alerts |
+| `RESEND_API_KEY` | (existing) | Email delivery |
+
+Keep existing Sanity and appointment variables for the marketing site.
+
+## Part 5 — Vercel Postgres
+
+### 1) Create storage
+
+- **Project → Storage → Create Database → Postgres**
+- Link to this project
+
+### 2) Run migrations
+
+**Automatic (recommended):** every Vercel deploy runs `npm run db:migrate` before `next build` via [`vercel.json`](../vercel.json). Uses `DATABASE_URL_UNPOOLED` when set, otherwise `DATABASE_URL`.
+
+**Manual (one-off / emergency):**
+
+```bash
+docker compose run --rm \
+  -e DATABASE_URL="$DATABASE_URL_UNPOOLED" \
+  web npm run db:migrate
+```
+
+### 3) Seed admin (one-time, manual only)
+
+Do **not** add seed to the Vercel build. Run once after first deploy:
+
+```bash
+docker compose run --rm \
+  -e DATABASE_URL="$DATABASE_URL_UNPOOLED" \
+  web npm run db:seed
+```
+
+Change the seeded admin password immediately after first login.
+
+See `docs/database.md` for schema details and `docs/progress.md` for the deployment checklist.
+
 ## References (latest docs used)
 
 - Vercel: “Working with DNS” — `https://vercel.com/docs/projects/domains/working-with-dns`
