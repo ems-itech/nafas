@@ -33,7 +33,10 @@ export function usesSingleOriginRouting(hostHeader: string) {
 export function isAppHost(hostHeader: string) {
   if (usesSingleOriginRouting(hostHeader)) return false;
   const hostname = parseHostname(hostHeader);
-  return hostname === "app.localhost" || hostname.startsWith("app.");
+  if (hostname === "app.localhost") return true;
+  if (hostname.startsWith("app.")) return true;
+  if (hostname.startsWith("www.app.")) return true;
+  return false;
 }
 
 export function isAdminPath(pathname: string) {

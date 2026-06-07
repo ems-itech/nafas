@@ -181,6 +181,18 @@ The reservation admin app is served from a **separate subdomain** on the same Ve
 - **Name/Host:** `app`
 - **Value:** `cname.vercel-dns.com`
 
+**Do not add `www.app`** unless you also add it in Vercel Domains with a matching CNAME. Prefer a single admin URL: `https://app.nafas.beauty`.
+
+### Troubleshooting domains
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| `www.app.nafas.beauty` shows marketing or `/en/...` | Was not treated as admin host (fixed in code) or Vercel domain redirect | Deploy latest code; or remove `www.app` DNS and use `app` only |
+| Preview `ERR_CONNECTION_RESET` | Custom preview subdomain DNS/SSL not valid in Vercel | Use the default `*.vercel.app` preview URL from the Deployments tab |
+| Preview `/dashboard` fails after load | Missing Preview env vars (`DATABASE_URL`, `SESSION_SECRET`) | Add DB/auth vars to **Preview** scope in Vercel |
+
+**Preview admin:** use `https://<deployment>.vercel.app/login` — no `app.` subdomain on preview.
+
 ### 3) Admin environment variables
 
 Add to **Production** (and Preview if testing admin on preview URLs):

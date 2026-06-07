@@ -38,6 +38,7 @@ export function proxy(req: NextRequest) {
 
   if (pathname.startsWith("/api/appointment")) return NextResponse.next();
   if (isMarketingOnlyPath(pathname)) return NextResponse.next();
+  if (pathname === "/not-found") return NextResponse.next();
 
   if (pathname === "/") {
     return NextResponse.redirect(new URL("/en", req.url));
