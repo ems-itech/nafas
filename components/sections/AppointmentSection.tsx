@@ -107,7 +107,7 @@ export default function AppointmentSection({
   if (!enabled) return null;
 
   return (
-    <section id="appointment" className="section-spacing">
+    <section id="appointment" className="section-spacing bg-secondary">
       <div className="container-narrow">
         <motion.div
           initial={{ opacity: 0, y: 12 }}

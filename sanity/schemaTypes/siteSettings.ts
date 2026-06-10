@@ -27,6 +27,7 @@ export const siteSettings = defineType({
         list: [
           { title: "Default (current)", value: "default" },
           { title: "Warm Cream (new)", value: "warm" },
+          { title: "Rustic Warmth", value: "rustic" },
         ],
         layout: "radio",
       },
@@ -56,7 +57,9 @@ export const siteSettings = defineType({
         defineField({
           name: "brand",
           title: "Brand",
-          type: "localizedString",
+          type: "image",
+          options: { hotspot: true },
+          fields: [defineField({ name: "alt", title: "Alt text", type: "localizedString" })],
         }),
         defineField({
           name: "nav",

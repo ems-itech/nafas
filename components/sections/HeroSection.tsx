@@ -31,7 +31,7 @@ export default function HeroSection({ locale, section }: Props) {
   const lines = splitLines(title);
 
   return (
-    <section className="relative min-h-svh flex items-end overflow-hidden">
+    <section id="hero" className="relative min-h-svh flex items-end overflow-hidden">
       {imgUrl && (
         <div className="absolute inset-0">
           <Image
