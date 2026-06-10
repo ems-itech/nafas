@@ -1,4 +1,4 @@
-export type ThemeId = "default" | "warm";
+export type ThemeId = "default" | "warm" | "rustic";
 
 /**
  * Sanity is the "source of truth" for which theme is active, but the frontend
@@ -7,6 +7,8 @@ export type ThemeId = "default" | "warm";
  * This normalizer guarantees we always land on a supported theme id.
  */
 export function resolveThemeId(value: unknown): ThemeId {
-  return value === "warm" ? "warm" : "default";
+  if (value === "warm") return "warm";
+  if (value === "rustic") return "rustic";
+  return "default";
 }
 

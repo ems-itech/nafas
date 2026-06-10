@@ -3,7 +3,7 @@ import { Cormorant_Garamond, Montserrat, Tajawal } from "next/font/google";
 import { sanityFetch } from "@/sanity/fetch";
 import { siteSettingsQuery } from "@/sanity/queries";
 import type { SiteSettings } from "@/sanity/types";
-import { resolveThemeId } from "@/lib/theme/theme";
+import { resolveThemeId, type ThemeId } from "@/lib/theme/theme";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -38,7 +38,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  let themeId: "default" | "warm" = "default";
+  let themeId: ThemeId = "default";
 
   try {
     const settings = await sanityFetch<SiteSettings>(siteSettingsQuery);

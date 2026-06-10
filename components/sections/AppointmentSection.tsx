@@ -6,7 +6,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { Locale } from "@/lib/i18n/locales";
 import { getLocalizedValue } from "@/lib/i18n/getLocalizedValue";
-import { appointmentSchema, type AppointmentInput } from "@/lib/appointment/schema";
+import {
+  appointmentSchema,
+  type AppointmentInput,
+} from "@/lib/appointment/schema";
 import type { HomepageAppointmentSection } from "@/sanity/types";
 import { cn } from "@/lib/utils";
 
@@ -21,32 +24,37 @@ function copy(locale: Locale) {
     ? {
         name: "الاسم",
         phone: "رقم الهاتف",
-        service: "الخدمة",
+        services: "الخدمات",
         date: "التاريخ/الوقت",
         message: "ملاحظة (اختياري)",
         submit: "إرسال الطلب",
         sending: "جاري الإرسال…",
-        success: "تم إرسال طلبك بنجاح. سنعاود التواصل معك قريباً.",
+        success:
+          "تم إرسال طلبك بنجاح. سنعاود التواصل معك قريباً.",
         error: "حدث خطأ. الرجاء المحاولة مرة أخرى.",
-        selectService: "اختر خدمة",
       }
     : {
         name: "Name",
         phone: "Phone",
-        service: "Service",
+        services: "Services",
         date: "Date / time",
         message: "Message (optional)",
         submit: "Submit request",
         sending: "Sending…",
-        success: "Request sent successfully. We’ll contact you soon.",
+        success:
+          "Request sent successfully. We’ll contact you soon.",
         error: "Something went wrong. Please try again.",
-        selectService: "Select a service",
       };
 }
 
-export default function AppointmentSection({ locale, section, serviceOptions }: Props) {
+export default function AppointmentSection({
+  locale,
+  section,
+  serviceOptions,
+}: Props) {
   const title = getLocalizedValue(section.title, locale) || "";
-  const description = getLocalizedValue(section.description, locale) || "";
+  const description =
+    getLocalizedValue(section.description, locale) || "";
   const enabled = section.formEnabled !== false;
   const t = copy(locale);
 
@@ -55,26 +63,40 @@ export default function AppointmentSection({ locale, section, serviceOptions }: 
     [serviceOptions],
   );
 
-  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">(
-    "idle",
-  );
+  const [status, setStatus] = useState<
+    "idle" | "sending" | "success" | "error"
+  >("idle");
 
   const form = useForm<AppointmentInput>({
     resolver: zodResolver(appointmentSchema),
-    defaultValues: { name: "", phone: "", service: "", date: "", message: "" },
+    defaultValues: {
+      name: "",
+      phone: "",
+      services: [],
+      date: "",
+      message: "",
+    },
     mode: "onTouched",
   });
 
   async function onSubmit(values: AppointmentInput) {
     setStatus("sending");
+
     try {
       const res = await fetch("/api/appointment", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(values),
       });
-      const json = (await res.json().catch(() => null)) as { ok?: boolean } | null;
-      if (!res.ok || !json?.ok) throw new Error("bad_response");
+
+      const json = await res.json().catch(() => null);
+
+      if (!res.ok || !json?.ok) {
+        throw new Error("bad_response");
+      }
+
       setStatus("success");
       form.reset();
     } catch {
@@ -85,27 +107,32 @@ export default function AppointmentSection({ locale, section, serviceOptions }: 
   if (!enabled) return null;
 
   return (
-    <section id="appointment" className="section-spacing">
+    <section id="appointment" className="section-spacing bg-secondary">
       <div className="container-narrow">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
           <h2 className="text-4xl sm:text-5xl md:text-6xl text-foreground mb-5">
             {title}
           </h2>
-          {description ? (
-            <p className="font-sans text-muted-foreground max-w-xl mx-auto font-light">
+
+          {description && (
+            <p className="text-muted-foreground max-w-xl mx-auto font-light">
               {description}
             </p>
-          ) : null}
+          )}
         </motion.div>
 
         <div className="max-w-2xl mx-auto bg-card rounded-2xl border border-border p-7 sm:p-9">
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-5"
+          >
+            {/* NAME + PHONE */}
             <div className="grid sm:grid-cols-2 gap-5">
               <Field
                 label={t.name}
@@ -113,8 +140,9 @@ export default function AppointmentSection({ locale, section, serviceOptions }: 
               >
                 <input
                   {...form.register("name")}
-                  className={inputClass(Boolean(form.formState.errors.name))}
-                  autoComplete="name"
+                  className={inputClass(
+                    Boolean(form.formState.errors.name),
+                  )}
                 />
               </Field>
 
@@ -124,43 +152,52 @@ export default function AppointmentSection({ locale, section, serviceOptions }: 
               >
                 <input
                   {...form.register("phone")}
-                  className={inputClass(Boolean(form.formState.errors.phone))}
-                  autoComplete="tel"
-                  inputMode="tel"
+                  className={inputClass(
+                    Boolean(form.formState.errors.phone),
+                  )}
                 />
               </Field>
             </div>
 
-            <div className="grid sm:grid-cols-2 gap-5">
-              <Field
-                label={t.service}
-                error={form.formState.errors.service?.message}
-              >
-                <select
-                  {...form.register("service")}
-                  className={inputClass(Boolean(form.formState.errors.service))}
-                >
-                  <option value="">{t.selectService}</option>
-                  {options.map((s) => (
-                    <option key={s} value={s}>
-                      {s}
-                    </option>
-                  ))}
-                </select>
-              </Field>
+            {/* SERVICES */}
+            <Field
+              label={t.services}
+              error={form.formState.errors.services?.message}
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {options.map((service) => (
+                  <label
+                    key={service}
+                    className="flex items-center gap-3 cursor-pointer rounded-xl border border-border p-3 hover:bg-muted/40 transition"
+                  >
+                    <input
+                      type="checkbox"
+                      value={service}
+                      {...form.register("services")}
+                      className="accent-primary"
+                    />
+                    <span className="text-sm font-medium text-foreground">
+                      {service}
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </Field>
 
-              <Field
-                label={t.date}
-                error={form.formState.errors.date?.message}
-              >
-                <input
-                  {...form.register("date")}
-                  className={inputClass(Boolean(form.formState.errors.date))}
-                  placeholder={locale === "ar" ? "مثال: السبت 5 مساءً" : "e.g. Sat 5pm"}
-                />
-              </Field>
-            </div>
+            {/* DATE */}
+            <Field
+              label={t.date}
+              error={form.formState.errors.date?.message}
+            >
+              <input
+                {...form.register("date")}
+                className={inputClass(
+                  Boolean(form.formState.errors.date),
+                )}
+              />
+            </Field>
 
+            {/* MESSAGE */}
             <Field
               label={t.message}
               error={form.formState.errors.message?.message}
@@ -168,35 +205,46 @@ export default function AppointmentSection({ locale, section, serviceOptions }: 
               <textarea
                 {...form.register("message")}
                 className={cn(
-                  inputClass(Boolean(form.formState.errors.message)),
-                  "min-h-28 resize-y",
+                  inputClass(
+                    Boolean(form.formState.errors.message),
+                  ),
+                  "min-h-28",
                 )}
               />
             </Field>
 
+            {/* SUBMIT */}
             <button
               type="submit"
               disabled={status === "sending"}
               className={cn(
-                "w-full font-ui bg-primary text-primary-foreground px-8 py-3.5 rounded-full transition-colors duration-200",
-                status === "sending" ? "opacity-70 cursor-not-allowed" : "hover:bg-accent",
+                "w-full bg-primary text-primary-foreground py-3.5 rounded-full font-medium transition",
+                status === "sending" && "opacity-60",
               )}
             >
               {status === "sending" ? t.sending : t.submit}
             </button>
 
-            {status === "success" ? (
-              <p className="text-center font-sans text-sm text-primary">{t.success}</p>
-            ) : null}
-            {status === "error" ? (
-              <p className="text-center font-sans text-sm text-destructive">{t.error}</p>
-            ) : null}
+            {/* STATUS */}
+            {status === "success" && (
+              <p className="text-center text-sm text-green-600">
+                {t.success}
+              </p>
+            )}
+
+            {status === "error" && (
+              <p className="text-center text-sm text-red-500">
+                {t.error}
+              </p>
+            )}
           </form>
         </div>
       </div>
     </section>
   );
 }
+
+/* ---------------- UI HELPERS ---------------- */
 
 function Field({
   label,
@@ -209,19 +257,26 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="block font-ui text-sm text-foreground/80 mb-2">{label}</span>
+      <span className="block text-sm font-semibold text-foreground mb-2">
+        {label}
+      </span>
+
       {children}
-      {error ? (
-        <span className="block mt-2 font-sans text-xs text-destructive">{error}</span>
-      ) : null}
+
+      {error && (
+        <p className="text-xs text-red-500 mt-1">
+          {error}
+        </p>
+      )}
     </label>
   );
 }
 
 function inputClass(hasError: boolean) {
   return cn(
-    "w-full rounded-xl border bg-background px-4 py-3 font-sans text-sm outline-none transition-colors",
-    hasError ? "border-destructive/60 focus:border-destructive" : "border-border focus:border-primary/50",
+    "w-full rounded-xl border px-4 py-3 text-sm outline-none transition",
+    hasError
+      ? "border-red-500 focus:border-red-500"
+      : "border-border focus:border-primary",
   );
 }
-

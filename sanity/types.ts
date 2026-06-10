@@ -1,48 +1,81 @@
 import type { PortableTextBlock } from "@portabletext/types";
 
+/* ---------------------------
+   Localized Types
+---------------------------- */
 export type LocalizedString = { en?: string; ar?: string };
 export type LocalizedText = { en?: string; ar?: string };
-export type LocalizedBlockContent = { en?: PortableTextBlock[]; ar?: PortableTextBlock[] };
-
-export type SiteSettings = {
-  title?: string;
-  siteUrl?: string;
-  activeTheme?: "default" | "warm" | string;
-  favicon?: SanityImage;
-  siteIcon?: SanityImage;
-  header?: {
-    brand?: LocalizedString;
-    nav?: Array<{ label?: LocalizedString; href?: string }>;
-    ctaLabel?: LocalizedString;
-  };
-  contact?: {
-    phone?: string;
-    address?: LocalizedText;
-    hours?: LocalizedText;
-    mapUrl?: string;
-  };
-  footer?: {
-    tagline?: LocalizedText;
-    social?: Array<{ label?: string; url?: string }>;
-  };
-  seo?: {
-    en?: { title?: string; description?: string; noIndex?: boolean; ogImage?: SanityImage };
-    ar?: { title?: string; description?: string; noIndex?: boolean; ogImage?: SanityImage };
-  };
+export type LocalizedBlockContent = {
+  en?: PortableTextBlock[];
+  ar?: PortableTextBlock[];
 };
 
+/* ---------------------------
+   Shared Types
+---------------------------- */
 export type SanityImage = {
   asset?: {
     _id?: string;
     url?: string;
     metadata?: {
       lqip?: string;
-      dimensions?: { width?: number; height?: number; aspectRatio?: number };
+      dimensions?: {
+        width?: number;
+        height?: number;
+        aspectRatio?: number;
+      };
     };
   };
   alt?: LocalizedString;
 };
 
+/* ---------------------------
+   Site Settings
+---------------------------- */
+export type SiteSettings = {
+  title?: string;
+  siteUrl?: string;
+  activeTheme?: "default" | "warm" | "rustic" | string;
+  favicon?: SanityImage;
+  siteIcon?: SanityImage;
+
+  header?: {
+    brand?: SanityImage; // ✅ UPDATED: was LocalizedString
+    nav?: Array<{ label?: LocalizedString; href?: string }>;
+    ctaLabel?: LocalizedString;
+  };
+
+  contact?: {
+    phone?: string;
+    address?: LocalizedText;
+    hours?: LocalizedText;
+    mapUrl?: string;
+  };
+
+  footer?: {
+    tagline?: LocalizedText;
+    social?: Array<{ label?: string; url?: string }>;
+  };
+
+  seo?: {
+    en?: {
+      title?: string;
+      description?: string;
+      noIndex?: boolean;
+      ogImage?: SanityImage;
+    };
+    ar?: {
+      title?: string;
+      description?: string;
+      noIndex?: boolean;
+      ogImage?: SanityImage;
+    };
+  };
+};
+
+/* ---------------------------
+   Homepage Sections
+---------------------------- */
 export type HomepageHeroSection = {
   _type: "heroSection";
   title?: LocalizedString;
@@ -96,6 +129,20 @@ export type HomepageAppointmentSection = {
   formEnabled?: boolean;
 };
 
+/* ---------------------------
+   🔥 Appointment Form Input
+---------------------------- */
+export type AppointmentInput = {
+  name: string;
+  phone: string;
+  services: string[];
+  date: string;
+  message?: string;
+};
+
+/* ---------------------------
+   Union Type
+---------------------------- */
 export type HomepageSection =
   | HomepageHeroSection
   | HomepageAboutSection
@@ -104,9 +151,11 @@ export type HomepageSection =
   | HomepagePackagesSection
   | HomepageAppointmentSection;
 
+/* ---------------------------
+   Homepage
+---------------------------- */
 export type Homepage = {
   _id: string;
   title?: string;
   sections?: HomepageSection[];
 };
-
