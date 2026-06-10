@@ -27,6 +27,7 @@ export const siteSettings = defineType({
         list: [
           { title: "Default (current)", value: "default" },
           { title: "Warm Cream (new)", value: "warm" },
+          { title: "Rustic Warmth", value: "rustic" },
         ],
         layout: "radio",
       },
