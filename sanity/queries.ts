@@ -39,12 +39,14 @@ export const siteSettingsQuery = groq`
     en{
       title,
       description,
+      keywords,
       noIndex,
       ogImage{asset->{_id, url, metadata{lqip, dimensions}}}
     },
     ar{
       title,
       description,
+      keywords,
       noIndex,
       ogImage{asset->{_id, url, metadata{lqip, dimensions}}}
     }

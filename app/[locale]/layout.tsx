@@ -30,6 +30,7 @@ export async function generateMetadata({
   const canonicalPath = `/${locale}`;
   const title = seo?.title || "Nafas Beauty Lounge";
   const description = seo?.description || "Nafas Beauty Lounge — A space to breathe.";
+  const keywords = seo?.keywords?.length ? seo.keywords : undefined;
   const ogImageUrl = seo?.ogImage?.asset?.url;
   const faviconUrl =
     urlForImage(settings?.favicon)?.width(32).height(32).fit("crop").url() ||
@@ -42,6 +43,7 @@ export async function generateMetadata({
     metadataBase,
     title,
     description,
+    keywords,
     alternates: metadataBase
       ? {
           canonical: canonicalPath,
@@ -95,4 +97,3 @@ export default async function LocaleLayout({
     </div>
   );
 }
-

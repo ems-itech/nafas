@@ -40,7 +40,7 @@ export type SiteSettings = {
   siteIcon?: SanityImage;
 
   header?: {
-    brand?: SanityImage; // ✅ UPDATED: was LocalizedString
+    brand?: SanityImage;
     nav?: Array<{ label?: LocalizedString; href?: string }>;
     ctaLabel?: LocalizedString;
   };
@@ -61,12 +61,14 @@ export type SiteSettings = {
     en?: {
       title?: string;
       description?: string;
+      keywords?: string[];
       noIndex?: boolean;
       ogImage?: SanityImage;
     };
     ar?: {
       title?: string;
       description?: string;
+      keywords?: string[];
       noIndex?: boolean;
       ogImage?: SanityImage;
     };
@@ -130,7 +132,7 @@ export type HomepageAppointmentSection = {
 };
 
 /* ---------------------------
-   🔥 Appointment Form Input
+   Appointment Form Input
 ---------------------------- */
 export type AppointmentInput = {
   name: string;

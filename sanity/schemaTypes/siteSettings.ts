@@ -149,6 +149,17 @@ export const siteSettings = defineType({
               rows: 3,
             }),
             defineField({
+              name: "keywords",
+              title: "SEO Keywords",
+              description:
+                "Add keywords one by one. Example: Luxury Spa, Massage Amman, Wellness Center",
+              type: "array",
+              of: [{ type: "string" }],
+              options: {
+                layout: "tags",
+              },
+            }),
+            defineField({
               name: "ogImage",
               title: "Open Graph image",
               type: "image",
@@ -170,6 +181,17 @@ export const siteSettings = defineType({
               rows: 3,
             }),
             defineField({
+              name: "keywords",
+              title: "كلمات مفتاحية SEO",
+              description:
+                "أضف الكلمات المفتاحية واحدة تلو الأخرى. مثال: سبا فاخر، مساج عمان، مركز عافية",
+              type: "array",
+              of: [{ type: "string" }],
+              options: {
+                layout: "tags",
+              },
+            }),
+            defineField({
               name: "ogImage",
               title: "Open Graph image",
               type: "image",
@@ -182,4 +204,3 @@ export const siteSettings = defineType({
     }),
   ],
 });
-
