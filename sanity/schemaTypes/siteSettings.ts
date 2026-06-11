@@ -155,9 +155,6 @@ export const siteSettings = defineType({
                 "Add keywords one by one. Example: Luxury Spa, Massage Amman, Wellness Center",
               type: "array",
               of: [{ type: "string" }],
-              options: {
-                layout: "tags",
-              },
             }),
             defineField({
               name: "ogImage",
@@ -187,9 +184,6 @@ export const siteSettings = defineType({
                 "أضف الكلمات المفتاحية واحدة تلو الأخرى. مثال: سبا فاخر، مساج عمان، مركز عافية",
               type: "array",
               of: [{ type: "string" }],
-              options: {
-                layout: "tags",
-              },
             }),
             defineField({
               name: "ogImage",
