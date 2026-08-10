@@ -210,4 +210,19 @@
     outline: 1px solid hsl(var(--border) / 0.45);
     outline-offset: -1px;
   }
+
+  /* Used by Services QR menu */
+  .menu-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--primary) / 0.45) transparent;
+  }
+
+  .menu-scrollbar::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .menu-scrollbar::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary) / 0.4);
+    border-radius: 999px;
+  }
 }
