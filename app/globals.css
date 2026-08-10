@@ -211,6 +211,7 @@
     outline-offset: -1px;
   }
 
+  /* Used by Services QR menu */
   .menu-scrollbar {
     scrollbar-width: thin;
     scrollbar-color: hsl(var(--primary) / 0.45) transparent;
