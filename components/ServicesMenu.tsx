@@ -38,40 +38,9 @@ export default function ServicesMenu() {
                               </div>
                             ) : null}
                           </div>
-                          {section.priceColumns ? (
-                            <div className="overflow-x-auto pb-2">
-                              <table className="w-full min-w-[620px] table-fixed border-collapse font-sans">
-                                <colgroup>
-                                  <col className="w-[40%]" />
-                                  {section.priceColumns.map((column) => <col key={column} />)}
-                                </colgroup>
-                                <thead className="sticky top-0 z-[1] bg-card/95 backdrop-blur-sm">
-                                  <tr className="border-b border-primary/25">
-                                    <th scope="col" className="px-3 py-3 text-start text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">Service</th>
-                                    {section.priceColumns.map((column) => (
-                                      <th key={column} scope="col" className="px-2 py-3 text-center text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">{column}</th>
-                                    ))}
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {section.rows.map((row) => (
-                                    <tr key={row.name} className="border-b border-primary/10 last:border-0">
-                                      <th scope="row" className="px-3 py-3 text-start text-[10px] font-medium uppercase tracking-[0.08em] text-foreground/75 sm:text-xs">{row.name}</th>
-                                      {row.prices?.map((price, priceIndex) => (
-                                        <td key={`${row.name}-${section.priceColumns?.[priceIndex]}`} className="px-2 py-3 text-center text-[10px] font-semibold text-primary sm:text-xs">
-                                          <span className="whitespace-nowrap">{price === null ? "—" : `${price} JOD`}</span>
-                                        </td>
-                                      ))}
-                                    </tr>
-                                  ))}
-                                </tbody>
-                              </table>
-                            </div>
-                          ) : (
-                            <div className="space-y-2.5">
-                              {section.rows.map((row) => <PriceRow key={row.name} row={row} hasRefill={Boolean(section.priceLabels)} />)}
-                            </div>
-                          )}
+                          <div className="space-y-2.5">
+                            {section.rows.map((row) => <PriceRow key={row.name} row={row} hasRefill={Boolean(section.priceLabels)} />)}
+                          </div>
                         </section>
                       ))}
                     </div>
