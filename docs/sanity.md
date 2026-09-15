@@ -33,7 +33,7 @@ Schemas live in `sanity/schemaTypes/`.
 Global fields used across the site:
 - Site title
 - Header (brand, nav, CTA label)
-- Footer (tagline, social)
+- Footer (tagline, social, copyright)
 - Contact (phone, address, hours, map)
 - Default SEO per locale (`en` / `ar`)
 
@@ -41,6 +41,8 @@ Global fields used across the site:
 1) Fill **Site Settings** (singleton `_id = siteSettings`) with header/footer/contact + SEO.
 2) Fill **Homepage** (singleton `_id = homepage`) with the sections.
 3) Publish changes.
+
+The current homepage design reads every content section from this document: Hero, About, Services (including the ticker), Gallery, Homepage price preview, Packages, and Appointment/contact. Images and text can be edited in Studio. Site Settings controls the logo, navigation, phone, address, hours, and copyright. Fields without published values keep the bundled design defaults. The separate `/en/services` menu remains code-based.
 
 The Next.js app reads **published** content by default.
 
@@ -85,4 +87,3 @@ make nuke
 ### `npm audit` reports vulnerabilities after adding Studio
 Some vulnerabilities can come from transitive dependencies in Studio tooling.
 This repo uses an `overrides` entry in `package.json` to keep `js-yaml` on a safe version.
-

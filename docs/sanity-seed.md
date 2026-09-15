@@ -27,12 +27,16 @@ make sanity-seed-site-settings-replace
 
 ## Images
 
-The seed omits images (gallery/background/about) intentionally.
-Upload assets in Studio and set:
+The seed now includes all current homepage text, service names, prices, and package cards. It does not contain Sanity image assets. To make the page images editable, upload them in Studio and set:
 - Hero → `backgroundImage`
-- About → `image`
-- Gallery → `images[]`
+- About → `images[]` (three collage images)
+- Services → `services[].image`
+- Gallery → `images[]` (four images)
+- Packages → `packages[].image`
+
+The page keeps the bundled images for any image field left empty. Importing with `--replace` overwrites the published homepage and site settings documents, so edit or back up existing content before using that command.
+
+To publish the current homepage seed and upload all its images together, set `SANITY_AUTH_TOKEN` in `.env.local` and run `node --env-file=.env.local scripts/sync-homepage-to-sanity.mjs` to preview the target. Add `--apply` to upload and replace the Homepage document after reviewing the seed. Site Settings stays as it is.
 
 For SEO, you can optionally set:
 - Site Settings → Default SEO → `ogImage` (per language)
-

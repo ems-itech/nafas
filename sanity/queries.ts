@@ -28,6 +28,7 @@ export const siteSettingsQuery = groq`
   },
 
   footer{
+    copyright{en, ar},
     tagline{en, ar},
     social[]{
       label,
@@ -70,6 +71,7 @@ export const homepageQuery = groq`
       text{en, ar},
       href
     },
+    secondaryCta{ text{en, ar}, href },
     backgroundImage{
       ...,
       alt{en, ar},
@@ -83,6 +85,8 @@ export const homepageQuery = groq`
       alt{en, ar},
       asset->{_id, url, metadata{lqip, dimensions}}
     },
+    benefits[]{en, ar},
+    // About collage images (the gallery also uses images)
 
     // services
     services[]{
@@ -93,8 +97,10 @@ export const homepageQuery = groq`
         asset->{_id, url, metadata{lqip, dimensions}}
       },
       icon,
-      description{en, ar}
+      description{en, ar},
+      price
     },
+    ticker[]{en, ar},
 
     // gallery
     images[]{
@@ -113,12 +119,16 @@ export const homepageQuery = groq`
       },
       description{en, ar},
       price,
+      duration{en, ar},
+      featured,
       priceUnit{en, ar},
       items[]{en, ar}
     },
 
-    // appointment
-    formEnabled
+    // price preview and appointment
+    formEnabled,
+    email,
+    categories[]{en, ar}
   }
 }
 `;

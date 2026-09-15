@@ -53,6 +53,7 @@ export type SiteSettings = {
   };
 
   footer?: {
+    copyright?: LocalizedString;
     tagline?: LocalizedText;
     social?: Array<{ label?: string; url?: string }>;
   };
@@ -85,6 +86,7 @@ export type HomepageHeroSection = {
   backgroundImage?: SanityImage;
   overlay?: boolean;
   cta?: { text?: LocalizedString; href?: string };
+  secondaryCta?: { text?: LocalizedString; href?: string };
 };
 
 export type HomepageAboutSection = {
@@ -92,11 +94,17 @@ export type HomepageAboutSection = {
   title?: LocalizedString;
   description?: LocalizedBlockContent;
   image?: SanityImage;
+  images?: SanityImage[];
+  benefits?: LocalizedString[];
+  cta?: { text?: LocalizedString; href?: string };
 };
 
 export type HomepageServicesSection = {
   _type: "servicesSection";
   title?: LocalizedString;
+  description?: LocalizedText;
+  ticker?: LocalizedString[];
+  cta?: { text?: LocalizedString; href?: string };
   services?: Array<{
     name?: LocalizedString;
     image?: SanityImage;
@@ -108,26 +116,41 @@ export type HomepageServicesSection = {
 export type HomepageGallerySection = {
   _type: "gallerySection";
   title?: LocalizedString;
+  description?: LocalizedText;
+  cta?: { text?: LocalizedString; href?: string };
   images?: SanityImage[];
 };
 
 export type HomepagePackagesSection = {
   _type: "packagesSection";
   title?: LocalizedString;
+  description?: LocalizedText;
   packages?: Array<{
     name?: LocalizedString;
     image?: SanityImage;
     description?: LocalizedText;
     price?: string;
+    duration?: LocalizedString;
+    featured?: boolean;
     priceUnit?: LocalizedString;
     items?: LocalizedString[];
   }>;
+};
+
+export type HomepagePriceSection = {
+  _type: "priceSection";
+  title?: LocalizedString;
+  description?: LocalizedText;
+  categories?: LocalizedString[];
+  services?: Array<{ name?: LocalizedString; description?: LocalizedText; price?: string }>;
+  cta?: { text?: LocalizedString; href?: string };
 };
 
 export type HomepageAppointmentSection = {
   _type: "appointmentSection";
   title?: LocalizedString;
   description?: LocalizedText;
+  email?: string;
   formEnabled?: boolean;
 };
 
@@ -150,6 +173,7 @@ export type HomepageSection =
   | HomepageAboutSection
   | HomepageServicesSection
   | HomepageGallerySection
+  | HomepagePriceSection
   | HomepagePackagesSection
   | HomepageAppointmentSection;
 

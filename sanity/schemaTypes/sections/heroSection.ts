@@ -23,6 +23,7 @@ export const heroSection = defineType({
       initialValue: true,
     }),
     defineField({ name: "cta", title: "CTA", type: "cta" }),
+    defineField({ name: "secondaryCta", title: "Secondary CTA", type: "cta" }),
   ],
   preview: {
     select: { title: "title.en", media: "backgroundImage" },
@@ -31,4 +32,3 @@ export const heroSection = defineType({
     },
   },
 });
-

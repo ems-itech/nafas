@@ -6,6 +6,7 @@ export const packagesSection = defineType({
   type: "object",
   fields: [
     defineField({ name: "title", title: "Title", type: "localizedString" }),
+    defineField({ name: "description", title: "Intro", type: "localizedText" }),
     defineField({
       name: "packages",
       title: "Packages",
@@ -30,6 +31,8 @@ export const packagesSection = defineType({
               type: "localizedText",
             }),
             defineField({ name: "price", title: "Price (optional)", type: "string" }),
+            defineField({ name: "duration", title: "Duration", type: "localizedString" }),
+            defineField({ name: "featured", title: "Featured card", type: "boolean" }),
             defineField({
               name: "priceUnit",
               title: "Price unit (optional)",
@@ -54,4 +57,3 @@ export const packagesSection = defineType({
     },
   },
 });
-

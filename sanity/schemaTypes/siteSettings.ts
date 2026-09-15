@@ -107,6 +107,7 @@ export const siteSettings = defineType({
       title: "Footer",
       type: "object",
       fields: [
+        defineField({ name: "copyright", title: "Copyright", type: "localizedString" }),
         defineField({ name: "tagline", title: "Tagline", type: "localizedText" }),
         defineField({
           name: "social",
