@@ -8,14 +8,14 @@ import Icon from "./Icon";
 import styles from "../FigmaHomePage.module.css";
 
 export default function AboutSection({ locale, section, phone, phoneHref }: { locale: Locale; section?: SectionOf<"aboutSection">; phone: string; phoneHref: string }) {
-  const images = section?.images?.length ? section.images : section?.image ? [section.image] : [];
+  const imageUrl = section?.image?.asset ? imageSource(section.image, "") : "";
   const description = getLocalizedValue(section?.description, locale);
   const benefits = section?.benefits?.length
     ? section.benefits.map((item) => text(item, locale)).filter(Boolean)
     : ["Holistic Wellness Care", "Deep Relaxation Experience", "Radiant Skin Renewal", "Natural Healing Therapies"];
 
   return (
-    <section id="about" className={styles.aboutSection}>
+    <section id="about" className={`${styles.aboutSection} ${!imageUrl ? styles.aboutNoImage : ""}`}>
       <div className={styles.aboutText}>
         <h2>{text(section?.title, locale, "Professional Best Spa And Beauty Service")}</h2>
         {description?.length ? <div className={styles.aboutDescription}><PortableText value={description} /></div> : <p>Experience exceptional spa and beauty services delivered by skilled professionals dedicated to your comfort and well-being. We combine advanced techniques with premium products to provide treatments that rejuvenate your skin, relax your body, and restore your natural glow. From personalized skincare to soothing body therapies, every service is thoughtfully designed to ensure a truly refreshing and luxurious experience.</p>}
@@ -27,11 +27,9 @@ export default function AboutSection({ locale, section, phone, phoneHref }: { lo
           <a className={styles.phoneButton} href={phoneHref}><b><Icon src="/images/figma-nafas/icon-phone.svg" /></b>{phone}</a>
         </div>
       </div>
-      <div className={styles.aboutCollage}>
-        <div className={styles.aboutTopLeft}><Image src={imageSource(images[0], "/images/figma-nafas/about-1.jpg")} alt={text(images[0]?.alt, locale, "Relaxing facial treatment")} fill sizes="264px" className={styles.coverImage} /></div>
-        <div className={styles.aboutTopRight}><Image src={imageSource(images[1], "/images/figma-nafas/about-2.jpg")} alt={text(images[1]?.alt, locale, "Spa treatment preparation")} fill sizes="264px" className={styles.coverImage} /></div>
-        <div className={styles.aboutBottom}><Image src={imageSource(images[2], "/images/figma-nafas/about-3.jpg")} alt={text(images[2]?.alt, locale, "Relaxing back massage")} fill sizes="558px" className={styles.coverImage} /></div>
-      </div>
+      {imageUrl && <div className={styles.aboutCollage}>
+        <div className={styles.aboutSingleImage}><Image src={imageUrl} alt={text(section?.image?.alt, locale, "Relaxing spa treatment")} fill sizes="(min-width: 1051px) 558px, 92vw" className={styles.coverImage} /></div>
+      </div>}
     </section>
   );
 }

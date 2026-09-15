@@ -7,3 +7,4 @@
 @media(max-width:760px){.page section[id]{scroll-margin-top:72px}}
 @media(prefers-reduced-motion:reduce){.ticker>div{animation:none}.primaryButton,.lightButton,.outlineButton{transition:none}}
 .signatureSection{height:auto;min-height:812px}.signaturePanel{height:auto;min-height:716px}.signatureGrid{flex-wrap:wrap}.packagesSection{height:auto}.featuredPackages:empty,.packageGrid:empty{display:none}
+.aboutNoImage{grid-template-columns:1fr}.aboutCollage{display:block}.aboutSingleImage{position:relative;width:100%;height:100%;overflow:hidden;border-radius:280px 280px 24px 24px}

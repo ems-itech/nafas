@@ -7,7 +7,6 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const homepage = JSON.parse(readFileSync(join(root, "sanity/seed/homepage.ndjson"), "utf8"));
 const imagePaths = [
   "hero.jpg",
-  "about-1.jpg", "about-2.jpg", "about-3.jpg",
   "service-head-spa.jpg", "service-lymphatic.jpg", "service-hydrafacial.jpg",
   "service-dermapen.jpg", "service-lash.jpg",
   "gallery-1.png", "gallery-2.png", "gallery-3.png", "gallery-4.png",
@@ -25,6 +24,8 @@ if (!projectId || !dataset || !token) {
 }
 
 const client = createClient({ projectId, dataset, token, apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2026-03-01", useCdn: false });
+const existingHomepage = await client.getDocument(homepage._id);
+const existingAboutImage = existingHomepage?.sections?.find((section) => section._type === "aboutSection")?.image;
 const assets = new Map();
 for (const filename of imagePaths) {
   const asset = await client.assets.upload("image", createReadStream(join(root, "public/images/figma-nafas", filename)), { filename });
@@ -42,11 +43,8 @@ for (const section of homepage.sections) {
       section.backgroundImage = image("hero.jpg", "hero-image", "Woman enjoying a relaxing spa treatment");
       break;
     case "aboutSection":
-      section.images = [
-        image("about-1.jpg", "about-image-1", "Relaxing facial treatment"),
-        image("about-2.jpg", "about-image-2", "Spa treatment preparation"),
-        image("about-3.jpg", "about-image-3", "Relaxing back massage"),
-      ];
+      if (existingAboutImage) section.image = existingAboutImage;
+      delete section.images;
       break;
     case "servicesSection": {
       const files = ["service-head-spa.jpg", "service-lymphatic.jpg", "service-hydrafacial.jpg", "service-dermapen.jpg", "service-lash.jpg"];

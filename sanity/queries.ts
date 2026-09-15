@@ -86,7 +86,7 @@ export const homepageQuery = groq`
       asset->{_id, url, metadata{lqip, dimensions}}
     },
     benefits[]{en, ar},
-    // About collage images (the gallery also uses images)
+    // Legacy About collage images remain readable for older documents.
 
     // services
     services[]{

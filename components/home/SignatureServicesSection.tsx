@@ -17,7 +17,7 @@ export default function SignatureServicesSection({ locale, section }: { locale: 
         <div className={styles.signatureGrid}>
           {cards.map((card) => <article key={card.name}><div><Image src={card.image} alt={card.name} fill sizes="170px" className={styles.coverImage} /></div><h3>{card.name}</h3></article>)}
         </div>
-        <Link className={styles.primaryButton} href={section?.cta?.href || `/${locale}/services`}>{text(section?.cta?.text, locale, "View All Services & Prices")}</Link>
+        <Link className={styles.primaryButton} href={section?.cta?.href || `/${locale}`}>{text(section?.cta?.text, locale, "View All Services & Prices")}</Link>
       </div>
     </section>
   );

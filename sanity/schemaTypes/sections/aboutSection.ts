@@ -13,13 +13,12 @@ export const aboutSection = defineType({
     }),
     defineField({
       name: "image",
-      title: "Image",
+      title: "About image",
       type: "image",
       options: { hotspot: true },
       fields: [defineField({ name: "alt", title: "Alt text", type: "localizedString" })],
     }),
     defineField({ name: "benefits", title: "Benefits", type: "array", of: [{ type: "localizedString" }] }),
-    defineField({ name: "images", title: "Collage images (up to three)", type: "array", of: [{ type: "image", options: { hotspot: true }, fields: [defineField({ name: "alt", title: "Alt text", type: "localizedString" })] }], validation: (Rule) => Rule.max(3) }),
     defineField({ name: "cta", title: "CTA", type: "cta" }),
   ],
   preview: {
