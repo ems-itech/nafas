@@ -81,6 +81,12 @@ export type SiteSettings = {
 ---------------------------- */
 export type HomepageHeroSection = {
   _type: "heroSection";
+  slides?: Array<{
+    _key?: string;
+    title?: LocalizedString;
+    subtitle?: LocalizedText;
+    image?: SanityImage;
+  }>;
   title?: LocalizedString;
   subtitle?: LocalizedText;
   backgroundImage?: SanityImage;

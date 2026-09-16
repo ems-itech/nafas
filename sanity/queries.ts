@@ -64,6 +64,16 @@ export const homepageQuery = groq`
     _type,
 
     // hero
+    slides[]{
+      _key,
+      title{en, ar},
+      subtitle{en, ar},
+      image{
+        ...,
+        alt{en, ar},
+        asset->{_id, url, metadata{lqip, dimensions}}
+      }
+    },
     title{en, ar},
     subtitle{en, ar},
     overlay,

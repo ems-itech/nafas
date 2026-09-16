@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import type { Locale } from "@/lib/i18n/locales";
 import type { SectionOf } from "./content";
 import { imageSource, text } from "./content";
@@ -6,20 +9,63 @@ import Icon from "./Icon";
 import styles from "../FigmaHomePage.module.css";
 
 export default function HeroSection({ locale, section }: { locale: Locale; section?: SectionOf<"heroSection"> }) {
+  const configuredSlides = section?.slides?.filter((slide) => slide.image) || [];
+  const slides = configuredSlides.length
+    ? configuredSlides.map((slide, index) => ({
+        id: slide._key || String(index),
+        title: text(slide.title, locale, "Elevated Beauty.\nComplete Care."),
+        subtitle: text(slide.subtitle, locale, "Explore our best-selling products loved for their quality and effectiveness!"),
+        image: imageSource(slide.image, "/images/figma-nafas/hero.jpg", 2000),
+        alt: text(slide.image?.alt, locale, "Nafas Beauty Lounge"),
+      }))
+    : [{
+        id: "legacy",
+        title: text(section?.title, locale, "Elevated Beauty.\nComplete Care."),
+        subtitle: text(section?.subtitle, locale, "Explore our best-selling products loved for their quality and effectiveness!"),
+        image: imageSource(section?.backgroundImage, "/images/figma-nafas/hero.jpg", 2000),
+        alt: text(section?.backgroundImage?.alt, locale, "Woman enjoying a relaxing spa treatment"),
+      }];
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  useEffect(() => {
+    if (slides.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const timer = window.setTimeout(() => {
+      setActiveSlide((current) => (current + 1) % slides.length);
+    }, 6000);
+
+    return () => window.clearTimeout(timer);
+  }, [activeSlide, slides.length]);
+
+  const currentSlide = slides[activeSlide] || slides[0];
+
   return (
     <section id="home" className={styles.hero}>
-      <Image src={imageSource(section?.backgroundImage, "/images/figma-nafas/hero.jpg", 2000)} alt={text(section?.backgroundImage?.alt, locale, "Woman enjoying a relaxing spa treatment")} fill priority sizes="100vw" className={styles.coverImage} />
+      <Image key={currentSlide.id} src={currentSlide.image} alt={currentSlide.alt} fill priority sizes="100vw" className={`${styles.coverImage} ${styles.heroSlideImage}`} />
       {section?.overlay !== false && <div className={styles.heroShade} />}
       <div className={styles.heroContent}>
-        <div>
-          <h1>{text(section?.title, locale, "Elevated Beauty.\nComplete Care.").split("\n").map((line, index) => <span key={`${line}-${index}`}>{index > 0 && <br />}{line}</span>)}</h1>
-          <p>{text(section?.subtitle, locale, "Explore our best-selling products loved for their quality and effectiveness!")}</p>
+        <div key={currentSlide.id} className={styles.heroSlideContent}>
+          <h1>{currentSlide.title.split("\n").map((line, index) => <span key={`${line}-${index}`}>{index > 0 && <br />}{line}</span>)}</h1>
+          <p>{currentSlide.subtitle}</p>
           <div className={styles.heroActions}>
             <a className={styles.lightButton} href={section?.secondaryCta?.href || "#about"}>{text(section?.secondaryCta?.text, locale, "View More")}</a>
             <a className={styles.primaryButton} href={section?.cta?.href || "#services"}>{text(section?.cta?.text, locale, "View Services")} <Icon src="/images/figma-nafas/icon-arrow.svg" /></a>
           </div>
         </div>
-        <div className={styles.pagination}><span className={styles.activeDot} /><span /><span /></div>
+        {slides.length > 1 && (
+          <div className={styles.pagination} role="group" aria-label="Choose hero slide">
+            {slides.map((slide, index) => (
+              <button
+                key={slide.id}
+                type="button"
+                className={index === activeSlide ? styles.activeDot : undefined}
+                onClick={() => setActiveSlide(index)}
+                aria-label={`Show slide ${index + 1} of ${slides.length}`}
+                aria-current={index === activeSlide ? "true" : undefined}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
