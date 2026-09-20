@@ -21,10 +21,19 @@
 
 .heroContent>div:first-child{width:min(100%,800px)}
 .heroActions{align-items:stretch;gap:18px;flex-wrap:wrap}
-.heroPhoneButton,.heroServicesButton{min-height:56px;border-radius:6px;font-size:20px;line-height:26px;white-space:nowrap}
-.heroPhoneButton{padding:0 16px 0 0;gap:14px;background:#fff;border:2px solid var(--brand-200);color:#5b4a45;font-weight:500}
-.heroPhoneIcon{width:56px;min-height:54px;display:inline-flex;align-items:center;justify-content:center;flex:none;background:#e9ddda;border-right:2px solid var(--brand-200);border-radius:5px}
-.heroPhoneIcon img{width:24px;height:24px}
-.heroServicesButton{padding:0 22px;gap:16px;background:#795f57;border-color:#795f57;font-weight:600}
-.heroServicesButton img{width:24px;height:24px}
-@media(max-width:760px){.heroContent>div:first-child{width:100%}.heroActions{gap:12px}.heroPhoneButton,.heroServicesButton{min-height:48px;font-size:15px;line-height:22px}.heroPhoneButton{gap:10px;padding-right:12px}.heroPhoneIcon{width:48px;min-height:46px}.heroPhoneIcon img,.heroServicesButton img{width:20px;height:20px}.heroServicesButton{padding:0 16px;gap:10px}}
+.heroPhoneButton,.heroServicesButton{box-sizing:border-box;width:248px;height:44px;min-height:44px;border-radius:6px;font-size:16px;line-height:24px;white-space:nowrap}
+.heroPhoneButton{width:201px;height:46px;min-height:46px;padding:0;gap:0;justify-content:flex-start;background:#fff;border:2px solid var(--brand-200);color:#5b4a45;font-size:14px;font-weight:500}
+.heroPhoneButton>span:last-child{flex:1;text-align:center}
+.heroPhoneIcon{box-sizing:border-box;width:44px;height:42px;display:inline-flex;align-items:center;justify-content:center;flex:none;background:#e9ddda;border-right:2px solid var(--brand-200);border-radius:5px}
+.heroPhoneIcon img{width:20px;height:20px}
+.heroServicesButton{padding:0 12px;gap:8px;background:#795f57;border-color:#795f57;font-weight:600}
+.heroServicesButton img{width:20px;height:20px}
+@media(max-width:760px){.heroContent>div:first-child{width:100%}.heroActions{gap:12px}}
+
+.benefits{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px;row-gap:24px}
+.benefits span{height:auto;align-items:flex-start;font-size:15px;line-height:24px}
+.benefits img{flex:none}
+@media(max-width:760px){.benefits{grid-template-columns:1fr;row-gap:16px}}
+
+.aboutText>h2{color:#1c1c1c;font-family:var(--font-cormorant),Georgia,serif;font-size:36px;font-style:normal;font-weight:600;line-height:44px;letter-spacing:-.72px}
+@media(max-width:760px){.aboutHeadingBreak{display:none}}
