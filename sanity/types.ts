@@ -134,6 +134,7 @@ export type HomepagePackagesSection = {
   title?: LocalizedString;
   description?: LocalizedText;
   packages?: Array<{
+    _key?: string;
     name?: LocalizedString;
     image?: SanityImage;
     description?: LocalizedText;
@@ -141,7 +142,7 @@ export type HomepagePackagesSection = {
     duration?: LocalizedString;
     featured?: boolean;
     priceUnit?: LocalizedString;
-    items?: LocalizedString[];
+    items?: Array<LocalizedString & { _key?: string }>;
   }>;
 };
 

@@ -122,6 +122,7 @@ export const homepageQuery = groq`
 
     // packages
     packages[]{
+      _key,
       name{en, ar},
       image{
         ...,
@@ -133,7 +134,7 @@ export const homepageQuery = groq`
       duration{en, ar},
       featured,
       priceUnit{en, ar},
-      items[]{en, ar}
+      items[]{_key, en, ar}
     },
 
     // appointment

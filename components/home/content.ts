@@ -27,8 +27,6 @@ export const signatureServices = [
   { name: "Lash Lift & Extensions", image: "/images/figma-nafas/service-lash.jpg" },
 ];
 
-export const packageItems = ["Head Spa Ritual", "HydraFacial", "Lymphatic Drainage", "Aromatherapy", "Scalp Treatment", "Skin Consultation"];
-
 export const defaultNavItems = [
   { label: "Home", href: "#home" },
   { label: "Services", href: "#services" },

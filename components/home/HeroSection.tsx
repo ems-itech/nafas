@@ -54,7 +54,7 @@ export default function HeroSection({ locale, section, phone, phoneHref }: { loc
               <span>{displayPhone}</span>
             </a>
             <a className={`${styles.primaryButton} ${styles.heroServicesButton}`} href={section?.cta?.href || "#services"}>
-              {locale === "ar" ? "عرض الخدمات والأسعار" : "View Services & Prices"}
+              {locale === "ar" ? "عرض الخدمات" : "View Services"}
               <Icon src="/images/figma-nafas/icon-arrow.svg" />
             </a>
           </div>
