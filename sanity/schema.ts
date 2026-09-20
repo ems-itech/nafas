@@ -11,7 +11,6 @@ import { heroSection } from "./schemaTypes/sections/heroSection";
 import { aboutSection } from "./schemaTypes/sections/aboutSection";
 import { servicesSection } from "./schemaTypes/sections/servicesSection";
 import { gallerySection } from "./schemaTypes/sections/gallerySection";
-import { priceSection } from "./schemaTypes/sections/priceSection";
 import { packagesSection } from "./schemaTypes/sections/packagesSection";
 import { appointmentSection } from "./schemaTypes/sections/appointmentSection";
 
@@ -25,7 +24,6 @@ export const schema = {
     aboutSection,
     servicesSection,
     gallerySection,
-    priceSection,
     packagesSection,
     appointmentSection,
     homepage,

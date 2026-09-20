@@ -27,15 +27,6 @@ export const signatureServices = [
   { name: "Lash Lift & Extensions", image: "/images/figma-nafas/service-lash.jpg" },
 ];
 
-export const pricedServices = [
-  ["Head Spa Ritual", "Deep scalp cleanse, oil infusion, and steam treatment.", "25 JD"],
-  ["Lymphatic Drainage", "Full-body manual lymphatic massage, 60 minutes.", "35 JD"],
-  ["HydraFacial", "Six-step vortex cleanse and serum infusion.", "45 JD"],
-  ["Dermapen Microneedling", "Collagen-induction therapy with targeted serum.", "60 JD"],
-  ["Scalp Growth Treatment", "Meso-scalp infusion and low-level light therapy.", "40 JD"],
-  ["Lash Lift & Tint", "Keratin lift, silicone rod set, and natural tint.", "22 JD"],
-];
-
 export const packageItems = ["Head Spa Ritual", "HydraFacial", "Lymphatic Drainage", "Aromatherapy", "Scalp Treatment", "Skin Consultation"];
 
 export const defaultNavItems = [

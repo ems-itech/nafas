@@ -145,15 +145,6 @@ export type HomepagePackagesSection = {
   }>;
 };
 
-export type HomepagePriceSection = {
-  _type: "priceSection";
-  title?: LocalizedString;
-  description?: LocalizedText;
-  categories?: LocalizedString[];
-  services?: Array<{ name?: LocalizedString; description?: LocalizedText; price?: string }>;
-  cta?: { text?: LocalizedString; href?: string };
-};
-
 export type HomepageAppointmentSection = {
   _type: "appointmentSection";
   title?: LocalizedString;
@@ -181,7 +172,6 @@ export type HomepageSection =
   | HomepageAboutSection
   | HomepageServicesSection
   | HomepageGallerySection
-  | HomepagePriceSection
   | HomepagePackagesSection
   | HomepageAppointmentSection;
 

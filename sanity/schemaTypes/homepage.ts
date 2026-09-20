@@ -20,7 +20,6 @@ export const homepage = defineType({
         { type: "aboutSection" },
         { type: "servicesSection" },
         { type: "gallerySection" },
-        { type: "priceSection" },
         { type: "packagesSection" },
         { type: "appointmentSection" },
       ],

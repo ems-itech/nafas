@@ -109,8 +109,7 @@ export const homepageQuery = groq`
         asset->{_id, url, metadata{lqip, dimensions}}
       },
       icon,
-      description{en, ar},
-      price
+      description{en, ar}
     },
     ticker[]{en, ar},
 
@@ -137,10 +136,9 @@ export const homepageQuery = groq`
       items[]{en, ar}
     },
 
-    // price preview and appointment
+    // appointment
     formEnabled,
-    email,
-    categories[]{en, ar}
+    email
   }
 }
 `;

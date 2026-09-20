@@ -7,7 +7,6 @@ import ServiceTicker from "./home/ServiceTicker";
 import AboutSection from "./home/AboutSection";
 import SignatureServicesSection from "./home/SignatureServicesSection";
 import HomeGallerySection from "./home/HomeGallerySection";
-import PricePreviewSection from "./home/PricePreviewSection";
 import HomePackagesSection from "./home/HomePackagesSection";
 import HomeAppointmentSection from "./home/HomeAppointmentSection";
 import HomeFooter from "./home/HomeFooter";
@@ -25,7 +24,6 @@ export default function FigmaHomePage({ locale, settings, homepage, phoneHref = 
   const about = getSection(homepage, "aboutSection");
   const services = getSection(homepage, "servicesSection");
   const gallery = getSection(homepage, "gallerySection");
-  const prices = getSection(homepage, "priceSection");
   const packages = getSection(homepage, "packagesSection");
   const appointment = getSection(homepage, "appointmentSection");
   const phone = settings?.contact?.phone?.trim() || "+962790077730";
@@ -39,7 +37,6 @@ export default function FigmaHomePage({ locale, settings, homepage, phoneHref = 
         <AboutSection locale={locale} section={about} phone={phone} phoneHref={phoneHref} />
         <SignatureServicesSection locale={locale} section={services} />
         <HomeGallerySection locale={locale} section={gallery} />
-        <PricePreviewSection locale={locale} section={prices} />
         <HomePackagesSection locale={locale} section={packages} phoneHref={phoneHref} />
         <HomeAppointmentSection locale={locale} section={appointment} services={services} settings={settings} />
       </main>

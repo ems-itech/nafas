@@ -16,7 +16,6 @@ export default function HomeGallerySection({ locale, section }: { locale: Locale
         <div><Image src={imageSource(images[2], "/images/figma-nafas/gallery-3.png")} alt={text(images[2]?.alt, locale, "Spa treatment room")} fill sizes="347px" className={styles.coverImage} /></div>
         <div className={styles.galleryWide}><Image src={imageSource(images[3], "/images/figma-nafas/gallery-4.png")} alt={text(images[3]?.alt, locale, "Head spa treatment")} fill sizes="718px" className={styles.coverImage} /></div>
       </div>
-      <a className={styles.primaryButton} href={section?.cta?.href || "#gallery"}>{text(section?.cta?.text, locale, "View Gallery")}</a>
     </section>
   );
 }
