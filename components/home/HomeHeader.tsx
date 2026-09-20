@@ -39,7 +39,7 @@ export default function HomeHeader({ locale, settings, phoneHref }: { locale: Lo
               </div>
             </div>
             <div className={styles.navActions}>
-              <Link className={styles.localeLink} href={localeHref} onClick={() => setMenuOpen(false)} aria-label={`Switch to ${otherLocale === "ar" ? "Arabic" : "English"}`}>{otherLocale.toUpperCase()}</Link>
+              <Link className={styles.localeLink} href={localeHref} onClick={() => setMenuOpen(false)} aria-label={`Switch to ${otherLocale === "ar" ? "Arabic" : "English"}`}>{otherLocale === "ar" ? "عربي" : "English"}</Link>
               <a className={styles.primaryButton} href="#services">{text(settings?.header?.ctaLabel, locale, "Services")} <Icon src="/images/figma-nafas/icon-stars.svg" /></a>
             </div>
             <button className={styles.menuButton} onClick={() => setMenuOpen((value) => !value)} aria-expanded={menuOpen} aria-label="Toggle navigation"><span /><span /><span /></button>

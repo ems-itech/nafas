@@ -20,7 +20,7 @@ type Props = {
   phoneHref?: string;
 };
 
-export default function FigmaHomePage({ locale, settings, homepage, phoneHref = "tel:+962791234567" }: Props) {
+export default function FigmaHomePage({ locale, settings, homepage, phoneHref = "tel:+962790077730" }: Props) {
   const hero = getSection(homepage, "heroSection");
   const about = getSection(homepage, "aboutSection");
   const services = getSection(homepage, "servicesSection");
@@ -34,7 +34,7 @@ export default function FigmaHomePage({ locale, settings, homepage, phoneHref = 
     <div className={styles.page}>
       <HomeHeader locale={locale} settings={settings} phoneHref={phoneHref} />
       <main>
-        <HeroSection locale={locale} section={hero} />
+        <HeroSection locale={locale} section={hero} phone={phone} phoneHref={phoneHref} />
         <ServiceTicker locale={locale} section={services} />
         <AboutSection locale={locale} section={about} phone={phone} phoneHref={phoneHref} />
         <SignatureServicesSection locale={locale} section={services} />

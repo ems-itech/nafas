@@ -110,8 +110,21 @@ export const siteSettings = defineType({
         defineField({ name: "copyright", title: "Copyright", type: "localizedString" }),
         defineField({ name: "tagline", title: "Tagline", type: "localizedText" }),
         defineField({
+          name: "instagramUrl",
+          title: "Instagram URL",
+          description: "Full link to the Instagram profile shown in the footer.",
+          type: "url",
+        }),
+        defineField({
+          name: "facebookUrl",
+          title: "Facebook URL",
+          description: "Full link to the Facebook page shown in the footer.",
+          type: "url",
+        }),
+        defineField({
           name: "social",
-          title: "Social links",
+          title: "Other social links",
+          description: "Optional links for other platforms, such as WhatsApp or YouTube.",
           type: "array",
           of: [
             {

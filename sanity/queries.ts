@@ -30,6 +30,8 @@ export const siteSettingsQuery = groq`
   footer{
     copyright{en, ar},
     tagline{en, ar},
+    instagramUrl,
+    facebookUrl,
     social[]{
       label,
       url

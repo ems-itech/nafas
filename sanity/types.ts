@@ -55,6 +55,8 @@ export type SiteSettings = {
   footer?: {
     copyright?: LocalizedString;
     tagline?: LocalizedText;
+    instagramUrl?: string;
+    facebookUrl?: string;
     social?: Array<{ label?: string; url?: string }>;
   };
 

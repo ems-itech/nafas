@@ -8,7 +8,7 @@ import { imageSource, text } from "./content";
 import Icon from "./Icon";
 import styles from "../FigmaHomePage.module.css";
 
-export default function HeroSection({ locale, section }: { locale: Locale; section?: SectionOf<"heroSection"> }) {
+export default function HeroSection({ locale, section, phone, phoneHref }: { locale: Locale; section?: SectionOf<"heroSection">; phone: string; phoneHref: string }) {
   const configuredSlides = section?.slides?.filter((slide) => slide.image) || [];
   const slides = configuredSlides.length
     ? configuredSlides.map((slide, index) => ({
@@ -38,6 +38,7 @@ export default function HeroSection({ locale, section }: { locale: Locale; secti
   }, [activeSlide, slides.length]);
 
   const currentSlide = slides[activeSlide] || slides[0];
+  const displayPhone = phone.replace(/^(\+962)(\d{2})(\d{3})(\d{4})$/, "$1 $2 $3 $4");
 
   return (
     <section id="home" className={styles.hero}>
@@ -48,8 +49,14 @@ export default function HeroSection({ locale, section }: { locale: Locale; secti
           <h1>{currentSlide.title.split("\n").map((line, index) => <span key={`${line}-${index}`}>{index > 0 && <br />}{line}</span>)}</h1>
           <p>{currentSlide.subtitle}</p>
           <div className={styles.heroActions}>
-            <a className={styles.lightButton} href={section?.secondaryCta?.href || "#about"}>{text(section?.secondaryCta?.text, locale, "View More")}</a>
-            <a className={styles.primaryButton} href={section?.cta?.href || "#services"}>{text(section?.cta?.text, locale, "View Services")} <Icon src="/images/figma-nafas/icon-arrow.svg" /></a>
+            <a className={`${styles.lightButton} ${styles.heroPhoneButton}`} href={phoneHref} dir="ltr">
+              <span className={styles.heroPhoneIcon}><Icon src="/images/figma-nafas/icon-phone.svg" /></span>
+              <span>{displayPhone}</span>
+            </a>
+            <a className={`${styles.primaryButton} ${styles.heroServicesButton}`} href={section?.cta?.href || "#services"}>
+              {locale === "ar" ? "عرض الخدمات والأسعار" : "View Services & Prices"}
+              <Icon src="/images/figma-nafas/icon-arrow.svg" />
+            </a>
           </div>
         </div>
         {slides.length > 1 && (
