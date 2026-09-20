@@ -22,7 +22,7 @@ export default function HomeFaqSection({ locale, section }: { locale: Locale; se
         </header>
         <div className={styles.faqList}>
           {questions.map((item, index) => (
-            <details key={item._key || index} className={styles.faqItem} open>
+            <details key={item._key || index} className={styles.faqItem} open={index === 0 }>
               <summary><span>{text(item.question, locale)}</span><span className={styles.faqToggle} aria-hidden="true" /></summary>
               <p>{text(item.answer, locale)}</p>
             </details>

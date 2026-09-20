@@ -28,7 +28,7 @@
 .heroPhoneIcon img{width:20px;height:20px}
 .heroServicesButton{width:max-content;max-width:100%;padding:0 16px;gap:8px;background:#795f57;border-color:#795f57;font-weight:600}
 .heroServicesButton img{width:20px;height:20px}
-@media(max-width:760px){.heroContent>div:first-child{width:100%}.heroActions{gap:12px}}
+@media(max-width:760px){.heroContent>div:first-child{width:100%}.heroActions{gap:12px}.heroServicesButton{width:201px;height:46px;min-height:46px}}
 
 .benefits{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px;row-gap:24px}
 .benefits span{height:auto;align-items:flex-start;font-size:15px;line-height:24px}
@@ -89,3 +89,9 @@
 .faqContact a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 18px;border-radius:4px;background:#82574e;color:#fff;font-family:var(--font-montserrat),sans-serif;font-size:16px;font-weight:600;line-height:24px;text-decoration:none}
 .faqContact a:hover{background:#6f493f}
 @media(max-width:620px){.faqSection{padding:72px 20px}.faqInner{gap:48px}.faqHeading h2{font-size:32px;line-height:38px}.faqHeading p{font-size:15px;line-height:22px}.faqItem{padding:22px 0}.faqItem summary{font-size:21px;line-height:29px}.faqItem>p{margin-right:0}}
+
+.pagination button{position:relative;overflow:hidden}
+.pagination button.activeDot{background:#fff}
+.pagination button.activeDot::before{content:"";position:absolute;inset:0;border-radius:inherit;background:var(--brand-700);transform:scaleX(0);transform-origin:left center;animation:heroDotProgress 6s linear forwards}
+@keyframes heroDotProgress{to{transform:scaleX(1)}}
+@media(prefers-reduced-motion:reduce){.pagination button.activeDot::before{animation:none;transform:scaleX(1)}}
