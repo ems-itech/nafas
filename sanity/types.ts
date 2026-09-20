@@ -154,6 +154,16 @@ export type HomepageAppointmentSection = {
   formEnabled?: boolean;
 };
 
+export type HomepageFaqSection = {
+  _type: "faqSection";
+  eyebrow?: LocalizedString;
+  title?: LocalizedString;
+  description?: LocalizedText;
+  questions?: Array<{ _key?: string; question?: LocalizedString; answer?: LocalizedText }>;
+  contactPrompt?: LocalizedString;
+  cta?: { text?: LocalizedString; href?: string };
+};
+
 /* ---------------------------
    Appointment Form Input
 ---------------------------- */
@@ -182,5 +192,6 @@ export type HomepageSection =
 export type Homepage = {
   _id: string;
   title?: string;
+  faq?: HomepageFaqSection;
   sections?: HomepageSection[];
 };

@@ -12,6 +12,7 @@ import { aboutSection } from "./schemaTypes/sections/aboutSection";
 import { servicesSection } from "./schemaTypes/sections/servicesSection";
 import { gallerySection } from "./schemaTypes/sections/gallerySection";
 import { packagesSection } from "./schemaTypes/sections/packagesSection";
+import { faqSection } from "./schemaTypes/sections/faqSection";
 import { appointmentSection } from "./schemaTypes/sections/appointmentSection";
 
 export const schema = {
@@ -25,6 +26,7 @@ export const schema = {
     servicesSection,
     gallerySection,
     packagesSection,
+    faqSection,
     appointmentSection,
     homepage,
     siteSettings,

@@ -8,6 +8,7 @@ import AboutSection from "./home/AboutSection";
 import SignatureServicesSection from "./home/SignatureServicesSection";
 import HomeGallerySection from "./home/HomeGallerySection";
 import HomePackagesSection from "./home/HomePackagesSection";
+import HomeFaqSection from "./home/HomeFaqSection";
 import HomeAppointmentSection from "./home/HomeAppointmentSection";
 import HomeFooter from "./home/HomeFooter";
 import styles from "./FigmaHomePage.module.css";
@@ -38,6 +39,7 @@ export default function FigmaHomePage({ locale, settings, homepage, phoneHref = 
         <SignatureServicesSection locale={locale} section={services} />
         <HomeGallerySection locale={locale} section={gallery} />
         <HomePackagesSection locale={locale} section={packages} phoneHref={phoneHref} />
+        <HomeFaqSection locale={locale} section={homepage?.faq} />
         <HomeAppointmentSection locale={locale} section={appointment} services={services} settings={settings} />
       </main>
       <HomeFooter locale={locale} settings={settings} phoneHref={phoneHref} />

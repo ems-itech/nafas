@@ -61,6 +61,15 @@ export const homepageQuery = groq`
 *[_type == "homepage"][0]{
   _id,
   title,
+  faq{
+    _type,
+    eyebrow{en, ar},
+    title{en, ar},
+    description{en, ar},
+    questions[]{_key, question{en, ar}, answer{en, ar}},
+    contactPrompt{en, ar},
+    cta{text{en, ar}, href}
+  },
 
   sections[]{
     _type,
