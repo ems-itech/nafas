@@ -1,5 +1,5 @@
 .page{--paper:#fdf8ee;--card:#fffbf6;--ink:#1c1201;--copper:#c4704a;--muted:rgba(28,18,1,.52);--line:rgba(28,18,1,.09);min-height:100vh;background:var(--paper);color:var(--ink);font-family:var(--font-cormorant),Georgia,serif}
-.siteHeader{display:block}
+.siteHeader{display:block;position:sticky;top:0;z-index:50}
 .intro,.content{width:min(1101px,100%);margin-inline:auto;padding-inline:40px}
 .intro{padding-top:56px}
 .eyebrow,.categoryNumber{font-family:var(--font-montserrat),sans-serif;color:var(--copper);font-size:8px;font-weight:600;line-height:12px;letter-spacing:2.2px;text-transform:uppercase}

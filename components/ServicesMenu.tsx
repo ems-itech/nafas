@@ -118,12 +118,12 @@ export default function ServicesMenu({ settings }: { settings?: SiteSettings | n
         </div>
       </div>
       <main>
+      <ServicesCategoryNav categories={categories.map(({ id, cardIndex }) => ({ id, title: menuCards[cardIndex].title }))} />
       <div className={styles.intro}>
         <p className={styles.eyebrow}>Nafas Beauty Lounge · Abdoun, Amman</p>
         <div className={styles.introRow}><h1>Our Services</h1><p>Every treatment is clinical in its precision and quiet in its delivery. All prices in Jordanian Dinar.</p></div>
         <div className={styles.introRule} />
       </div>
-      <ServicesCategoryNav categories={categories.map(({ id, cardIndex }) => ({ id, title: menuCards[cardIndex].title }))} />
       <div className={styles.content}>
         {categories.map((category, index) => (
           <section className={styles.category} id={category.id} key={category.id} aria-labelledby={`${category.id}-title`}>

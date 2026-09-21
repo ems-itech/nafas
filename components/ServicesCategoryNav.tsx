@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./ServicesMenu.module.css";
 
 export default function ServicesCategoryNav({ categories }: { categories: { id: string; title: string }[] }) {
   const [active, setActive] = useState(categories[0]?.id);
+  const navInnerRef = useRef<HTMLDivElement>(null);
+  const linkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -15,5 +17,33 @@ export default function ServicesCategoryNav({ categories }: { categories: { id: 
     return () => observer.disconnect();
   }, [categories]);
 
-  return <nav className={styles.categoryNav} aria-label="Service categories"><div className={styles.navInner}>{categories.map(({ id, title }) => <a key={id} href={`#${id}`} className={active === id ? styles.activePill : ""} aria-current={active === id ? "location" : undefined}>{title}</a>)}</div></nav>;
+  useEffect(() => {
+    if (!active) return;
+    const container = navInnerRef.current;
+    const activeLink = linkRefs.current[active];
+    if (!container || !activeLink) return;
+
+    const left = activeLink.offsetLeft - (container.clientWidth - activeLink.offsetWidth) / 2;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    container.scrollTo({ left, behavior: reduceMotion ? "auto" : "smooth" });
+  }, [active]);
+
+  return (
+    <nav className={styles.categoryNav} aria-label="Service categories">
+      <div className={styles.navInner} ref={navInnerRef}>
+        {categories.map(({ id, title }) => (
+          <a
+            key={id}
+            ref={(node) => { linkRefs.current[id] = node; }}
+            href={`#${id}`}
+            className={active === id ? styles.activePill : ""}
+            aria-current={active === id ? "location" : undefined}
+            onClick={() => setActive(id)}
+          >
+            {title}
+          </a>
+        ))}
+      </div>
+    </nav>
+  );
 }

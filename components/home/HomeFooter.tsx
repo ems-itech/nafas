@@ -210,7 +210,7 @@ export default function HomeFooter({
           locale,
           locale === "ar"
             ? "© 2026 نفَس. جميع الحقوق محفوظة."
-            : "© 2026 Nafas. All rights reserved.",
+            : "© 2026 Nafas Spa, Amman, Jordan. All rights reserved.",
           )}
       </p>
       <div className={styles.mobileFooter}>
@@ -242,7 +242,7 @@ export default function HomeFooter({
               locale,
               locale === "ar"
                 ? "© 2026 نفَس. جميع الحقوق محفوظة."
-                : "© 2026 Nafas. All rights reserved.",
+                : "© 2026 Nafas Spa, Amman, Jordan. All rights reserved.",
             )}
           </small>
           {social.length > 0 ? (
