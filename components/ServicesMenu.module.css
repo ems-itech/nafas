@@ -41,5 +41,6 @@
 .table th:first-child{text-align:left}
 .table tbody th{color:var(--muted);font-size:16px;font-weight:300}
 .table td{text-align:center;color:var(--copper);font-size:16px;white-space:nowrap}
-@media(max-width:700px){.intro,.content{padding-inline:20px}.intro{padding-top:36px}.introRow{display:block}.introRow h1{font-size:clamp(54px,13vw,78px)}.introRow p{width:100%;margin-top:16px}.categoryNav{top:72px}.navInner{padding-inline:20px}.category{padding-block:48px;scroll-margin-top:128px}.categoryHeading h2{font-size:36px;white-space:normal}.cards{padding-left:0}.cardHeader{padding-inline:20px}.rows{padding-inline:20px}.packageRows{margin-inline:20px}.tableScroll{padding-inline:12px}}
+.mobileMatrix{display:none}
+@media(max-width:700px){.intro,.content{padding-inline:20px}.intro{padding-top:36px}.introRow{display:block}.introRow h1{font-size:clamp(54px,13vw,78px)}.introRow p{width:100%;margin-top:16px}.categoryNav{top:72px}.navInner{padding-inline:20px}.category{padding-block:48px;scroll-margin-top:128px}.categoryHeading h2{font-size:36px;white-space:normal}.cards{padding-left:0}.cardHeader{padding-inline:20px}.columnLabels,.desktopLabeledRows,.tableScroll{display:none}.rows{padding-inline:20px}.packageRows{margin-inline:20px}.mobileMatrix{display:block;padding:8px 20px}}
 @media(max-width:440px){.cardHeader{flex-wrap:wrap}.cardHeader h3{min-width:100%}.columnLabels{margin-left:auto}.priceRow{font-size:15px}}

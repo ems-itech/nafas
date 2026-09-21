@@ -16,7 +16,6 @@ export default function HomeHeader({
   settings,
   phoneHref,
   homeHref = "#home",
-  servicesHref = "#services",
   navigationBasePath = "",
   activeMobileLink = 0,
   localeHrefOverride,
@@ -26,7 +25,6 @@ export default function HomeHeader({
   settings?: SiteSettings | null;
   phoneHref: string;
   homeHref?: string;
-  servicesHref?: string;
   navigationBasePath?: string;
   activeMobileLink?: number;
   localeHrefOverride?: string;
@@ -110,9 +108,9 @@ export default function HomeHeader({
             ))}
           </nav>
           <div className={styles.mobileMenuBottom}>
-            <a className={styles.mobileMenuCta} href={servicesHref} onClick={() => setMenuOpen(false)}>
+            <Link className={styles.mobileMenuCta} href="/en/services" onClick={() => setMenuOpen(false)}>
               {locale === "ar" ? "عرض الخدمات" : "View Services"}
-            </a>
+            </Link>
             <div className={styles.mobileMenuContact}>
               <p>{locale === "ar" ? "التواصل والموقع" : "Contact & Location"}</p>
               <span><MapPin aria-hidden="true" />{address}</span>

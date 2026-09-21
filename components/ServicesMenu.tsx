@@ -31,13 +31,59 @@ function PriceRow({ row, packageStyle = false, refill = false }: { row: MenuRow;
 }
 
 function Matrix({ section }: { section: MenuSection }) {
+  const mobileRows = section.rows.flatMap((row) =>
+    (section.priceColumns ?? []).flatMap((label, index) => {
+      const price = row.prices?.[index];
+      if (price == null) return [];
+
+      return [{
+        name: `${row.name} – ${label === "Nick" ? "Neck" : label}`,
+        price,
+      }];
+    }),
+  );
+
   return (
-    <div className={styles.tableScroll}>
-      <table className={styles.table}>
-        <thead><tr><th scope="col">Service</th>{section.priceColumns?.map((label) => <th scope="col" key={label}>{label}</th>)}</tr></thead>
-        <tbody>{section.rows.map((row) => <tr key={row.name}><th scope="row">{row.name}</th>{section.priceColumns?.map((label, index) => <td key={label}>{row.prices?.[index] == null ? "—" : `${row.prices[index]} JOD`}</td>)}</tr>)}</tbody>
-      </table>
-    </div>
+    <>
+      <div className={styles.tableScroll}>
+        <table className={styles.table}>
+          <thead><tr><th scope="col">Service</th>{section.priceColumns?.map((label) => <th scope="col" key={label}>{label}</th>)}</tr></thead>
+          <tbody>{section.rows.map((row) => <tr key={row.name}><th scope="row">{row.name}</th>{section.priceColumns?.map((label, index) => <td key={label}>{row.prices?.[index] == null ? "—" : `${row.prices[index]} JOD`}</td>)}</tr>)}</tbody>
+        </table>
+      </div>
+      <div className={styles.mobileMatrix}>
+        {mobileRows.map((row) => (
+          <div className={styles.priceRow} key={row.name}>
+            <span className={styles.rowName}><span className={styles.rowDot} aria-hidden="true">◦</span>{row.name}</span>
+            <span className={styles.price}>{row.price} JOD</span>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
+function LabeledPrices({ section }: { section: MenuSection }) {
+  const [primaryLabel, secondaryLabel] = section.priceLabels ?? ["Price", "Refill"];
+  const mobileRows = section.rows.flatMap((row) => [
+    ...(row.price === undefined ? [] : [{ name: `${row.name} – ${primaryLabel}`, price: row.price }]),
+    ...(row.refill === undefined ? [] : [{ name: `${row.name} – ${secondaryLabel}`, price: row.refill }]),
+  ]);
+
+  return (
+    <>
+      <div className={`${styles.rows} ${styles.refillRows} ${styles.desktopLabeledRows}`}>
+        {section.rows.map((row) => <PriceRow key={row.name} row={row} refill />)}
+      </div>
+      <div className={styles.mobileMatrix}>
+        {mobileRows.map((row) => (
+          <div className={styles.priceRow} key={row.name}>
+            <span className={styles.rowName}><span className={styles.rowDot} aria-hidden="true">◦</span>{row.name}</span>
+            <span className={styles.price}>{row.price} JOD</span>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
 
@@ -51,7 +97,7 @@ function ServiceCard({ section }: { section: MenuSection }) {
         {duration && <span className={styles.duration}>{duration} minutes</span>}
         {section.priceLabels && <span className={styles.columnLabels}><span>{section.priceLabels[0]}</span><span>{section.priceLabels[1]}</span></span>}
       </div>
-      {section.priceColumns ? <Matrix section={section} /> : (
+      {section.priceColumns ? <Matrix section={section} /> : section.priceLabels ? <LabeledPrices section={section} /> : (
         <div className={`${styles.rows} ${isPackage ? styles.packageRows : ""} ${section.priceLabels ? styles.refillRows : ""}`}>
           {section.rows.map((row) => <PriceRow key={row.name} row={row} packageStyle={isPackage} refill={Boolean(section.priceLabels)} />)}
         </div>
@@ -68,7 +114,7 @@ export default function ServicesMenu({ settings }: { settings?: SiteSettings | n
     <div className={styles.page}>
       <div className={styles.siteHeader}>
         <div className={homeStyles.page}>
-          <HomeHeader locale="en" settings={settings} phoneHref={phoneHref} homeHref="/en" servicesHref="#hair-scalp" navigationBasePath="/en" activeMobileLink={1} localeHrefOverride="/ar" showInfoBar={false} />
+          <HomeHeader locale="en" settings={settings} phoneHref={phoneHref} homeHref="/en" navigationBasePath="/en" activeMobileLink={1} localeHrefOverride="/ar" showInfoBar={false} />
         </div>
       </div>
       <main>
