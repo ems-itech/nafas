@@ -66,9 +66,9 @@ export default function ServicesMenu({ settings }: { settings?: SiteSettings | n
 
   return (
     <div className={styles.page}>
-      <div className={styles.mobileSiteHeader}>
+      <div className={styles.siteHeader}>
         <div className={homeStyles.page}>
-          <HomeHeader locale="en" settings={settings} phoneHref={phoneHref} homeHref="/en" servicesHref="#hair-scalp" navigationBasePath="/en" activeMobileLink={1} localeHrefOverride="/ar" />
+          <HomeHeader locale="en" settings={settings} phoneHref={phoneHref} homeHref="/en" servicesHref="#hair-scalp" navigationBasePath="/en" activeMobileLink={1} localeHrefOverride="/ar" showInfoBar={false} />
         </div>
       </div>
       <main>

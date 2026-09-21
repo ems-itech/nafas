@@ -20,6 +20,7 @@ export default function HomeHeader({
   navigationBasePath = "",
   activeMobileLink = 0,
   localeHrefOverride,
+  showInfoBar = true,
 }: {
   locale: Locale;
   settings?: SiteSettings | null;
@@ -29,6 +30,7 @@ export default function HomeHeader({
   navigationBasePath?: string;
   activeMobileLink?: number;
   localeHrefOverride?: string;
+  showInfoBar?: boolean;
 }) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -70,13 +72,15 @@ export default function HomeHeader({
 
   return (
     <>
-      <div className={styles.infoBar}>
-        <div className={styles.infoInner}>
-          <span><Icon src="/images/figma-nafas/icon-map-pin.svg" /> <b>Location:</b> {address}</span>
-          <a href={phoneHref}><Icon src="/images/figma-nafas/icon-phone-top.svg" /> <b>Phone:</b> {phone}</a>
-          <span><Icon src="/images/figma-nafas/icon-clock.svg" /> <b>Hours:</b> {hours}</span>
+      {showInfoBar ? (
+        <div className={styles.infoBar}>
+          <div className={styles.infoInner}>
+            <span><Icon src="/images/figma-nafas/icon-map-pin.svg" /> <b>Location:</b> {address}</span>
+            <a href={phoneHref}><Icon src="/images/figma-nafas/icon-phone-top.svg" /> <b>Phone:</b> {phone}</a>
+            <span><Icon src="/images/figma-nafas/icon-clock.svg" /> <b>Hours:</b> {hours}</span>
+          </div>
         </div>
-      </div>
+      ) : null}
       <header className={styles.header}>
         <nav className={styles.navbar} aria-label="Main navigation">
           <div className={styles.navInner}>
@@ -88,7 +92,7 @@ export default function HomeHeader({
             </div>
             <div className={styles.navActions}>
               <Link className={styles.localeLink} href={localeHref} lang={otherLocale} onClick={() => setMenuOpen(false)} aria-label={`Switch to ${otherLocale === "ar" ? "Arabic" : "English"}`}>{otherLocale === "ar" ? "عربي" : "English"}</Link>
-              <a className={styles.primaryButton} href={`${navigationBasePath}#faq`}>{locale === "ar" ? "الأسئلة الشائعة" : "FAQ"} <Icon src="/images/figma-nafas/icon-stars.svg" /></a>
+              <Link className={styles.primaryButton} href="/en/services">{locale === "ar" ? "الخدمات" : "Services"} <Icon src="/images/figma-nafas/icon-stars.svg" /></Link>
             </div>
             <button className={`${styles.menuButton} ${menuOpen ? styles.menuButtonOpen : ""}`} onClick={() => setMenuOpen((open) => !open)} aria-expanded={menuOpen} aria-controls="mobile-navigation" aria-label={menuOpen ? (locale === "ar" ? "إغلاق القائمة" : "Close menu") : (locale === "ar" ? "فتح القائمة" : "Open menu")}><span /><span /><span /></button>
           </div>
