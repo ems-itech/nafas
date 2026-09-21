@@ -38,7 +38,15 @@ export default function HomeHeader({
   const address = text(settings?.contact?.address, locale, "Abdoun, Amman, Jordan");
   const hours = text(settings?.contact?.hours, locale, "Sat–Thu · 10:00 – 20:00");
   const logo = imageSource(settings?.header?.brand, "/images/figma-nafas/logo.svg", 200);
-  const navigationItems = navItems(settings, locale);
+  const navigationItems = navItems(settings, locale).map((item) =>
+    item.href === "#services" || item.label.trim().toLowerCase() === "services" || item.label.trim() === "الخدمات"
+      ? {
+          ...item,
+          label: locale === "ar" ? "الأسئلة الشائعة" : "FAQ",
+          href: "#faq",
+        }
+      : item,
+  );
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -80,7 +88,7 @@ export default function HomeHeader({
             </div>
             <div className={styles.navActions}>
               <Link className={styles.localeLink} href={localeHref} lang={otherLocale} onClick={() => setMenuOpen(false)} aria-label={`Switch to ${otherLocale === "ar" ? "Arabic" : "English"}`}>{otherLocale === "ar" ? "عربي" : "English"}</Link>
-              <a className={styles.primaryButton} href={servicesHref}>{text(settings?.header?.ctaLabel, locale, "Services")} <Icon src="/images/figma-nafas/icon-stars.svg" /></a>
+              <a className={styles.primaryButton} href={`${navigationBasePath}#faq`}>{locale === "ar" ? "الأسئلة الشائعة" : "FAQ"} <Icon src="/images/figma-nafas/icon-stars.svg" /></a>
             </div>
             <button className={`${styles.menuButton} ${menuOpen ? styles.menuButtonOpen : ""}`} onClick={() => setMenuOpen((open) => !open)} aria-expanded={menuOpen} aria-controls="mobile-navigation" aria-label={menuOpen ? (locale === "ar" ? "إغلاق القائمة" : "Close menu") : (locale === "ar" ? "فتح القائمة" : "Open menu")}><span /><span /><span /></button>
           </div>

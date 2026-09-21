@@ -131,4 +131,7 @@
   .mobileFooterSocial{display:flex;align-items:center;gap:18px;flex:none}
   .mobileFooterSocial a{display:inline-flex;color:#fff}
   .mobileFooterSocial svg{width:20px;height:20px;stroke-width:2.2}
+  .signatureFloralLeft,.signatureFloralRight{display:block;height:auto;pointer-events:none;opacity:.72}
+  .signatureFloralLeft{width:108px;left:-22px;top:-42px}
+  .signatureFloralRight{width:118px;right:-24px;bottom:18px}
 }
