@@ -6,11 +6,11 @@ import styles from "../FigmaHomePage.module.css";
 
 type Package = NonNullable<SectionOf<"packagesSection">["packages"]>[number];
 
-function PackageCard({ item, locale, phoneHref, highlighted = false, featured = false }: { item: Package; locale: Locale; phoneHref: string; highlighted?: boolean; featured?: boolean }) {
+function PackageCard({ item, locale, phoneHref, featured = false }: { item: Package; locale: Locale; phoneHref: string; featured?: boolean }) {
   const items = item.items?.map((included) => text(included, locale)).filter(Boolean) ?? [];
   const description = text(item.description, locale);
   return (
-    <article className={`${styles.packageCard} ${highlighted ? styles.packageCardHighlighted : ""}`}>
+    <article className={styles.packageCard}>
       <div className={styles.packageImage}>
         <Image src={imageSource(item.image, "/images/figma-nafas/package.jpg")} alt={text(item.image?.alt, locale, text(item.name, locale))} fill sizes="(min-width: 900px) 400px, (min-width: 600px) 50vw, 100vw" className={styles.coverImage} />
         {featured && <span className={styles.packageBadge}>{locale === "ar" ? "الأكثر طلباً" : "Most Wanted"}</span>}
@@ -37,7 +37,7 @@ export default function HomePackagesSection({ locale, section, phoneHref }: { lo
         {description && <p>{description}</p>}
       </div>
       <div className={styles.packageGrid}>
-        {cards.map((item, index) => <PackageCard key={item._key || index} item={item} locale={locale} phoneHref={phoneHref} highlighted={index === 1} featured={item.featured === true} />)}
+        {cards.map((item, index) => <PackageCard key={item._key || index} item={item} locale={locale} phoneHref={phoneHref} featured={item.featured === true} />)}
       </div>
     </section>
   );
