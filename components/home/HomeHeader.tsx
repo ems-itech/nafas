@@ -2,23 +2,63 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { Mail, MapPin, Phone } from "lucide-react";
 import type { Locale } from "@/lib/i18n/locales";
 import type { SiteSettings } from "@/sanity/types";
 import { imageSource, navItems, text } from "./content";
 import Icon from "./Icon";
 import styles from "../FigmaHomePage.module.css";
 
-export default function HomeHeader({ locale, settings, phoneHref }: { locale: Locale; settings?: SiteSettings | null; phoneHref: string }) {
+export default function HomeHeader({
+  locale,
+  settings,
+  phoneHref,
+  homeHref = "#home",
+  servicesHref = "#services",
+  navigationBasePath = "",
+  activeMobileLink = 0,
+  localeHrefOverride,
+}: {
+  locale: Locale;
+  settings?: SiteSettings | null;
+  phoneHref: string;
+  homeHref?: string;
+  servicesHref?: string;
+  navigationBasePath?: string;
+  activeMobileLink?: number;
+  localeHrefOverride?: string;
+}) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const otherLocale = locale === "en" ? "ar" : "en";
-  const localeHref = pathname.replace(/^\/(en|ar)/, `/${otherLocale}`);
+  const localeHref = localeHrefOverride || pathname.replace(/^\/(en|ar)/, `/${otherLocale}`);
   const phone = settings?.contact?.phone?.trim() || "+962790077730";
   const address = text(settings?.contact?.address, locale, "Abdoun, Amman, Jordan");
   const hours = text(settings?.contact?.hours, locale, "Sat–Thu · 10:00 – 20:00");
   const logo = imageSource(settings?.header?.brand, "/images/figma-nafas/logo.svg", 200);
+  const navigationItems = navItems(settings, locale);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+    const desktop = window.matchMedia("(min-width: 761px)");
+    const onDesktop = () => {
+      if (desktop.matches) setMenuOpen(false);
+    };
+    window.addEventListener("keydown", onEscape);
+    desktop.addEventListener("change", onDesktop);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onEscape);
+      desktop.removeEventListener("change", onDesktop);
+    };
+  }, [menuOpen]);
 
   return (
     <>
@@ -33,19 +73,43 @@ export default function HomeHeader({ locale, settings, phoneHref }: { locale: Lo
         <nav className={styles.navbar} aria-label="Main navigation">
           <div className={styles.navInner}>
             <div className={styles.navLeft}>
-              <a href="#home" aria-label="Nafas home"><Image src={logo} alt={text(settings?.header?.brand?.alt, locale, "Nafas")} width={90} height={32} /></a>
+              <a href={homeHref} aria-label="Nafas home"><Image src={logo} alt={text(settings?.header?.brand?.alt, locale, "Nafas")} width={90} height={32} /></a>
               <div className={`${styles.navLinks} ${menuOpen ? styles.navOpen : ""}`}>
-                {navItems(settings, locale).map((item) => <a key={`${item.href}-${item.label}`} href={item.href} onClick={() => setMenuOpen(false)}>{item.label}</a>)}
+                {navigationItems.map((item) => <a key={`${item.href}-${item.label}`} href={item.href.startsWith("#") ? `${navigationBasePath}${item.href}` : item.href} onClick={() => setMenuOpen(false)}>{item.label}</a>)}
               </div>
             </div>
             <div className={styles.navActions}>
-              <Link className={styles.localeLink} href={localeHref} onClick={() => setMenuOpen(false)} aria-label={`Switch to ${otherLocale === "ar" ? "Arabic" : "English"}`}>{otherLocale === "ar" ? "عربي" : "English"}</Link>
-              <a className={styles.primaryButton} href="#services">{text(settings?.header?.ctaLabel, locale, "Services")} <Icon src="/images/figma-nafas/icon-stars.svg" /></a>
+              <Link className={styles.localeLink} href={localeHref} lang={otherLocale} onClick={() => setMenuOpen(false)} aria-label={`Switch to ${otherLocale === "ar" ? "Arabic" : "English"}`}>{otherLocale === "ar" ? "عربي" : "English"}</Link>
+              <a className={styles.primaryButton} href={servicesHref}>{text(settings?.header?.ctaLabel, locale, "Services")} <Icon src="/images/figma-nafas/icon-stars.svg" /></a>
             </div>
-            <button className={styles.menuButton} onClick={() => setMenuOpen((value) => !value)} aria-expanded={menuOpen} aria-label="Toggle navigation"><span /><span /><span /></button>
+            <button className={`${styles.menuButton} ${menuOpen ? styles.menuButtonOpen : ""}`} onClick={() => setMenuOpen((open) => !open)} aria-expanded={menuOpen} aria-controls="mobile-navigation" aria-label={menuOpen ? (locale === "ar" ? "إغلاق القائمة" : "Close menu") : (locale === "ar" ? "فتح القائمة" : "Open menu")}><span /><span /><span /></button>
           </div>
         </nav>
       </header>
+      {menuOpen ? (
+        <div id="mobile-navigation" className={styles.mobileMenuPanel} role="dialog" aria-modal="true" aria-label={locale === "ar" ? "القائمة" : "Mobile menu"}>
+          <nav className={styles.mobileMenuLinks} aria-label={locale === "ar" ? "روابط القائمة" : "Mobile navigation"}>
+            {navigationItems.map((item, index) => (
+              <a key={`${item.href}-${item.label}`} href={item.href.startsWith("#") ? `${navigationBasePath}${item.href}` : item.href} onClick={() => setMenuOpen(false)} className={index === activeMobileLink ? styles.mobileMenuActive : ""}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <b>{item.label}</b>
+                {index === activeMobileLink ? <i aria-hidden="true" /> : null}
+              </a>
+            ))}
+          </nav>
+          <div className={styles.mobileMenuBottom}>
+            <a className={styles.mobileMenuCta} href={servicesHref} onClick={() => setMenuOpen(false)}>
+              {locale === "ar" ? "عرض الخدمات" : "View Services"}
+            </a>
+            <div className={styles.mobileMenuContact}>
+              <p>{locale === "ar" ? "التواصل والموقع" : "Contact & Location"}</p>
+              <span><MapPin aria-hidden="true" />{address}</span>
+              <a href={phoneHref}><Phone aria-hidden="true" /><span dir="ltr">{phone}</span></a>
+              <a href="mailto:hello@nafas.jo"><Mail aria-hidden="true" />hello@nafas.jo</a>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </>
   );
 }

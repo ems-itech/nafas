@@ -55,10 +55,16 @@ export default function HomeFooter({
   locale,
   settings,
   phoneHref,
+  homeHref = "#home",
+  menuHref = "#services",
+  navigationBasePath = "",
 }: {
   locale: Locale;
   settings?: SiteSettings | null;
   phoneHref: string;
+  homeHref?: string;
+  menuHref?: string;
+  navigationBasePath?: string;
 }) {
   const copy = labels[locale];
   const logo = imageSource(
@@ -109,7 +115,7 @@ export default function HomeFooter({
       <div className={styles.footerTop}>
         <div className={styles.footerBrand}>
           <a
-            href="#home"
+            href={homeHref}
             aria-label={locale === "ar" ? "الصفحة الرئيسية" : "Nafas home"}
           >
             <Image
@@ -125,7 +131,7 @@ export default function HomeFooter({
             }
           >
             {navItems(settings, locale).map((item) => (
-              <a key={`${item.href}-${item.label}`} href={item.href}>
+              <a key={`${item.href}-${item.label}`} href={item.href.startsWith("#") ? `${navigationBasePath}${item.href}` : item.href}>
                 {item.label}
               </a>
             ))}
@@ -167,7 +173,7 @@ export default function HomeFooter({
               <Icon src="/images/figma-nafas/icon-phone.svg" />
               {copy.call}
             </a>
-            <a className={styles.lightButton} href="#services">
+            <a className={styles.lightButton} href={menuHref}>
               {copy.menu}
             </a>
           </div>
@@ -205,8 +211,54 @@ export default function HomeFooter({
           locale === "ar"
             ? "© 2026 نفَس. جميع الحقوق محفوظة."
             : "© 2026 Nafas. All rights reserved.",
-        )}
+          )}
       </p>
+      <div className={styles.mobileFooter}>
+        <a
+          className={styles.mobileFooterLogo}
+          href={homeHref}
+          aria-label={locale === "ar" ? "الصفحة الرئيسية" : "Nafas home"}
+        >
+          <Image
+            src={logo}
+            alt={text(settings?.header?.brand?.alt, locale, "Nafas")}
+            width={190}
+            height={68}
+          />
+        </a>
+        <p className={styles.mobileFooterTagline}>
+          {text(
+            settings?.footer?.tagline,
+            locale,
+            locale === "ar"
+              ? "عناية متكاملة في أجواء من الهدوء. عبدون، عمّان."
+              : "Clinical care wrapped in absolute sensory calm. Abdoun, Amman.",
+          )}
+        </p>
+        <div className={styles.mobileFooterBottom}>
+          <small>
+            {text(
+              settings?.footer?.copyright,
+              locale,
+              locale === "ar"
+                ? "© 2026 نفَس. جميع الحقوق محفوظة."
+                : "© 2026 Nafas. All rights reserved.",
+            )}
+          </small>
+          {social.length > 0 ? (
+            <div className={styles.mobileFooterSocial} aria-label={locale === "ar" ? "وسائل التواصل الاجتماعي" : "Social media"}>
+              {social.map((item) => {
+                const SocialIcon = socialIcon(item.label, item.url);
+                return (
+                  <a key={`${item.label}-${item.url}`} href={item.url} target="_blank" rel="noreferrer" aria-label={item.label}>
+                    <SocialIcon aria-hidden="true" />
+                  </a>
+                );
+              })}
+            </div>
+          ) : null}
+        </div>
+      </div>
     </footer>
   );
 }

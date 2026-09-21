@@ -1,89 +1,97 @@
-import ServicesMenuSlider from "@/components/ServicesMenuSlider";
-import { menuCards, type MenuRow } from "@/lib/data/services-menu";
+import { menuCards, type MenuRow, type MenuSection } from "@/lib/data/services-menu";
+import type { SiteSettings } from "@/sanity/types";
+import ServicesCategoryNav from "@/components/ServicesCategoryNav";
+import HomeFooter from "@/components/home/HomeFooter";
+import HomeHeader from "@/components/home/HomeHeader";
+import homeStyles from "./FigmaHomePage.module.css";
+import styles from "./ServicesMenu.module.css";
 
-function PriceRow({ row, hasRefill }: { row: MenuRow; hasRefill: boolean }) {
+const categories = [
+  { id: "hair-scalp", mark: "✦", cardIndex: 0 },
+  { id: "skin-facials", mark: "◇", cardIndex: 5 },
+  { id: "microneedling", mark: "✧", cardIndex: 10 },
+  { id: "massage", mark: "✦", cardIndex: 3 },
+  { id: "wood-g9", mark: "◇", cardIndex: 6 },
+  { id: "wood-therapy", mark: "✧", cardIndex: 7 },
+  { id: "g9-vibration", mark: "✦", cardIndex: 8 },
+  { id: "lashes-brows", mark: "◇", cardIndex: 2 },
+  { id: "manicure", mark: "✧", cardIndex: 4 },
+  { id: "pedicure", mark: "✦", cardIndex: 1 },
+  { id: "waxing-threading", mark: "◌", cardIndex: 9 },
+] as const;
+
+function PriceRow({ row, packageStyle = false, refill = false }: { row: MenuRow; packageStyle?: boolean; refill?: boolean }) {
   return (
-    <div className={`grid items-baseline gap-3 font-sans text-[10px] font-medium uppercase tracking-[0.1em] text-foreground/75 sm:text-xs ${hasRefill ? "grid-cols-[1fr_auto_auto]" : "grid-cols-[1fr_auto]"}`}>
-      <span>{row.name}</span>
-      <span className="whitespace-nowrap font-semibold text-primary">{row.price} JOD</span>
-      {hasRefill ? <span className="w-12 whitespace-nowrap text-end font-semibold text-primary">{row.refill ? `${row.refill} JOD` : "—"}</span> : null}
+    <div className={`${styles.priceRow} ${packageStyle ? styles.packageRow : ""}`}>
+      <span className={styles.rowName}>{!packageStyle && <span className={styles.rowDot} aria-hidden="true">◦</span>}{row.name}</span>
+      <span className={styles.price}>{row.price === undefined ? "—" : `${row.price} JOD`}</span>
+      {refill && <span className={styles.price}>{row.refill === undefined ? "—" : `${row.refill} JOD`}</span>}
     </div>
   );
 }
 
-export default function ServicesMenu() {
+function Matrix({ section }: { section: MenuSection }) {
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      <section className="relative isolate overflow-hidden bg-gradient-to-b from-secondary/70 via-background to-background pb-24 pt-8 sm:pb-32 sm:pt-12">
-        <div aria-hidden="true" className="absolute -left-32 top-20 -z-10 h-80 w-80 rounded-full bg-primary/10 blur-3xl" />
-        <div aria-hidden="true" className="absolute -right-40 top-1/3 -z-10 h-96 w-96 rounded-full bg-secondary blur-3xl" />
-        <div className="container-narrow relative">
-          <ServicesMenuSlider>
-              {menuCards.map((menu, index) => (
-                <article key={menu.title} data-menu-card className="w-full shrink-0 snap-center">
-                  <div className="flex h-[680px] flex-col rounded-[2rem] border border-primary/15 bg-[linear-gradient(145deg,hsl(var(--card)),hsl(var(--secondary)/.72))] px-5 py-7 sm:h-[760px] sm:rounded-[2.75rem] sm:px-12 sm:py-10 lg:px-20">
-                    <div className="mx-auto mb-7 w-full max-w-3xl shrink-0 text-center sm:mb-9">
-                      <p className="font-sans text-xs font-medium uppercase tracking-[0.18em] text-primary">{menu.eyebrow}</p>
-                      <h2 className="mt-2 text-3xl sm:text-5xl">{menu.title}</h2>
-                    </div>
+    <div className={styles.tableScroll}>
+      <table className={styles.table}>
+        <thead><tr><th scope="col">Service</th>{section.priceColumns?.map((label) => <th scope="col" key={label}>{label}</th>)}</tr></thead>
+        <tbody>{section.rows.map((row) => <tr key={row.name}><th scope="row">{row.name}</th>{section.priceColumns?.map((label, index) => <td key={label}>{row.prices?.[index] == null ? "—" : `${row.prices[index]} JOD`}</td>)}</tr>)}</tbody>
+      </table>
+    </div>
+  );
+}
 
-                    <div className="menu-scrollbar mx-auto w-full max-w-3xl flex-1 space-y-8 overflow-y-auto pe-2 sm:space-y-10 sm:pe-4">
-                      {menu.sections.map((section) => (
-                        <section key={section.title}>
-                          <div className="mb-3 flex items-end justify-between gap-3 border-b border-primary/25 pb-2">
-                            <h3 className="font-serif text-xl font-medium text-primary sm:text-2xl">{section.title}</h3>
-                            {section.priceLabels ? (
-                              <div className="grid shrink-0 grid-cols-2 gap-3 font-sans text-[9px] font-semibold uppercase tracking-wider text-muted-foreground sm:text-[10px]">
-                                <span>{section.priceLabels[0]}</span><span>{section.priceLabels[1]}</span>
-                              </div>
-                            ) : null}
-                          </div>
-                          {section.priceColumns ? (
-                            <div className="overflow-x-auto pb-2">
-                              <table className="w-full min-w-[620px] table-fixed border-collapse font-sans">
-                                <colgroup>
-                                  <col className="w-[40%]" />
-                                  {section.priceColumns.map((column) => <col key={column} />)}
-                                </colgroup>
-                                <thead className="sticky top-0 z-[1] bg-card/95 backdrop-blur-sm">
-                                  <tr className="border-b border-primary/25">
-                                    <th scope="col" className="px-3 py-3 text-start text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">Service</th>
-                                    {section.priceColumns.map((column) => (
-                                      <th key={column} scope="col" className="px-2 py-3 text-center text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">{column}</th>
-                                    ))}
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {section.rows.map((row) => (
-                                    <tr key={row.name} className="border-b border-primary/10 last:border-0">
-                                      <th scope="row" className="px-3 py-3 text-start text-[10px] font-medium uppercase tracking-[0.08em] text-foreground/75 sm:text-xs">{row.name}</th>
-                                      {row.prices?.map((price, priceIndex) => (
-                                        <td key={`${row.name}-${section.priceColumns?.[priceIndex]}`} className="px-2 py-3 text-center text-[10px] font-semibold text-primary sm:text-xs">
-                                          <span className="whitespace-nowrap">{price === null ? "—" : `${price} JOD`}</span>
-                                        </td>
-                                      ))}
-                                    </tr>
-                                  ))}
-                                </tbody>
-                              </table>
-                            </div>
-                          ) : (
-                            <div className="space-y-2.5">
-                              {section.rows.map((row) => <PriceRow key={row.name} row={row} hasRefill={Boolean(section.priceLabels)} />)}
-                            </div>
-                          )}
-                        </section>
-                      ))}
-                    </div>
-                    <div className="mx-auto mt-5 w-full max-w-3xl shrink-0 border-t border-primary/15 pt-4 text-center">
-                      <span className="font-ui text-muted-foreground">{String(index + 1).padStart(2, "0")} / {String(menuCards.length).padStart(2, "0")}</span>
-                    </div>
-                  </div>
-                </article>
-              ))}
-          </ServicesMenuSlider>
+function ServiceCard({ section }: { section: MenuSection }) {
+  const isPackage = !section.priceColumns && !section.priceLabels && section.rows.some((row) => /sessions|single session/i.test(row.name));
+  const duration = section.title.match(/(\d+) Mins?/i)?.[1];
+  return (
+    <article className={styles.card}>
+      <div className={styles.cardHeader}>
+        <h3>{section.title}</h3>
+        {duration && <span className={styles.duration}>{duration} minutes</span>}
+        {section.priceLabels && <span className={styles.columnLabels}><span>{section.priceLabels[0]}</span><span>{section.priceLabels[1]}</span></span>}
+      </div>
+      {section.priceColumns ? <Matrix section={section} /> : (
+        <div className={`${styles.rows} ${isPackage ? styles.packageRows : ""} ${section.priceLabels ? styles.refillRows : ""}`}>
+          {section.rows.map((row) => <PriceRow key={row.name} row={row} packageStyle={isPackage} refill={Boolean(section.priceLabels)} />)}
         </div>
-      </section>
-    </main>
+      )}
+    </article>
+  );
+}
+
+export default function ServicesMenu({ settings }: { settings?: SiteSettings | null }) {
+  const phone = settings?.contact?.phone?.trim() || "+962790077730";
+  const phoneHref = `tel:${phone.replace(/\s+/g, "")}`;
+
+  return (
+    <div className={styles.page}>
+      <div className={styles.mobileSiteHeader}>
+        <div className={homeStyles.page}>
+          <HomeHeader locale="en" settings={settings} phoneHref={phoneHref} homeHref="/en" servicesHref="#hair-scalp" navigationBasePath="/en" activeMobileLink={1} localeHrefOverride="/ar" />
+        </div>
+      </div>
+      <main>
+      <div className={styles.intro}>
+        <p className={styles.eyebrow}>Nafas Beauty Lounge · Abdoun, Amman</p>
+        <div className={styles.introRow}><h1>Our Services</h1><p>Every treatment is clinical in its precision and quiet in its delivery. All prices in Jordanian Dinar.</p></div>
+        <div className={styles.introRule} />
+      </div>
+      <ServicesCategoryNav categories={categories.map(({ id, cardIndex }) => ({ id, title: menuCards[cardIndex].title }))} />
+      <div className={styles.content}>
+        {categories.map((category, index) => (
+          <section className={styles.category} id={category.id} key={category.id} aria-labelledby={`${category.id}-title`}>
+            <div className={styles.categoryHeading}><div><span className={styles.categoryNumber}>{category.mark} {String(index + 1).padStart(2, "0")}</span><p className={styles.categoryEyebrow}>{menuCards[category.cardIndex].eyebrow}</p><h2 id={`${category.id}-title`}>{menuCards[category.cardIndex].title}</h2></div><span className={styles.categoryRule} /></div>
+            <div className={styles.cards}>
+              {menuCards[category.cardIndex].sections.map((section) => <ServiceCard key={section.title} section={section} />)}
+            </div>
+          </section>
+        ))}
+      </div>
+      </main>
+      <div className={homeStyles.page}>
+        <HomeFooter locale="en" settings={settings} phoneHref={phoneHref} homeHref="/en" menuHref="#hair-scalp" navigationBasePath="/en" />
+      </div>
+    </div>
   );
 }

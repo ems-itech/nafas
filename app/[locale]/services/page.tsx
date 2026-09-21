@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ServicesMenu from "@/components/ServicesMenu";
+import { sanityFetch } from "@/sanity/fetch";
+import { siteSettingsQuery } from "@/sanity/queries";
+import type { SiteSettings } from "@/sanity/types";
 
 export const metadata: Metadata = {
   title: "Service Menu | Nafas Beauty Lounge",
@@ -16,5 +19,6 @@ export default async function ServicesPage({
   const { locale } = await params;
   if (locale !== "en") notFound();
 
-  return <ServicesMenu />;
+  const settings = await sanityFetch<SiteSettings>(siteSettingsQuery);
+  return <ServicesMenu settings={settings} />;
 }
