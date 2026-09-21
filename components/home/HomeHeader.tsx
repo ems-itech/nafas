@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
 import { Mail, MapPin, Phone } from "lucide-react";
 import type { Locale } from "@/lib/i18n/locales";
@@ -32,21 +32,61 @@ export default function HomeHeader({
 }) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeMobileIndex, setActiveMobileIndex] = useState(activeMobileLink);
   const otherLocale = locale === "en" ? "ar" : "en";
   const localeHref = localeHrefOverride || pathname.replace(/^\/(en|ar)/, `/${otherLocale}`);
   const phone = settings?.contact?.phone?.trim() || "+962790077730";
   const address = text(settings?.contact?.address, locale, "Abdoun, Amman, Jordan");
   const hours = text(settings?.contact?.hours, locale, "Sat–Thu · 10:00 – 20:00");
   const logo = imageSource(settings?.header?.brand, "/images/figma-nafas/logo.svg", 200);
-  const navigationItems = navItems(settings, locale).map((item) =>
-    item.href === "#services" || item.label.trim().toLowerCase() === "services" || item.label.trim() === "الخدمات"
-      ? {
-          ...item,
-          label: locale === "ar" ? "الأسئلة الشائعة" : "FAQ",
-          href: "#faq",
-        }
-      : item,
+  const navigationItems = useMemo(
+    () => navItems(settings, locale).map((item) =>
+      item.href === "#services" || item.label.trim().toLowerCase() === "services" || item.label.trim() === "الخدمات"
+        ? {
+            ...item,
+            label: locale === "ar" ? "الأسئلة الشائعة" : "FAQ",
+            href: "#faq",
+          }
+        : item,
+    ),
+    [locale, settings],
   );
+
+  useEffect(() => {
+    const targets = navigationItems.flatMap((item, index) => {
+      if (!item.href.startsWith("#")) return [];
+      const section = document.getElementById(item.href.slice(1));
+      return section ? [{ index, section }] : [];
+    });
+
+    if (!targets.length) return;
+
+    let frame = 0;
+    const updateActiveSection = () => {
+      frame = 0;
+      const marker = Math.min(220, window.innerHeight * 0.3);
+      let current = targets[0].index;
+
+      for (const target of targets) {
+        if (target.section.getBoundingClientRect().top <= marker) current = target.index;
+      }
+
+      setActiveMobileIndex(current);
+    };
+    const requestUpdate = () => {
+      if (!frame) frame = window.requestAnimationFrame(updateActiveSection);
+    };
+
+    updateActiveSection();
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+
+    return () => {
+      if (frame) window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", requestUpdate);
+      window.removeEventListener("resize", requestUpdate);
+    };
+  }, [activeMobileLink, navigationItems]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -100,10 +140,10 @@ export default function HomeHeader({
         <div id="mobile-navigation" className={styles.mobileMenuPanel} role="dialog" aria-modal="true" aria-label={locale === "ar" ? "القائمة" : "Mobile menu"}>
           <nav className={styles.mobileMenuLinks} aria-label={locale === "ar" ? "روابط القائمة" : "Mobile navigation"}>
             {navigationItems.map((item, index) => (
-              <a key={`${item.href}-${item.label}`} href={item.href.startsWith("#") ? `${navigationBasePath}${item.href}` : item.href} onClick={() => setMenuOpen(false)} className={index === activeMobileLink ? styles.mobileMenuActive : ""}>
+              <a key={`${item.href}-${item.label}`} href={item.href.startsWith("#") ? `${navigationBasePath}${item.href}` : item.href} onClick={() => { setActiveMobileIndex(index); setMenuOpen(false); }} className={index === activeMobileIndex ? styles.mobileMenuActive : ""}>
                 <span>{String(index + 1).padStart(2, "0")}</span>
                 <b>{item.label}</b>
-                {index === activeMobileLink ? <i aria-hidden="true" /> : null}
+                {index === activeMobileIndex ? <i aria-hidden="true" /> : null}
               </a>
             ))}
           </nav>

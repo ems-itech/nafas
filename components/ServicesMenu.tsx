@@ -147,11 +147,11 @@ export default function ServicesMenu({ locale, settings }: { locale: Locale; set
         </div>
       </div>
       <main>
-      <ServicesCategoryNav locale={locale} categories={categories.map(({ id, cardIndex }) => ({ id, title: menuCards[cardIndex].title }))} />
       <div className={styles.intro}>
         <div className={styles.introRow}><h1>{copy.title}</h1><p>{copy.description}</p></div>
         <div className={styles.introRule} />
       </div>
+      <ServicesCategoryNav locale={locale} categories={categories.map(({ id, cardIndex }) => ({ id, title: menuCards[cardIndex].title }))} />
       <div className={styles.content}>
         {categories.map((category, index) => (
           <section className={styles.category} id={category.id} key={category.id} aria-labelledby={`${category.id}-title`}>
