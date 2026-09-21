@@ -90,7 +90,7 @@ export default function HomeHeader({
             </div>
             <div className={styles.navActions}>
               <Link className={styles.localeLink} href={localeHref} lang={otherLocale} onClick={() => setMenuOpen(false)} aria-label={`Switch to ${otherLocale === "ar" ? "Arabic" : "English"}`}>{otherLocale === "ar" ? "عربي" : "English"}</Link>
-              <Link className={styles.primaryButton} href="/en/services">{locale === "ar" ? "الخدمات" : "Services"} <Icon src="/images/figma-nafas/icon-stars.svg" /></Link>
+              <Link className={styles.primaryButton} href={`/${locale}/services`}>{locale === "ar" ? "الخدمات" : "Services"} <Icon src="/images/figma-nafas/icon-stars.svg" /></Link>
             </div>
             <button className={`${styles.menuButton} ${menuOpen ? styles.menuButtonOpen : ""}`} onClick={() => setMenuOpen((open) => !open)} aria-expanded={menuOpen} aria-controls="mobile-navigation" aria-label={menuOpen ? (locale === "ar" ? "إغلاق القائمة" : "Close menu") : (locale === "ar" ? "فتح القائمة" : "Open menu")}><span /><span /><span /></button>
           </div>
@@ -108,7 +108,7 @@ export default function HomeHeader({
             ))}
           </nav>
           <div className={styles.mobileMenuBottom}>
-            <Link className={styles.mobileMenuCta} href="/en/services" onClick={() => setMenuOpen(false)}>
+            <Link className={styles.mobileMenuCta} href={`/${locale}/services`} onClick={() => setMenuOpen(false)}>
               {locale === "ar" ? "عرض الخدمات" : "View Services"}
             </Link>
             <div className={styles.mobileMenuContact}>

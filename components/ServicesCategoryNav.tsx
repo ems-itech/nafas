@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import type { Locale } from "@/lib/i18n/locales";
 import styles from "./ServicesMenu.module.css";
 
-export default function ServicesCategoryNav({ categories }: { categories: { id: string; title: string }[] }) {
+export default function ServicesCategoryNav({ categories, locale }: { categories: { id: string; title: string }[]; locale: Locale }) {
   const [active, setActive] = useState(categories[0]?.id);
   const navInnerRef = useRef<HTMLDivElement>(null);
   const linkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
@@ -23,13 +24,16 @@ export default function ServicesCategoryNav({ categories }: { categories: { id: 
     const activeLink = linkRefs.current[active];
     if (!container || !activeLink) return;
 
-    const left = activeLink.offsetLeft - (container.clientWidth - activeLink.offsetWidth) / 2;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    container.scrollTo({ left, behavior: reduceMotion ? "auto" : "smooth" });
+    activeLink.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      block: "nearest",
+      inline: "center",
+    });
   }, [active]);
 
   return (
-    <nav className={styles.categoryNav} aria-label="Service categories">
+    <nav className={styles.categoryNav} aria-label={locale === "ar" ? "فئات الخدمات" : "Service categories"}>
       <div className={styles.navInner} ref={navInnerRef}>
         {categories.map(({ id, title }) => (
           <a
