@@ -83,6 +83,14 @@ export default function HomeFooter({
     locale === "ar" ? "يومياً: 10:00 - 20:00" : "Daily: 10:00 - 20:00",
   );
   const phone = settings?.contact?.phone?.trim() || "+962 79 123 4567";
+  const copyright =
+    locale === "ar"
+      ? '© 2026 منتجع نفس الصحي   عمّان، الأردن. جميع الحقوق محفوظة.'
+      : text(
+          settings?.footer?.copyright,
+          locale,
+          "© 2026 Nafas Spa, Amman, Jordan. All rights reserved.",
+        );
   const socialByLabel = new Map<string, { label: string; url: string }>();
 
   settings?.footer?.social?.forEach((item) => {
@@ -205,13 +213,7 @@ export default function HomeFooter({
       </div>
 
       <p className={styles.copyright}>
-        {text(
-          settings?.footer?.copyright,
-          locale,
-          locale === "ar"
-            ? "© 2026 نفَس. جميع الحقوق محفوظة."
-            : "© 2026 Nafas Spa, Amman, Jordan. All rights reserved.",
-          )}
+        {copyright}
       </p>
       <div className={styles.mobileFooter}>
         <a
@@ -237,13 +239,7 @@ export default function HomeFooter({
         </p>
         <div className={styles.mobileFooterBottom}>
           <small>
-            {text(
-              settings?.footer?.copyright,
-              locale,
-              locale === "ar"
-                ? "© 2026 نفَس. جميع الحقوق محفوظة."
-                : "© 2026 Nafas Spa, Amman, Jordan. All rights reserved.",
-            )}
+            {copyright}
           </small>
           {social.length > 0 ? (
             <div className={styles.mobileFooterSocial} aria-label={locale === "ar" ? "وسائل التواصل الاجتماعي" : "Social media"}>

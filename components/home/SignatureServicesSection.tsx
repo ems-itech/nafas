@@ -7,7 +7,7 @@ import SectionHeading from "./SectionHeading";
 import styles from "../FigmaHomePage.module.css";
 
 export default function SignatureServicesSection({ locale, section }: { locale: Locale; section?: SectionOf<"servicesSection"> }) {
-  const cards = serviceCards(section, locale);
+  const cards = serviceCards(section, locale).slice(0, 4);
   return (
     <section id="services" className={styles.signatureSection}>
       <Image src="/images/figma-nafas/floral-left.png" alt="" width={175} height={213} className={styles.signatureFloralLeft} />
@@ -15,9 +15,11 @@ export default function SignatureServicesSection({ locale, section }: { locale: 
       <div className={styles.signaturePanel}>
         <SectionHeading title={text(section?.title, locale, "Signature Services")} description={text(section?.description, locale, "Each ritual is designed to restore balance, renew your skin, and give your body permission to rest.")} />
         <div className={styles.signatureGrid}>
-          {cards.map((card) => <article key={card.name}><div><Image src={card.image} alt={card.name} fill sizes="170px" className={styles.coverImage} /></div><h3>{card.name}</h3></article>)}
+          {cards.map((card) => <article key={card.name}><div><Image src={card.image} alt={card.name} fill sizes="(min-width: 900px) 190px, 150px" className={styles.coverImage} /></div><h3>{card.name}</h3></article>)}
         </div>
-        <Link className={styles.primaryButton} href={section?.cta?.href || `/${locale}`}>{text(section?.cta?.text, locale, "View All Services & Prices")}</Link>
+        <Link className={styles.primaryButton} href={`/${locale}/services`}>
+          {locale === "ar" ? "عرض جميع الخدمات" : "View All Services"}
+        </Link>
       </div>
     </section>
   );
