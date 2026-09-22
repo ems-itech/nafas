@@ -123,7 +123,7 @@ export default function HomeHeader({
         <nav className={styles.navbar} aria-label="Main navigation">
           <div className={styles.navInner}>
             <div className={styles.navLeft}>
-              <a href={homeHref} aria-label="Nafas home"><Image src={logo} alt={text(settings?.header?.brand?.alt, locale, "Nafas")} width={90} height={32} /></a>
+              <a className={styles.navLogo} href={homeHref} aria-label="Nafas home"><Image src={logo} alt={text(settings?.header?.brand?.alt, locale, "Nafas")} width={90} height={32} /></a>
               <div className={`${styles.navLinks} ${menuOpen ? styles.navOpen : ""}`}>
                 {navigationItems.map((item) => <a key={`${item.href}-${item.label}`} href={item.href.startsWith("#") ? `${navigationBasePath}${item.href}` : item.href} onClick={() => setMenuOpen(false)}>{item.label}</a>)}
               </div>
