@@ -36,7 +36,7 @@ export default function AboutSection({ locale, section, phone, phoneHref }: { lo
         </div>
         <div className={styles.aboutActions}>
           <a className={styles.outlineButton} href={section?.cta?.href || "#services"}>{text(section?.cta?.text, locale, "View Services")}</a>
-          <a className={styles.phoneButton} href={phoneHref}><b><Icon src="/images/figma-nafas/icon-phone.svg" /></b>{phone}</a>
+          <a className={styles.phoneButton} href={phoneHref} dir="ltr"><b><Icon src="/images/figma-nafas/icon-phone.svg" /></b>{phone}</a>
         </div>
       </div>
       {imageUrl && <div className={styles.aboutCollage}>
