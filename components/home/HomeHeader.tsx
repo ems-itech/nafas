@@ -130,7 +130,7 @@ export default function HomeHeader({
             </div>
             <div className={styles.navActions}>
               <Link className={styles.localeLink} href={localeHref} lang={otherLocale} onClick={() => setMenuOpen(false)} aria-label={`Switch to ${otherLocale === "ar" ? "Arabic" : "English"}`}>{otherLocale === "ar" ? "عربي" : "English"}</Link>
-              <Link className={styles.primaryButton} href={`/${locale}/services`}>{locale === "ar" ? "الخدمات" : "Services"}</Link>
+              <Link className={`${styles.primaryButton} ${styles.navServicesButton}`} href={`/${locale}/services`}>{locale === "ar" ? "الخدمات" : "Services"}</Link>
             </div>
             <button className={`${styles.menuButton} ${menuOpen ? styles.menuButtonOpen : ""}`} onClick={() => setMenuOpen((open) => !open)} aria-expanded={menuOpen} aria-controls="mobile-navigation" aria-label={menuOpen ? (locale === "ar" ? "إغلاق القائمة" : "Close menu") : (locale === "ar" ? "فتح القائمة" : "Open menu")}><span /><span /><span /></button>
           </div>

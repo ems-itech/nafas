@@ -154,7 +154,12 @@ export default function ServicesMenu({ locale, settings }: { locale: Locale; set
       <ServicesCategoryNav locale={locale} categories={categories.map(({ id, cardIndex }) => ({ id, title: menuCards[cardIndex].title }))} />
       <div className={styles.content}>
         {categories.map((category, index) => (
-          <section className={styles.category} id={category.id} key={category.id} aria-labelledby={`${category.id}-title`}>
+          <section
+            className={`${styles.category} ${locale === "ar" ? styles.enlargedArabicCategory : ""}`}
+            id={category.id}
+            key={category.id}
+            aria-labelledby={`${category.id}-title`}
+          >
             <div className={styles.categoryHeading}><div><span className={styles.categoryNumber}>{category.mark} {String(index + 1).padStart(2, "0")}</span><p className={styles.categoryEyebrow}>{menuCards[category.cardIndex].eyebrow}</p><h2 id={`${category.id}-title`}>{menuCards[category.cardIndex].title}</h2></div><span className={styles.categoryRule} /></div>
             <div className={styles.cards}>
               {menuCards[category.cardIndex].sections.map((section) => <ServiceCard key={section.title} section={section} locale={locale} />)}
