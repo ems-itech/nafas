@@ -19,6 +19,14 @@
 .localeLink:lang(ar){font-family:var(--font-tajawal),sans-serif}
 @media(max-width:760px){.navLogo{position:relative;top:-3px}.navActions{margin-left:auto;margin-right:16px}.navActions .primaryButton{display:none}}
 .ticker{border-bottom:1px solid var(--brand-200)}
+.ticker .tickerTrack{display:flex;min-width:max-content;direction:ltr;animation:ticker 32s linear infinite}
+.tickerGroup{display:flex;flex:none;min-width:100vw;justify-content:space-around;direction:ltr}
+.ticker .tickerGroup span{padding-left:0;padding-inline-start:32px}
+.ticker .tickerGroup i{margin-left:0;margin-inline-start:32px;flex:none}
+.tickerRtl .tickerTrack{animation-name:tickerRtl}
+.tickerRtl .tickerGroup{direction:rtl}
+@keyframes tickerRtl{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+@media(prefers-reduced-motion:reduce){.ticker .tickerTrack{animation:none}}
 .footer:before{display:none}
 .footer{min-height:416px;padding:72px max(48px,calc((100vw - 1432px)/2)) 24px}.footerTop{display:grid;grid-template-columns:minmax(360px,1.55fr) minmax(280px,1fr) minmax(300px,1fr);gap:72px;align-items:start}.footerTop>div:first-child{gap:32px}.footerBrand>a{width:max-content}.footerBrand>a img{width:auto;height:68px;filter:brightness(0) invert(1)}.footerTop nav{gap:36px;flex-wrap:wrap}.footerTop a{transition:opacity .2s,transform .2s}.footerTop nav a:hover,.footerDetails a:hover,.socialLinks a:hover{opacity:.72}.footerTop h3,.footerTop>div:last-child h3{font-family:var(--font-montserrat);font-size:16px;line-height:24px;font-weight:600;margin:0 0 16px}.footerDetails{display:flex;flex-direction:column;gap:14px}.footerDetails a,.footerDetails p{display:flex;align-items:center;gap:12px;font-size:16px;line-height:24px;font-weight:400}.footerDetails svg{width:22px;height:22px;flex:none;stroke-width:1.8}.footerDetails b{font-weight:600}.footerContact .footerButtons{display:flex;gap:16px;flex-wrap:wrap}.footerContact .footerButtons a{color:var(--brand-700)}.socialLinks{display:flex;align-items:center;gap:20px;margin-top:24px}.socialLinks a{display:inline-flex;align-items:center;justify-content:center}.socialLinks svg{width:22px;height:22px;stroke-width:2}.copyright{margin-top:72px}
 @media(min-width:1101px){.footer{min-height:400px}.footerBrand>a img{height:88px}}
@@ -35,6 +43,7 @@
 .heroPhoneIcon img{width:20px;height:20px}
 .heroServicesButton{width:max-content;max-width:100%;padding:0 16px;gap:8px;background:#795f57;border-color:#795f57;font-weight:600}
 .heroServicesButton img{width:20px;height:20px}
+.heroServicesButtonRtl img{transform:scaleX(-1)}
 @media(max-width:760px){.hero{height:max(660px,calc(100svh - 72px))}.heroContent>div:first-child{width:100%}.heroActions{gap:12px}.heroServicesButton{width:201px;height:46px;min-height:46px}}
 
 .benefits{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px;row-gap:24px}
@@ -99,6 +108,7 @@
 .pagination button{position:relative;overflow:hidden}
 .pagination button.activeDot{background:#fff}
 .pagination button.activeDot::before{content:"";position:absolute;inset:0;border-radius:inherit;background:var(--brand-700);transform:scaleX(0);transform-origin:left center;animation:heroDotProgress 6s linear forwards}
+.paginationRtl button.activeDot::before{transform-origin:right center}
 @keyframes heroDotProgress{to{transform:scaleX(1)}}
 @media(prefers-reduced-motion:reduce){.pagination button.activeDot::before{animation:none;transform:scaleX(1)}}
 

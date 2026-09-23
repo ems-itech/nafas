@@ -53,14 +53,21 @@ export default function HeroSection({ locale, section, phone, phoneHref }: { loc
               <span className={styles.heroPhoneIcon}><Icon src="/images/figma-nafas/icon-phone.svg" /></span>
               <span>{displayPhone}</span>
             </a>
-            <a className={`${styles.primaryButton} ${styles.heroServicesButton}`} href={section?.cta?.href || `/${locale}/services`}>
+            <a
+              className={`${styles.primaryButton} ${styles.heroServicesButton} ${locale === "ar" ? styles.heroServicesButtonRtl : ""}`}
+              href={section?.cta?.href || `/${locale}/services`}
+            >
               {locale === "ar" ? "عرض الخدمات" : "View Services"}
               <Icon src="/images/figma-nafas/icon-arrow.svg" />
             </a>
           </div>
         </div>
         {slides.length > 1 && (
-          <div className={styles.pagination} role="group" aria-label="Choose hero slide">
+          <div
+            className={`${styles.pagination} ${locale === "ar" ? styles.paginationRtl : ""}`}
+            role="group"
+            aria-label="Choose hero slide"
+          >
             {slides.map((slide, index) => (
               <button
                 key={slide.id}

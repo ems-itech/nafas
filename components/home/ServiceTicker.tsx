@@ -4,11 +4,40 @@ import { serviceNames, text } from "./content";
 import styles from "../FigmaHomePage.module.css";
 
 export default function ServiceTicker({ locale, section }: { locale: Locale; section?: SectionOf<"servicesSection"> }) {
-  const names = section?.ticker?.length
-    ? section.ticker.map((item) => text(item, locale)).filter(Boolean)
-    : section?.services?.length
-      ? section.services.map((item) => text(item.name, locale)).filter(Boolean)
+  const localizedName = (value: Parameters<typeof text>[0]) =>
+    text(value, locale, text(value, "en"));
+  const tickerNames = section?.ticker
+    ?.map(localizedName)
+    .filter(Boolean) || [];
+  const serviceItemNames = section?.services
+    ?.map((item) => localizedName(item.name))
+    .filter(Boolean) || [];
+  const names = tickerNames.length
+    ? tickerNames
+    : serviceItemNames.length
+      ? serviceItemNames
       : serviceNames;
+  const ariaLabel = locale === "ar" ? "خدماتنا" : "Our services";
 
-  return <div className={styles.ticker} aria-label="Our services"><div>{[...names, ...names].map((name, index) => <span key={`${name}-${index}`}>{name}<i /></span>)}</div></div>;
+  return (
+    <div className={`${styles.ticker} ${locale === "ar" ? styles.tickerRtl : ""}`} aria-label={ariaLabel} dir="ltr">
+      <div className={styles.tickerTrack}>
+        {[false, true].map((duplicate) => (
+          <div
+            key={String(duplicate)}
+            className={styles.tickerGroup}
+            dir={locale === "ar" ? "rtl" : "ltr"}
+            aria-hidden={duplicate || undefined}
+          >
+            {names.map((name, index) => (
+              <span key={`${name}-${index}`}>
+                {name}
+                <i aria-hidden="true" />
+              </span>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
