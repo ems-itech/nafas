@@ -195,3 +195,52 @@ export type Homepage = {
   faq?: HomepageFaqSection;
   sections?: HomepageSection[];
 };
+
+/* ---------------------------
+   Services Page
+---------------------------- */
+export type ServicesPageSeo = {
+  title?: string;
+  description?: string;
+  keywords?: string[];
+  noIndex?: boolean;
+};
+
+export type ServicesPage = {
+  _id: string;
+  title?: string;
+  introTitle?: LocalizedString;
+  introDescription?: LocalizedText;
+  labels?: {
+    service?: LocalizedString;
+    price?: LocalizedString;
+    refill?: LocalizedString;
+    currency?: LocalizedString;
+  };
+  categories?: Array<{
+    _key?: string;
+    anchorId?: string;
+    mark?: string;
+    eyebrow?: LocalizedString;
+    title?: LocalizedString;
+    sections?: Array<{
+      _key?: string;
+      title?: LocalizedString;
+      durationBadge?: LocalizedString;
+      display?: "standard" | "packages" | "twoColumn" | "matrix";
+      priceLabels?: {
+        primary?: LocalizedString;
+        secondary?: LocalizedString;
+      };
+      priceColumns?: Array<LocalizedString & { _key?: string }>;
+      rows?: Array<{
+        _key?: string;
+        name?: LocalizedString;
+        price?: number;
+        refill?: number;
+        matrixPrices?: Array<{ _key?: string; price?: number }>;
+      }>;
+    }>;
+  }>;
+  seo?: { en?: ServicesPageSeo; ar?: ServicesPageSeo };
+};

@@ -3,6 +3,7 @@ import { visionTool } from "@sanity/vision";
 
 import { siteSettings } from "./schemaTypes/siteSettings";
 import { homepage } from "./schemaTypes/homepage";
+import { servicesPage } from "./schemaTypes/servicesPage";
 import { localizedString } from "./schemaTypes/objects/localizedString";
 import { localizedText } from "./schemaTypes/objects/localizedText";
 import { localizedBlockContent } from "./schemaTypes/objects/localizedBlockContent";
@@ -29,6 +30,7 @@ export const schema = {
     faqSection,
     appointmentSection,
     homepage,
+    servicesPage,
     siteSettings,
   ],
 };
@@ -48,9 +50,13 @@ export const studioTools = [
             .title("Homepage")
             .id("homepage")
             .child(S.document().schemaType("homepage").documentId("homepage")),
+          S.listItem()
+            .title("Services Page")
+            .id("servicesPage")
+            .child(S.document().schemaType("servicesPage").documentId("servicesPage")),
           S.divider(),
           ...S.documentTypeListItems().filter(
-            (item) => !["siteSettings", "homepage"].includes(item.getId() ?? ""),
+            (item) => !["siteSettings", "homepage", "servicesPage"].includes(item.getId() ?? ""),
           ),
         ]),
   }),

@@ -152,3 +152,47 @@ export const homepageQuery = groq`
   }
 }
 `;
+
+export const servicesPageQuery = groq`
+*[_type == "servicesPage" && _id == "servicesPage"][0]{
+  _id,
+  title,
+  introTitle{en, ar},
+  introDescription{en, ar},
+  labels{
+    service{en, ar},
+    price{en, ar},
+    refill{en, ar},
+    currency{en, ar}
+  },
+  categories[]{
+    _key,
+    anchorId,
+    mark,
+    eyebrow{en, ar},
+    title{en, ar},
+    sections[]{
+      _key,
+      title{en, ar},
+      durationBadge{en, ar},
+      display,
+      priceLabels{
+        primary{en, ar},
+        secondary{en, ar}
+      },
+      priceColumns[]{_key, en, ar},
+      rows[]{
+        _key,
+        name{en, ar},
+        price,
+        refill,
+        matrixPrices[]{_key, price}
+      }
+    }
+  },
+  seo{
+    en{title, description, keywords, noIndex},
+    ar{title, description, keywords, noIndex}
+  }
+}
+`;

@@ -1,11 +1,27 @@
 export type MenuRow = { name: string; price?: number; refill?: number; prices?: Array<number | null> };
 export type MenuSection = {
   title: string;
+  durationBadge?: string;
   rows: MenuRow[];
   priceLabels?: [string, string];
   priceColumns?: string[];
+  display?: "standard" | "packages" | "twoColumn" | "matrix";
 };
 export type MenuCard = { eyebrow: string; title: string; sections: MenuSection[] };
+
+export const defaultServiceCategories = [
+  { id: "hair-scalp", mark: "✦", cardIndex: 0 },
+  { id: "skin-facials", mark: "◇", cardIndex: 5 },
+  { id: "microneedling", mark: "✧", cardIndex: 10 },
+  { id: "massage", mark: "✦", cardIndex: 3 },
+  { id: "wood-g9", mark: "◇", cardIndex: 6 },
+  { id: "wood-therapy", mark: "✧", cardIndex: 7 },
+  { id: "g9-vibration", mark: "✦", cardIndex: 8 },
+  { id: "lashes-brows", mark: "◇", cardIndex: 2 },
+  { id: "manicure", mark: "✧", cardIndex: 4 },
+  { id: "pedicure", mark: "✦", cardIndex: 1 },
+  { id: "waxing-threading", mark: "◌", cardIndex: 9 },
+] as const;
 
 export const menuCards: MenuCard[] = [
   {
