@@ -11,6 +11,19 @@ import { imageSource, navItems, text } from "./content";
 import Icon from "./Icon";
 import styles from "../FigmaHomePage.module.css";
 
+const infoLabels: Record<Locale, { location: string; phone: string; hours: string }> = {
+  en: {
+    location: "Location",
+    phone: "Phone",
+    hours: "Hours",
+  },
+  ar: {
+    location: "الموقع",
+    phone: "الهاتف",
+    hours: "ساعات العمل",
+  },
+};
+
 export default function HomeHeader({
   locale,
   settings,
@@ -38,6 +51,7 @@ export default function HomeHeader({
   const phone = settings?.contact?.phone?.trim() || "+962790077730";
   const address = text(settings?.contact?.address, locale, "Abdoun, Amman, Jordan");
   const hours = text(settings?.contact?.hours, locale, "Sat–Thu · 10:00 – 20:00");
+  const labels = infoLabels[locale];
   const logo = imageSource(settings?.header?.brand, "/images/figma-nafas/logo.svg", 200);
   const navigationItems = useMemo(
     () => navItems(settings, locale).map((item) =>
@@ -113,9 +127,9 @@ export default function HomeHeader({
       {showInfoBar ? (
         <div className={styles.infoBar}>
           <div className={styles.infoInner}>
-            <span><Icon src="/images/figma-nafas/icon-map-pin.svg" /> <b>Location:</b> {address}</span>
-            <a href={phoneHref}><Icon src="/images/figma-nafas/icon-phone-top.svg" /> <b>Phone:</b> {phone}</a>
-            <span><Icon src="/images/figma-nafas/icon-clock.svg" /> <b>Hours:</b> {hours}</span>
+            <span><Icon src="/images/figma-nafas/icon-map-pin.svg" /> <b>{labels.location}:</b> {address}</span>
+            <a href={phoneHref}><Icon src="/images/figma-nafas/icon-phone-top.svg" /> <b>{labels.phone}:</b> <bdi dir="ltr">{phone}</bdi></a>
+            <span><Icon src="/images/figma-nafas/icon-clock.svg" /> <b>{labels.hours}:</b> {hours}</span>
           </div>
         </div>
       ) : null}
