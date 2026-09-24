@@ -49,7 +49,7 @@ export default function HeroSection({ locale, section, phone, phoneHref }: { loc
           <h1>{currentSlide.title.split("\n").map((line, index) => <span key={`${line}-${index}`}>{index > 0 && <br />}{line}</span>)}</h1>
           <p>{currentSlide.subtitle}</p>
           <div className={styles.heroActions}>
-            <a className={`${styles.lightButton} ${styles.heroPhoneButton}`} href={phoneHref} dir="ltr">
+            <a className={`${styles.lightButton} ${styles.heroPhoneButton} ${locale === "ar" ? styles.mobilePhoneButtonArabic : ""}`} href={phoneHref} dir="ltr">
               <span className={styles.heroPhoneIcon}><Icon src="/images/figma-nafas/icon-phone.svg" /></span>
               <span>{displayPhone}</span>
             </a>

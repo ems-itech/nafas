@@ -10,13 +10,15 @@
 @media(prefers-reduced-motion:reduce){.heroSlideImage,.heroSlideContent{animation:none}.pagination button{transition:none}}
 .signatureSection{height:auto;min-height:0}.signaturePanel{height:auto;min-height:0}.signatureGrid{flex-wrap:wrap}.packagesSection{height:auto}.featuredPackages:empty,.packageGrid:empty{display:none}
 @media(min-width:900px){.signatureSection{padding:0 max(48px,calc((100vw - 1216px)/2)) 96px}.signaturePanel{padding:48px}.signatureGrid{display:grid;width:100%;grid-template-columns:repeat(4,minmax(0,190px));gap:clamp(32px,5.33vw,64px)}.signatureGrid article{width:100%}.signatureGrid article>div{height:auto;aspect-ratio:1;border-radius:20px}.signatureGrid h3{font-size:18px;line-height:28px}.signaturePanel>.primaryButton{padding-inline:18px}.signatureFloralLeft{top:-99px}}
-@media(max-width:760px){.signatureGrid article>div{height:auto;aspect-ratio:1;border-radius:20px}}
+@media(max-width:760px){.signatureGrid{display:grid;width:min(100%,460px);grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 16px;justify-content:center;overflow:visible;padding-bottom:0}.signatureGrid article{width:100%;min-width:0}.signatureGrid article>div{height:auto;aspect-ratio:1;border-radius:20px}.signatureGrid h3{margin-top:14px;font-size:clamp(14px,4vw,18px);line-height:1.35}}
+@media(max-width:360px){.signaturePanel{padding-inline:16px}.signatureGrid{column-gap:12px}.signatureGrid h3{font-size:14px}}
 .aboutNoImage{grid-template-columns:1fr}.aboutCollage{display:block}.aboutSingleImage{position:relative;width:100%;height:100%;overflow:hidden;border-radius:280px 280px 24px 24px}
 .packageItems{grid-template-columns:repeat(3,minmax(0,1fr));column-gap:12px;row-gap:20px}.packageItems span{flex-direction:column;min-width:0;gap:8px;text-align:center;overflow-wrap:anywhere;font-size:10px;line-height:14px;letter-spacing:.04em}.packageItems b{flex:none}
 .navActions{display:flex;align-items:center;gap:20px}.localeLink{color:#525252;font-size:16px;line-height:24px;font-weight:600}.localeLink:hover{text-decoration:underline}
 .navServicesButton{position:relative;isolation:isolate;overflow:visible;border-radius:4px;padding-inline:22px}.navServicesButton:before,.navServicesButton:after{content:"";position:absolute;z-index:-1;inset:-2px;border:1px solid rgba(130,87,78,.48);border-radius:inherit;opacity:0;transform:scale(1);pointer-events:none;will-change:transform,opacity;animation:navServicesBreath 2.8s cubic-bezier(.45,0,.2,1) infinite}.navServicesButton:after{animation-delay:-1.4s}@keyframes navServicesBreath{0%{opacity:0;transform:scale(1)}12%{opacity:.52}48%{opacity:.32;transform:scale(1.12,1.3)}100%{opacity:0;transform:scale(1.22,1.5)}}
 @media(prefers-reduced-motion:reduce){.navServicesButton:before,.navServicesButton:after{animation:none;opacity:0}}
 .localeLink:lang(ar){font-family:var(--font-tajawal),sans-serif}
+.contactFormRtl .selectWrap>img{right:auto;left:14px}.contactFormRtl .selectWrap select{padding-right:14px;padding-left:44px}.contactFormRtl .formMessage,.contactFormRtl .formError{left:auto;right:40px}
 @media(max-width:760px){.navLogo{position:relative;top:-3px}.navActions{margin-left:auto;margin-right:16px}.navActions .primaryButton{display:none}}
 .ticker{border-bottom:1px solid var(--brand-200)}
 .ticker .tickerTrack{display:flex;min-width:max-content;direction:ltr;animation:ticker 32s linear infinite}
@@ -44,12 +46,13 @@
 .heroServicesButton{width:max-content;max-width:100%;padding:0 16px;gap:8px;background:#795f57;border-color:#795f57;font-weight:600}
 .heroServicesButton img{width:20px;height:20px}
 .heroServicesButtonRtl img{transform:scaleX(-1)}
-@media(max-width:760px){.hero{height:max(660px,calc(100svh - 72px))}.heroContent>div:first-child{width:100%}.heroActions{gap:12px}.heroServicesButton{width:201px;height:46px;min-height:46px}}
+@media(max-width:760px){.hero{height:clamp(480px,calc(100svh - 72px),500px);padding:24px 20px}.heroSlideImage{object-position:80% center}.heroContent>div:first-child{width:100%}.heroActions{gap:12px}.heroServicesButton{width:201px;height:46px;min-height:46px}}
 
 .benefits{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px;row-gap:24px}
 .benefits span{height:auto;align-items:flex-start;font-size:15px;line-height:24px}
 .benefits img{flex:none}
-@media(max-width:760px){.benefits{grid-template-columns:1fr;row-gap:16px}}
+@media(max-width:760px){.benefits{grid-template-columns:1fr;row-gap:16px}.mobilePhoneButtonArabic{font-size:15px}.aboutActions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.aboutActions>.outlineButton,.aboutActions>.phoneButton{box-sizing:border-box;width:100%;min-width:0;height:46px}.aboutActions>.outlineButton{padding:10px 8px;font-size:14px}.aboutActions>.phoneButton{padding-right:8px;font-size:12px;white-space:nowrap}.aboutActions>.mobilePhoneButtonArabic{font-size:15px}.aboutActions>.phoneButton b{width:40px;height:44px;margin-right:8px;flex:none}}
+@media(max-width:360px){.aboutActions{grid-template-columns:1fr}.aboutActions>.outlineButton,.aboutActions>.phoneButton{width:100%}}
 
 .aboutText>h2{color:#1c1c1c;font-family:var(--font-cormorant),Georgia,serif;font-size:36px;font-style:normal;font-weight:600;line-height:44px;letter-spacing:-.72px}
 @media(max-width:760px){.aboutHeadingBreak{display:none}}

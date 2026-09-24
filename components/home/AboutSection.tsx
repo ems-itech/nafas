@@ -35,8 +35,10 @@ export default function AboutSection({ locale, section, phone, phoneHref }: { lo
           {ABOUT_BENEFITS[locale].map((item) => <span key={item}><Image src="/images/figma-nafas/icon-check-heart.svg" alt="" width={24} height={24} />{item}</span>)}
         </div>
         <div className={styles.aboutActions}>
-          <a className={styles.outlineButton} href={section?.cta?.href || "#services"}>{text(section?.cta?.text, locale, "View Services")}</a>
-          <a className={styles.phoneButton} href={phoneHref} dir="ltr"><b><Icon src="/images/figma-nafas/icon-phone.svg" /></b>{phone}</a>
+          <a className={styles.outlineButton} href={`/${locale}/services`}>
+            {locale === "ar" ? "عرض الخدمات" : text(section?.cta?.text, locale, "View Services")}
+          </a>
+          <a className={`${styles.phoneButton} ${locale === "ar" ? styles.mobilePhoneButtonArabic : ""}`} href={phoneHref} dir="ltr"><b><Icon src="/images/figma-nafas/icon-phone.svg" /></b>{phone}</a>
         </div>
       </div>
       {imageUrl && <div className={styles.aboutCollage}>
