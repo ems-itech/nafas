@@ -1,4 +1,4 @@
-.PHONY: help up down restart rebuild logs sh ps clean nuke lint build deps sanity-seed-homepage sanity-seed-homepage-replace sanity-seed-site-settings sanity-seed-site-settings-replace
+.PHONY: help up down restart rebuild logs sh ps clean nuke lint build deps sanity-seed-homepage sanity-seed-homepage-replace sanity-seed-site-settings sanity-seed-site-settings-replace sanity-sync-services
 
 help:
 	@echo ""
@@ -18,6 +18,7 @@ help:
 	@echo "  make sanity-seed-homepage-replace Import Sanity seed (danger: --replace)"
 	@echo "  make sanity-seed-site-settings         Import Site Settings seed (no replace)"
 	@echo "  make sanity-seed-site-settings-replace Import Site Settings seed (danger: --replace)"
+	@echo "  make sanity-sync-services       Publish the current bilingual service menu to Sanity"
 	@echo "  make clean     Remove .next + local node_modules (host)"
 	@echo "  make nuke      Stop + remove volumes (fresh install)"
 	@echo ""
@@ -66,6 +67,9 @@ sanity-seed-site-settings:
 sanity-seed-site-settings-replace:
 	docker compose run --rm web sh -lc 'npx sanity dataset import sanity/seed/siteSettings.ndjson --dataset "$$NEXT_PUBLIC_SANITY_DATASET" --project-id "$$NEXT_PUBLIC_SANITY_PROJECT_ID" --token "$$SANITY_AUTH_TOKEN" --replace'
 
+sanity-sync-services:
+	docker compose run --rm web node scripts/sync-services-to-sanity.mjs --apply
+
 clean:
 	rm -rf .next node_modules
 
@@ -73,4 +77,3 @@ nuke:
 	docker compose down
 	docker volume rm nafas_web_next_cache 2>/dev/null || true
 	docker compose up --build
-

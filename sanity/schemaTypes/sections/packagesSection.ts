@@ -6,6 +6,7 @@ export const packagesSection = defineType({
   type: "object",
   fields: [
     defineField({ name: "title", title: "Title", type: "localizedString" }),
+    defineField({ name: "description", title: "Intro", type: "localizedText" }),
     defineField({
       name: "packages",
       title: "Packages",
@@ -30,6 +31,8 @@ export const packagesSection = defineType({
               type: "localizedText",
             }),
             defineField({ name: "price", title: "Price (optional)", type: "string" }),
+            defineField({ name: "duration", title: "Duration", type: "localizedString" }),
+            defineField({ name: "featured", title: "Show Most Wanted badge", description: "Turn on to show the Most Wanted label on this package card.", type: "boolean", initialValue: false }),
             defineField({
               name: "priceUnit",
               title: "Price unit (optional)",
@@ -38,7 +41,8 @@ export const packagesSection = defineType({
             }),
             defineField({
               name: "items",
-              title: "Included services (optional)",
+              title: "Services included in this package",
+              description: "Add the services shown on this package card, in display order. Leave empty to hide the service list.",
               type: "array",
               of: [{ type: "localizedString" }],
             }),
@@ -54,4 +58,3 @@ export const packagesSection = defineType({
     },
   },
 });
-

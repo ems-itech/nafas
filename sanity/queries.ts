@@ -28,7 +28,10 @@ export const siteSettingsQuery = groq`
   },
 
   footer{
+    copyright{en, ar},
     tagline{en, ar},
+    instagramUrl,
+    facebookUrl,
     social[]{
       label,
       url
@@ -58,11 +61,30 @@ export const homepageQuery = groq`
 *[_type == "homepage"][0]{
   _id,
   title,
+  faq{
+    _type,
+    eyebrow{en, ar},
+    title{en, ar},
+    description{en, ar},
+    questions[]{_key, question{en, ar}, answer{en, ar}},
+    contactPrompt{en, ar},
+    cta{text{en, ar}, href}
+  },
 
   sections[]{
     _type,
 
     // hero
+    slides[]{
+      _key,
+      title{en, ar},
+      subtitle{en, ar},
+      image{
+        ...,
+        alt{en, ar},
+        asset->{_id, url, metadata{lqip, dimensions}}
+      }
+    },
     title{en, ar},
     subtitle{en, ar},
     overlay,
@@ -70,6 +92,7 @@ export const homepageQuery = groq`
       text{en, ar},
       href
     },
+    secondaryCta{ text{en, ar}, href },
     backgroundImage{
       ...,
       alt{en, ar},
@@ -83,6 +106,8 @@ export const homepageQuery = groq`
       alt{en, ar},
       asset->{_id, url, metadata{lqip, dimensions}}
     },
+    benefits[]{en, ar},
+    // Legacy About collage images remain readable for older documents.
 
     // services
     services[]{
@@ -95,6 +120,7 @@ export const homepageQuery = groq`
       icon,
       description{en, ar}
     },
+    ticker[]{en, ar},
 
     // gallery
     images[]{
@@ -105,6 +131,7 @@ export const homepageQuery = groq`
 
     // packages
     packages[]{
+      _key,
       name{en, ar},
       image{
         ...,
@@ -113,12 +140,59 @@ export const homepageQuery = groq`
       },
       description{en, ar},
       price,
+      duration{en, ar},
+      featured,
       priceUnit{en, ar},
-      items[]{en, ar}
+      items[]{_key, en, ar}
     },
 
     // appointment
-    formEnabled
+    formEnabled,
+    email
+  }
+}
+`;
+
+export const servicesPageQuery = groq`
+*[_type == "servicesPage" && _id == "servicesPage"][0]{
+  _id,
+  title,
+  introTitle{en, ar},
+  introDescription{en, ar},
+  labels{
+    service{en, ar},
+    price{en, ar},
+    refill{en, ar},
+    currency{en, ar}
+  },
+  categories[]{
+    _key,
+    anchorId,
+    mark,
+    eyebrow{en, ar},
+    title{en, ar},
+    sections[]{
+      _key,
+      title{en, ar},
+      durationBadge{en, ar},
+      display,
+      priceLabels{
+        primary{en, ar},
+        secondary{en, ar}
+      },
+      priceColumns[]{_key, en, ar},
+      rows[]{
+        _key,
+        name{en, ar},
+        price,
+        refill,
+        matrixPrices[]{_key, price}
+      }
+    }
+  },
+  seo{
+    en{title, description, keywords, noIndex},
+    ar{title, description, keywords, noIndex}
   }
 }
 `;
