@@ -8,6 +8,7 @@ import ServicesSection from "@/components/sections/ServicesSection";
 import GallerySection from "@/components/sections/GallerySection";
 import PackagesSection from "@/components/sections/PackagesSection";
 import AppointmentSection from "@/components/sections/AppointmentSection";
+import HomeFaqSection from "@/components/home/HomeFaqSection";
 
 type Props = {
   locale: Locale;
@@ -41,6 +42,8 @@ export default function SectionRenderer({ locale, sections }: Props) {
             return <GallerySection key={key} locale={locale} section={section} />;
           case "packagesSection":
             return <PackagesSection key={key} locale={locale} section={section} />;
+          case "faqSection":
+            return <HomeFaqSection key={key} locale={locale} section={section} />;
           case "appointmentSection":
             return (
               <AppointmentSection
@@ -57,4 +60,3 @@ export default function SectionRenderer({ locale, sections }: Props) {
     </>
   );
 }
-

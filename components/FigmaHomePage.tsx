@@ -26,6 +26,7 @@ export default function FigmaHomePage({ locale, settings, homepage, phoneHref = 
   const services = getSection(homepage, "servicesSection");
   const gallery = getSection(homepage, "gallerySection");
   const packages = getSection(homepage, "packagesSection");
+  const faq = getSection(homepage, "faqSection") ?? homepage?.faq;
   const appointment = getSection(homepage, "appointmentSection");
   const phone = settings?.contact?.phone?.trim() || "+962790077730";
 
@@ -39,7 +40,7 @@ export default function FigmaHomePage({ locale, settings, homepage, phoneHref = 
         <SignatureServicesSection locale={locale} section={services} />
         <HomeGallerySection locale={locale} section={gallery} />
         <HomePackagesSection locale={locale} section={packages} phoneHref={phoneHref} />
-        <HomeFaqSection locale={locale} section={homepage?.faq} />
+        <HomeFaqSection locale={locale} section={faq} />
         <HomeAppointmentSection locale={locale} section={appointment} services={services} settings={settings} />
       </main>
       <HomeFooter locale={locale} settings={settings} phoneHref={phoneHref} />

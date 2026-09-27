@@ -146,6 +146,11 @@ export const homepageQuery = groq`
       items[]{_key, en, ar}
     },
 
+    // frequently asked questions
+    eyebrow{en, ar},
+    questions[]{_key, question{en, ar}, answer{en, ar}},
+    contactPrompt{en, ar},
+
     // appointment
     formEnabled,
     email

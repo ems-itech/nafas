@@ -184,6 +184,7 @@ export type HomepageSection =
   | HomepageServicesSection
   | HomepageGallerySection
   | HomepagePackagesSection
+  | HomepageFaqSection
   | HomepageAppointmentSection;
 
 /* ---------------------------
@@ -192,6 +193,7 @@ export type HomepageSection =
 export type Homepage = {
   _id: string;
   title?: string;
+  /** Legacy location kept temporarily so older Sanity documents still render. */
   faq?: HomepageFaqSection;
   sections?: HomepageSection[];
 };

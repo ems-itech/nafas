@@ -21,15 +21,10 @@ export const homepage = defineType({
         { type: "servicesSection" },
         { type: "gallerySection" },
         { type: "packagesSection" },
+        { type: "faqSection" },
         { type: "appointmentSection" },
       ],
       validation: (Rule) => Rule.required().min(1),
-    }),
-    defineField({
-      name: "faq",
-      title: "Frequently Asked Questions",
-      description: "Edit the questions and answers shown between Packages and Contact on the homepage.",
-      type: "faqSection",
     }),
   ],
 });
