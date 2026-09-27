@@ -173,6 +173,13 @@
     font-family: var(--font-ar);
   }
 
+  [lang="ar"] {
+    --font-cormorant: var(--font-tajawal);
+    --font-montserrat: var(--font-tajawal);
+    --font-serif: var(--font-tajawal), sans-serif;
+    --font-sans: var(--font-tajawal), sans-serif;
+  }
+
   h1,
   h2,
   h3 {

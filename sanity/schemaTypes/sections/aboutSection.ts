@@ -13,11 +13,13 @@ export const aboutSection = defineType({
     }),
     defineField({
       name: "image",
-      title: "Image",
+      title: "About image",
       type: "image",
       options: { hotspot: true },
       fields: [defineField({ name: "alt", title: "Alt text", type: "localizedString" })],
     }),
+    defineField({ name: "benefits", title: "Benefits", type: "array", of: [{ type: "localizedString" }] }),
+    defineField({ name: "cta", title: "CTA", type: "cta" }),
   ],
   preview: {
     select: { title: "title.en", media: "image" },
@@ -26,4 +28,3 @@ export const aboutSection = defineType({
     },
   },
 });
-

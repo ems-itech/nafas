@@ -7,6 +7,7 @@ export const appointmentSection = defineType({
   fields: [
     defineField({ name: "title", title: "Title", type: "localizedString" }),
     defineField({ name: "description", title: "Description", type: "localizedText" }),
+    defineField({ name: "email", title: "Contact email", type: "string" }),
     defineField({
       name: "formEnabled",
       title: "Form enabled",
@@ -21,4 +22,3 @@ export const appointmentSection = defineType({
     },
   },
 });
-

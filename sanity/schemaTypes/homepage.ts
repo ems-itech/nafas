@@ -21,10 +21,10 @@ export const homepage = defineType({
         { type: "servicesSection" },
         { type: "gallerySection" },
         { type: "packagesSection" },
+        { type: "faqSection" },
         { type: "appointmentSection" },
       ],
       validation: (Rule) => Rule.required().min(1),
     }),
   ],
 });
-

@@ -6,6 +6,8 @@ export const gallerySection = defineType({
   type: "object",
   fields: [
     defineField({ name: "title", title: "Title", type: "localizedString" }),
+    defineField({ name: "description", title: "Intro", type: "localizedText" }),
+    defineField({ name: "cta", title: "CTA", type: "cta" }),
     defineField({
       name: "images",
       title: "Images",
@@ -19,6 +21,7 @@ export const gallerySection = defineType({
           ],
         },
       ],
+      validation: (Rule) => Rule.max(4),
     }),
   ],
   preview: {
@@ -28,4 +31,3 @@ export const gallerySection = defineType({
     },
   },
 });
-

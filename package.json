@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "sanity:migrate-faq": "node --env-file=.env.local scripts/migrate-homepage-faq-to-sections.mjs",
+    "sanity:sync-services": "node --env-file=.env.local scripts/sync-services-to-sanity.mjs --apply"
   },
   "dependencies": {
     "next": "16.2.1",

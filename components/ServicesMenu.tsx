@@ -1,89 +1,247 @@
-import ServicesMenuSlider from "@/components/ServicesMenuSlider";
-import { menuCards, type MenuRow } from "@/lib/data/services-menu";
+import {
+  defaultServiceCategories,
+  getMenuCards,
+  type MenuCard,
+  type MenuRow,
+  type MenuSection,
+} from "@/lib/data/services-menu";
+import { getLocalizedValue } from "@/lib/i18n/getLocalizedValue";
+import type { Locale } from "@/lib/i18n/locales";
+import type { ServicesPage, SiteSettings } from "@/sanity/types";
+import ServicesCategoryNav from "@/components/ServicesCategoryNav";
+import HomeFooter from "@/components/home/HomeFooter";
+import HomeHeader from "@/components/home/HomeHeader";
+import homeStyles from "./FigmaHomePage.module.css";
+import styles from "./ServicesMenu.module.css";
 
-function PriceRow({ row, hasRefill }: { row: MenuRow; hasRefill: boolean }) {
+const pageCopy = {
+  en: {
+    title: "Our Services",
+    description: "Every treatment is clinical in its precision and quiet in its delivery. All prices in Jordanian Dinar.",
+    service: "Service",
+    price: "Price",
+    refill: "Refill",
+    currency: "JOD",
+  },
+  ar: {
+    title: "خدماتنا",
+    description: "نقدّم كل علاج بدقة واحترافية في أجواء هادئة. جميع الأسعار بالدينار الأردني.",
+    service: "الخدمة",
+    price: "السعر",
+    refill: "التعبئة",
+    currency: "د.أ",
+  },
+} as const;
+
+type ServiceMenuCopy = {
+  title: string;
+  description: string;
+  service: string;
+  price: string;
+  refill: string;
+  currency: string;
+};
+
+type ServiceCategory = MenuCard & { id: string; mark: string };
+
+function localized(value: { en?: string; ar?: string } | null | undefined, locale: Locale, fallback: string) {
+  return getLocalizedValue(value, locale) ?? fallback;
+}
+
+function resolveCopy(locale: Locale, page?: ServicesPage | null): ServiceMenuCopy {
+  const fallback = pageCopy[locale];
+  return {
+    title: localized(page?.introTitle, locale, fallback.title),
+    description: localized(page?.introDescription, locale, fallback.description),
+    service: localized(page?.labels?.service, locale, fallback.service),
+    price: localized(page?.labels?.price, locale, fallback.price),
+    refill: localized(page?.labels?.refill, locale, fallback.refill),
+    currency: localized(page?.labels?.currency, locale, fallback.currency),
+  };
+}
+
+function fallbackCategories(locale: Locale): ServiceCategory[] {
+  const cards = getMenuCards(locale);
+  return defaultServiceCategories.map(({ id, mark, cardIndex }) => {
+    const card = cards[cardIndex];
+    return {
+      id,
+      mark,
+      ...card,
+      sections: card.sections.map((section) => {
+        const duration = section.title.match(/(\d+)/)?.[1];
+        return {
+          ...section,
+          durationBadge: duration
+            ? `${duration} ${locale === "ar" ? "دقيقة" : "minutes"}`
+            : undefined,
+        };
+      }),
+    };
+  });
+}
+
+function resolveCategories(locale: Locale, copy: ServiceMenuCopy, page?: ServicesPage | null): ServiceCategory[] {
+  if (!page?.categories?.length) return fallbackCategories(locale);
+
+  return page.categories.map((category, categoryIndex) => ({
+    id: category.anchorId?.trim() || `service-category-${categoryIndex + 1}`,
+    mark: category.mark?.trim() || "✦",
+    eyebrow: localized(category.eyebrow, locale, ""),
+    title: localized(category.title, locale, locale === "ar" ? "فئة خدمات" : "Service category"),
+    sections: (category.sections ?? []).map((section) => ({
+      title: localized(section.title, locale, locale === "ar" ? "الخدمات" : "Services"),
+      durationBadge: localized(section.durationBadge, locale, ""),
+      display: section.display,
+      priceLabels:
+        section.display === "twoColumn"
+          ? [
+              localized(section.priceLabels?.primary, locale, copy.price),
+              localized(section.priceLabels?.secondary, locale, copy.refill),
+            ]
+          : undefined,
+      priceColumns:
+        section.display === "matrix"
+          ? (section.priceColumns ?? []).map((column) => localized(column, locale, "—"))
+          : undefined,
+      rows: (section.rows ?? []).map((row) => ({
+        name: localized(row.name, locale, locale === "ar" ? "خدمة" : "Service"),
+        price: row.price,
+        refill: row.refill,
+        prices: row.matrixPrices?.map((value) => value.price ?? null),
+      })),
+    })),
+  }));
+}
+
+function formatPrice(price: number, currency: string) {
+  return `${price} ${currency}`;
+}
+
+function PriceRow({ row, copy, packageStyle = false, refill = false }: { row: MenuRow; copy: ServiceMenuCopy; packageStyle?: boolean; refill?: boolean }) {
   return (
-    <div className={`grid items-baseline gap-3 font-sans text-[10px] font-medium uppercase tracking-[0.1em] text-foreground/75 sm:text-xs ${hasRefill ? "grid-cols-[1fr_auto_auto]" : "grid-cols-[1fr_auto]"}`}>
-      <span>{row.name}</span>
-      <span className="whitespace-nowrap font-semibold text-primary">{row.price} JOD</span>
-      {hasRefill ? <span className="w-12 whitespace-nowrap text-end font-semibold text-primary">{row.refill ? `${row.refill} JOD` : "—"}</span> : null}
+    <div className={`${styles.priceRow} ${packageStyle ? styles.packageRow : ""}`}>
+      <span className={styles.rowName}>{!packageStyle && <span className={styles.rowDot} aria-hidden="true">◦</span>}{row.name}</span>
+      <span className={styles.price}>{row.price === undefined ? "—" : formatPrice(row.price, copy.currency)}</span>
+      {refill && <span className={styles.price}>{row.refill === undefined ? "—" : formatPrice(row.refill, copy.currency)}</span>}
     </div>
   );
 }
 
-export default function ServicesMenu() {
-  return (
-    <main className="min-h-screen bg-background text-foreground">
-      <section className="relative isolate overflow-hidden bg-gradient-to-b from-secondary/70 via-background to-background pb-24 pt-8 sm:pb-32 sm:pt-12">
-        <div aria-hidden="true" className="absolute -left-32 top-20 -z-10 h-80 w-80 rounded-full bg-primary/10 blur-3xl" />
-        <div aria-hidden="true" className="absolute -right-40 top-1/3 -z-10 h-96 w-96 rounded-full bg-secondary blur-3xl" />
-        <div className="container-narrow relative">
-          <ServicesMenuSlider>
-              {menuCards.map((menu, index) => (
-                <article key={menu.title} data-menu-card className="w-full shrink-0 snap-center">
-                  <div className="flex h-[680px] flex-col rounded-[2rem] border border-primary/15 bg-[linear-gradient(145deg,hsl(var(--card)),hsl(var(--secondary)/.72))] px-5 py-7 sm:h-[760px] sm:rounded-[2.75rem] sm:px-12 sm:py-10 lg:px-20">
-                    <div className="mx-auto mb-7 w-full max-w-3xl shrink-0 text-center sm:mb-9">
-                      <p className="font-sans text-xs font-medium uppercase tracking-[0.18em] text-primary">{menu.eyebrow}</p>
-                      <h2 className="mt-2 text-3xl sm:text-5xl">{menu.title}</h2>
-                    </div>
+function Matrix({ section, copy }: { section: MenuSection; copy: ServiceMenuCopy }) {
+  const mobileRows = section.rows.flatMap((row) =>
+    (section.priceColumns ?? []).flatMap((label, index) => {
+      const price = row.prices?.[index];
+      if (price == null) return [];
 
-                    <div className="menu-scrollbar mx-auto w-full max-w-3xl flex-1 space-y-8 overflow-y-auto pe-2 sm:space-y-10 sm:pe-4">
-                      {menu.sections.map((section) => (
-                        <section key={section.title}>
-                          <div className="mb-3 flex items-end justify-between gap-3 border-b border-primary/25 pb-2">
-                            <h3 className="font-serif text-xl font-medium text-primary sm:text-2xl">{section.title}</h3>
-                            {section.priceLabels ? (
-                              <div className="grid shrink-0 grid-cols-2 gap-3 font-sans text-[9px] font-semibold uppercase tracking-wider text-muted-foreground sm:text-[10px]">
-                                <span>{section.priceLabels[0]}</span><span>{section.priceLabels[1]}</span>
-                              </div>
-                            ) : null}
-                          </div>
-                          {section.priceColumns ? (
-                            <div className="overflow-x-auto pb-2">
-                              <table className="w-full min-w-[620px] table-fixed border-collapse font-sans">
-                                <colgroup>
-                                  <col className="w-[40%]" />
-                                  {section.priceColumns.map((column) => <col key={column} />)}
-                                </colgroup>
-                                <thead className="sticky top-0 z-[1] bg-card/95 backdrop-blur-sm">
-                                  <tr className="border-b border-primary/25">
-                                    <th scope="col" className="px-3 py-3 text-start text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">Service</th>
-                                    {section.priceColumns.map((column) => (
-                                      <th key={column} scope="col" className="px-2 py-3 text-center text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">{column}</th>
-                                    ))}
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {section.rows.map((row) => (
-                                    <tr key={row.name} className="border-b border-primary/10 last:border-0">
-                                      <th scope="row" className="px-3 py-3 text-start text-[10px] font-medium uppercase tracking-[0.08em] text-foreground/75 sm:text-xs">{row.name}</th>
-                                      {row.prices?.map((price, priceIndex) => (
-                                        <td key={`${row.name}-${section.priceColumns?.[priceIndex]}`} className="px-2 py-3 text-center text-[10px] font-semibold text-primary sm:text-xs">
-                                          <span className="whitespace-nowrap">{price === null ? "—" : `${price} JOD`}</span>
-                                        </td>
-                                      ))}
-                                    </tr>
-                                  ))}
-                                </tbody>
-                              </table>
-                            </div>
-                          ) : (
-                            <div className="space-y-2.5">
-                              {section.rows.map((row) => <PriceRow key={row.name} row={row} hasRefill={Boolean(section.priceLabels)} />)}
-                            </div>
-                          )}
-                        </section>
-                      ))}
-                    </div>
-                    <div className="mx-auto mt-5 w-full max-w-3xl shrink-0 border-t border-primary/15 pt-4 text-center">
-                      <span className="font-ui text-muted-foreground">{String(index + 1).padStart(2, "0")} / {String(menuCards.length).padStart(2, "0")}</span>
-                    </div>
-                  </div>
-                </article>
-              ))}
-          </ServicesMenuSlider>
+      return [{
+        name: `${row.name} – ${label === "Nick" ? "Neck" : label}`,
+        price,
+      }];
+    }),
+  );
+
+  return (
+    <>
+      <div className={styles.tableScroll}>
+        <table className={styles.table}>
+          <thead><tr><th scope="col">{copy.service}</th>{section.priceColumns?.map((label, index) => <th scope="col" key={`${label}-${index}`}>{label}</th>)}</tr></thead>
+          <tbody>{section.rows.map((row, rowIndex) => <tr key={`${row.name}-${rowIndex}`}><th scope="row">{row.name}</th>{section.priceColumns?.map((label, index) => <td key={`${label}-${index}`}>{row.prices?.[index] == null ? "—" : formatPrice(row.prices[index], copy.currency)}</td>)}</tr>)}</tbody>
+        </table>
+      </div>
+      <div className={styles.mobileMatrix}>
+        {mobileRows.map((row) => (
+          <div className={styles.priceRow} key={row.name}>
+            <span className={styles.rowName}><span className={styles.rowDot} aria-hidden="true">◦</span>{row.name}</span>
+            <span className={styles.price}>{formatPrice(row.price, copy.currency)}</span>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
+function LabeledPrices({ section, copy }: { section: MenuSection; copy: ServiceMenuCopy }) {
+  const [primaryLabel, secondaryLabel] = section.priceLabels ?? [copy.price, copy.refill];
+  const mobileRows = section.rows.flatMap((row) => [
+    ...(row.price === undefined ? [] : [{ name: `${row.name} – ${primaryLabel}`, price: row.price }]),
+    ...(row.refill === undefined ? [] : [{ name: `${row.name} – ${secondaryLabel}`, price: row.refill }]),
+  ]);
+
+  return (
+    <>
+      <div className={`${styles.rows} ${styles.refillRows} ${styles.desktopLabeledRows}`}>
+        {section.rows.map((row, index) => <PriceRow key={`${row.name}-${index}`} row={row} copy={copy} refill />)}
+      </div>
+      <div className={styles.mobileMatrix}>
+        {mobileRows.map((row) => (
+          <div className={styles.priceRow} key={row.name}>
+            <span className={styles.rowName}><span className={styles.rowDot} aria-hidden="true">◦</span>{row.name}</span>
+            <span className={styles.price}>{formatPrice(row.price, copy.currency)}</span>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
+function ServiceCard({ section, copy }: { section: MenuSection; copy: ServiceMenuCopy }) {
+  const isPackage = section.display === "packages" || (!section.display && !section.priceColumns && !section.priceLabels && section.rows.some((row) => /sessions|single session|جلس/i.test(row.name)));
+  return (
+    <article className={styles.card}>
+      <div className={styles.cardHeader}>
+        <h3>{section.title}</h3>
+        {section.durationBadge && <span className={styles.duration}>{section.durationBadge}</span>}
+        {section.priceLabels && <span className={styles.columnLabels}><span>{section.priceLabels[0]}</span><span>{section.priceLabels[1]}</span></span>}
+      </div>
+      {section.priceColumns ? <Matrix section={section} copy={copy} /> : section.priceLabels ? <LabeledPrices section={section} copy={copy} /> : (
+        <div className={`${styles.rows} ${isPackage ? styles.packageRows : ""} ${section.priceLabels ? styles.refillRows : ""}`}>
+          {section.rows.map((row, index) => <PriceRow key={`${row.name}-${index}`} row={row} copy={copy} packageStyle={isPackage} refill={Boolean(section.priceLabels)} />)}
         </div>
-      </section>
-    </main>
+      )}
+    </article>
+  );
+}
+
+export default function ServicesMenu({ locale, settings, page }: { locale: Locale; settings?: SiteSettings | null; page?: ServicesPage | null }) {
+  const phone = settings?.contact?.phone?.trim() || "+962790077730";
+  const phoneHref = `tel:${phone.replace(/\s+/g, "")}`;
+  const copy = resolveCopy(locale, page);
+  const categories = resolveCategories(locale, copy, page);
+  const otherLocale = locale === "en" ? "ar" : "en";
+
+  return (
+    <div className={styles.page}>
+      <div className={styles.siteHeader}>
+        <div className={homeStyles.page}>
+          <HomeHeader locale={locale} settings={settings} phoneHref={phoneHref} homeHref={`/${locale}`} navigationBasePath={`/${locale}`} activeMobileLink={1} localeHrefOverride={`/${otherLocale}/services`} showInfoBar={false} />
+        </div>
+      </div>
+      <main>
+      <div className={styles.intro}>
+        <div className={styles.introRow}><h1>{copy.title}</h1><p>{copy.description}</p></div>
+        <div className={styles.introRule} />
+      </div>
+      <ServicesCategoryNav locale={locale} categories={categories.map(({ id, title }) => ({ id, title }))} />
+      <div className={styles.content}>
+        {categories.map((category, index) => (
+          <section
+            className={`${styles.category} ${locale === "ar" ? styles.enlargedArabicCategory : ""}`}
+            id={category.id}
+            key={category.id}
+            aria-labelledby={`${category.id}-title`}
+          >
+            <div className={styles.categoryHeading}><div><span className={styles.categoryNumber}>{category.mark} {String(index + 1).padStart(2, "0")}</span><p className={styles.categoryEyebrow}>{category.eyebrow}</p><h2 id={`${category.id}-title`}>{category.title}</h2></div><span className={styles.categoryRule} /></div>
+            <div className={styles.cards}>
+              {category.sections.map((section, sectionIndex) => <ServiceCard key={`${section.title}-${sectionIndex}`} section={section} copy={copy} />)}
+            </div>
+          </section>
+        ))}
+      </div>
+      </main>
+      <div className={homeStyles.page}>
+        <HomeFooter locale={locale} settings={settings} phoneHref={phoneHref} homeHref={`/${locale}`} menuHref="#hair-scalp" navigationBasePath={`/${locale}`} />
+      </div>
+    </div>
   );
 }

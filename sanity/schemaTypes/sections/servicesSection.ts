@@ -6,6 +6,9 @@ export const servicesSection = defineType({
   type: "object",
   fields: [
     defineField({ name: "title", title: "Title", type: "localizedString" }),
+    defineField({ name: "description", title: "Intro", type: "localizedText" }),
+    defineField({ name: "ticker", title: "Scrolling service names", type: "array", of: [{ type: "localizedString" }] }),
+    defineField({ name: "cta", title: "CTA", type: "cta" }),
     defineField({
       name: "services",
       title: "Services",
@@ -38,4 +41,3 @@ export const servicesSection = defineType({
     },
   },
 });
-

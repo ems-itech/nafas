@@ -1,0 +1,67 @@
+.page{--paper:#f9f6f5;--card:#f9f6f5;--ink:#1c1201;--copper:#82574e;--muted:rgba(28,18,1,.52);--line:rgba(28,18,1,.09);min-height:100vh;background:var(--paper);color:var(--ink);font-family:var(--font-cormorant),Georgia,serif}
+.page:dir(rtl){font-family:var(--font-tajawal),sans-serif}
+.page:dir(rtl) .eyebrow,.page:dir(rtl) .categoryNumber,.page:dir(rtl) .categoryEyebrow,.page:dir(rtl) .navInner a,.page:dir(rtl) .duration,.page:dir(rtl) .columnLabels,.page:dir(rtl) .table{font-family:var(--font-tajawal),sans-serif;letter-spacing:0;text-transform:none}
+.siteHeader{display:block;position:sticky;top:0;z-index:50}
+.intro,.content{width:min(1216px,calc(100% - 64px));margin-inline:auto}
+.intro{padding-top:56px}
+.eyebrow,.categoryNumber{font-family:var(--font-montserrat),sans-serif;color:var(--copper);font-size:8px;font-weight:600;line-height:12px;letter-spacing:2.2px;text-transform:uppercase}
+.introRow{display:flex;align-items:end;justify-content:space-between;gap:40px;padding-top:16px}
+.introRow h1{font-size:88px;font-weight:300;line-height:1;letter-spacing:0;white-space:nowrap}
+.introRow p{width:340px;max-width:100%;font-size:17px;font-weight:300;line-height:1.65;color:var(--muted)}
+.introRule{height:1px;margin-top:32px;background:linear-gradient(90deg,var(--copper),transparent)}
+.categoryNav{position:sticky;top:80px;z-index:20;background:var(--paper);padding-block:14px 12px}
+.navInner{display:flex;align-items:center;gap:8px;overflow-x:auto;scrollbar-width:none;width:min(1216px,calc(100% - 64px));margin-inline:auto}
+.navInner::-webkit-scrollbar{display:none}
+.navInner a{display:inline-flex;align-items:center;justify-content:center;flex:none;min-height:32px;padding:8px 18px;border:1px solid var(--line);border-radius:999px;background:rgba(28,18,1,.06);color:var(--muted);font-family:var(--font-montserrat),sans-serif;font-size:9px;font-weight:600;line-height:14px;letter-spacing:1.3px;text-transform:uppercase;white-space:nowrap;transition:background .2s,color .2s}
+.navInner a:hover,.navInner a:focus-visible,.navInner .activePill{background:var(--copper);border-color:var(--copper);color:white}
+.category{padding-block:64px;scroll-margin-top:136px}
+.categoryHeading{display:flex;align-items:end;gap:16px}
+.categoryEyebrow{padding-top:12px;color:var(--copper);font-family:var(--font-montserrat),sans-serif;font-size:11px;font-weight:600;line-height:16px;letter-spacing:1px;text-transform:uppercase}
+.categoryHeading h2{padding-top:4px;font-size:44px;font-weight:300;line-height:1;letter-spacing:0;white-space:nowrap}
+.categoryRule{height:1px;flex:1;margin-bottom:6px;background:rgba(130,87,78,.22)}
+.cards{display:grid;gap:16px;padding-block-start:32px}
+.card{overflow:hidden;border:1px solid var(--line);border-radius:16px;background:var(--card)}
+.cardHeader{min-height:63px;display:flex;align-items:center;gap:12px;padding:15px 28px;border-bottom:1px solid var(--line)}
+.cardHeader h3{flex:1;font-size:20px;font-weight:400;line-height:30px;letter-spacing:0}
+.duration{flex:none;border:1px solid rgba(130,87,78,.3);border-radius:999px;background:rgba(130,87,78,.1);color:var(--copper);font-family:var(--font-montserrat),sans-serif;font-weight:600;text-transform:uppercase;white-space:nowrap}
+.duration{padding:4px 12px;font-size:7px;line-height:11px;letter-spacing:1.1px}
+.rows{padding:8px 28px}
+.packageRows{margin:8px 28px;padding-block:8px;padding-inline-start:16px;border-inline-start:2px solid rgba(130,87,78,.3)}
+.priceRow{display:flex;align-items:center;gap:16px;min-height:53px;border-bottom:1px solid var(--line);font-size:16px;line-height:24px}
+.priceRow:last-child{border-bottom:0}
+.packageRow{min-height:49px}
+.rowName{display:flex;align-items:center;flex:1;min-width:0;color:var(--muted);font-weight:300}
+.rowDot{display:inline-block;margin-inline-end:8px;color:rgba(28,18,1,.28);font-size:11px}
+.price{flex:none;color:var(--copper);font-weight:400;white-space:nowrap}
+.columnLabels{display:grid;grid-template-columns:repeat(2,60px);gap:12px;color:var(--copper);font-family:var(--font-montserrat),sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-align:end;text-transform:uppercase}
+.refillRows .priceRow .price{width:60px;text-align:end}
+.tableScroll{overflow-x:auto;padding:8px 28px}
+.table{width:100%;min-width:590px;border-collapse:collapse;font-family:var(--font-cormorant),Georgia,serif}
+.table th,.table td{padding:12px 10px;border-bottom:1px solid var(--line)}
+.table tr:last-child th,.table tr:last-child td{border-bottom:0}
+.table thead th{color:var(--copper);font-family:var(--font-montserrat),sans-serif;font-size:12px;font-weight:600;letter-spacing:1.1px;text-transform:uppercase}
+.table th:first-child{text-align:start}
+.table tbody th{color:var(--muted);font-size:16px;font-weight:300}
+.table td{text-align:center;color:var(--copper);font-size:16px;white-space:nowrap}
+.mobileMatrix{display:none}
+.enlargedArabicCategory{padding-block:76px}
+.enlargedArabicCategory .categoryNumber{font-size:10px;line-height:15px}
+.enlargedArabicCategory .categoryEyebrow{padding-top:14px;font-size:14px;line-height:21px}
+.enlargedArabicCategory .categoryHeading h2{padding-top:7px;font-size:52px;line-height:1.1}
+.enlargedArabicCategory .cards{gap:22px;padding-block-start:40px}
+.enlargedArabicCategory .card{border-radius:20px}
+.enlargedArabicCategory .cardHeader{min-height:76px;padding:19px 34px}
+.enlargedArabicCategory .cardHeader h3{font-size:24px;line-height:34px}
+.enlargedArabicCategory .duration{padding:6px 14px;font-size:9px;line-height:13px}
+.enlargedArabicCategory .columnLabels{grid-template-columns:repeat(2,70px);font-size:14px}
+.enlargedArabicCategory .rows{padding:11px 34px}
+.enlargedArabicCategory .priceRow{min-height:62px;font-size:18px;line-height:28px}
+.enlargedArabicCategory .rowDot{margin-inline-end:10px;font-size:14px}
+.enlargedArabicCategory .refillRows .priceRow .price{width:70px}
+.enlargedArabicCategory .tableScroll{padding:11px 34px}
+.enlargedArabicCategory .table th,.enlargedArabicCategory .table td{padding:15px 12px}
+.enlargedArabicCategory .table thead th{font-size:14px}
+.enlargedArabicCategory .table tbody th,.enlargedArabicCategory .table td{font-size:18px}
+@media(max-width:760px){.intro,.content,.navInner{width:100%;padding-inline:20px}.categoryNav{top:72px}.page:dir(rtl) .navInner a{min-height:36px;padding:8px 18px;font-size:11px;line-height:17px}}
+@media(max-width:700px){.intro{padding-top:36px}.introRow{display:block}.introRow h1{font-size:clamp(54px,13vw,78px)}.introRow p{width:100%;margin-top:16px}.category{padding-block:48px;scroll-margin-top:128px}.categoryHeading h2{font-size:36px;white-space:normal}.cardHeader{padding-inline:20px}.columnLabels,.desktopLabeledRows,.tableScroll{display:none}.rows{padding-inline:20px}.packageRows{margin-inline:20px}.mobileMatrix{display:block;padding:8px 20px}.enlargedArabicCategory{padding-block:58px}.enlargedArabicCategory .categoryEyebrow{font-size:13px;line-height:20px}.enlargedArabicCategory .categoryHeading h2{font-size:42px}.enlargedArabicCategory .cards{gap:18px;padding-block-start:34px}.enlargedArabicCategory .cardHeader{min-height:70px;padding:17px 24px}.enlargedArabicCategory .cardHeader h3{font-size:22px;line-height:32px}.enlargedArabicCategory .rows{padding:9px 24px}.enlargedArabicCategory .priceRow{min-height:58px;font-size:17px;line-height:26px}}
+@media(max-width:440px){.cardHeader{flex-wrap:wrap}.cardHeader h3{min-width:100%}.columnLabels{margin-inline-start:auto}.priceRow{font-size:15px}}

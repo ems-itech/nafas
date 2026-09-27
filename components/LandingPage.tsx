@@ -1,11 +1,6 @@
-"use client";
-
-import Navbar from "./Navbar";
-import Footer from "./Footer";
 import type { Locale } from "@/lib/i18n/locales";
-import { getMessages } from "@/lib/i18n/getMessages";
 import type { Homepage, SiteSettings } from "@/sanity/types";
-import SectionRenderer from "./sections/SectionRenderer";
+import FigmaHomePage from "./FigmaHomePage";
 
 type Props = {
   locale: Locale;
@@ -15,17 +10,5 @@ type Props = {
 };
 
 export default function LandingPage({ locale, settings, homepage, phoneHref }: Props) {
-  const t = getMessages(locale);
-  return (
-    <>
-      <Navbar locale={locale} t={t} settings={settings} phoneHref={phoneHref} />
-      <main>
-        {homepage?.sections?.length ? (
-          <SectionRenderer locale={locale} sections={homepage.sections} />
-        ) : null}
-      </main>
-      <Footer locale={locale} t={t} settings={settings} phoneHref={phoneHref} />
-    </>
-  );
+  return <FigmaHomePage locale={locale} settings={settings} homepage={homepage} phoneHref={phoneHref} />;
 }
-

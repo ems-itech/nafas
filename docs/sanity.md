@@ -33,14 +33,34 @@ Schemas live in `sanity/schemaTypes/`.
 Global fields used across the site:
 - Site title
 - Header (brand, nav, CTA label)
-- Footer (tagline, social)
+- Footer (tagline, social, copyright)
 - Contact (phone, address, hours, map)
 - Default SEO per locale (`en` / `ar`)
+
+### `servicesPage`
+- Bilingual page heading and introduction
+- Bilingual table, currency, and duration labels
+- Ordered service categories and stable section links
+- Service cards with standard, package, two-column, or matrix pricing
+- Services-page SEO per locale (`en` / `ar`)
 
 ## Authoring workflow
 1) Fill **Site Settings** (singleton `_id = siteSettings`) with header/footer/contact + SEO.
 2) Fill **Homepage** (singleton `_id = homepage`) with the sections.
-3) Publish changes.
+3) Fill **Services Page**, or run the migration command below to copy the current menu into Sanity.
+4) Publish changes.
+
+The current homepage design reads every content section from this document: Hero, About, Services (including the ticker), Gallery, Homepage price preview, Packages, and Appointment/contact. Images and text can be edited in Studio. Site Settings controls the logo, navigation, phone, address, hours, and copyright. The `/en/services` and `/ar/services` routes read the Services Page singleton. Fields without published values keep the bundled design defaults.
+
+## Migrate the current service menu
+
+Add `SANITY_AUTH_TOKEN` with dataset write access to `.env.local`, then run:
+
+```bash
+npm run sanity:sync-services
+```
+
+Docker users can run `make sanity-sync-services`. This creates or replaces the singleton document with the complete current English and Arabic service menu. After that, edit and publish future changes from `/studio`.
 
 The Next.js app reads **published** content by default.
 
@@ -85,4 +105,3 @@ make nuke
 ### `npm audit` reports vulnerabilities after adding Studio
 Some vulnerabilities can come from transitive dependencies in Studio tooling.
 This repo uses an `overrides` entry in `package.json` to keep `js-yaml` on a safe version.
-
